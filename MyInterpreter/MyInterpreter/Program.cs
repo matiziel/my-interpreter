@@ -1,4 +1,5 @@
 ﻿using System;
+using MyInterpreter.Lexer;
 
 namespace MyInterpreter
 {
@@ -6,7 +7,13 @@ namespace MyInterpreter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Token t = new Keyword(TokenType.FOR);
+            Token r = new Number(1);
+            Token x = new Word(TokenType.IDENTIFIER, "x2137");
+
+            System.Console.WriteLine(t);
+            System.Console.WriteLine(r);
+            System.Console.WriteLine(x);
         }
     }
 }
