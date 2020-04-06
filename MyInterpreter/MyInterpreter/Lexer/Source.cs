@@ -1,7 +1,8 @@
 namespace MyInterpreter.Lexer
 {
-    public class Source
+    public class Source : ISource
     {
         
+
     }
 }

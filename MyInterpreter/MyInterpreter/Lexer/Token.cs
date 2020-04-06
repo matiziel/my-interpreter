@@ -2,10 +2,7 @@ namespace MyInterpreter.Lexer
 {
     public enum TokenType
     {
-        NUMBER,
-        IDENTIFIER,
-        WHILE, IF, ELSE, FOR
-
+        KEYWORD
     }
     public abstract class Token
     {

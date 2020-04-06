@@ -5,7 +5,12 @@ namespace MyInterpreter.Lexer
 {
     public class Scanner
     {
+        private readonly ISource _source;
         private Dictionary<string, TokenType> keywords;
+        public Scanner(ISource source)
+        {
+            _source = source;
+        }
 
         private void InitScanner()
         {
