@@ -1,4 +1,4 @@
-namespace MyInterpreter.Lexer
+namespace MyInterpreter.Lexer.Tokens
 {
     public class Word : Token
     {

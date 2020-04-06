@@ -1,5 +1,6 @@
 ﻿using System;
 using MyInterpreter.Lexer;
+using MyInterpreter.Lexer.Tokens;
 
 namespace MyInterpreter
 {
