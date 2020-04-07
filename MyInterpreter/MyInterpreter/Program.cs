@@ -10,7 +10,7 @@ namespace MyInterpreter
         {
             Token t = new Keyword(TokenType.FOR);
             Token r = new Number(1);
-            Token x = new Word(TokenType.IDENTIFIER, "x2137");
+            Token x = new Identifier("x2137");
 
             System.Console.WriteLine(t);
             System.Console.WriteLine(r);
