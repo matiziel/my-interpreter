@@ -2,8 +2,8 @@ namespace MyInterpreter.Lexer.DataSource
 {
     public class FileSource : ISource
     {
-        public char Peek => throw new System.NotImplementedException();   
-        public char GetChar()
+        public char CurrentChar { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public void Next()
         {
             throw new System.NotImplementedException();
         }

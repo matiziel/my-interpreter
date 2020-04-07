@@ -2,9 +2,8 @@ namespace MyInterpreter.Lexer.Tokens
 {
     public enum TokenType
     {
-        NUMBER,
-        WHILE, FOR, IF, ELSE,
-        RETURN,
+        NUMBER, STRING,
+        WHILE, FOR, IF, ELSE, RETURN,
         IDENTIFIER,
         AND, OR, 
         PLUS, MINUS, MULTIPLY, DIVIDE, MODULO, ASSIGN,
@@ -14,6 +13,13 @@ namespace MyInterpreter.Lexer.Tokens
     public abstract class Token
     {
         public TokenType Type { get; private set; }
-        public Token(TokenType type) => Type = type;
+        protected Token(TokenType type) => Type = type;
+        //TODO
+        //position in source 
+        // position in text
+        //toString extensions method?
+
     }
 }
+
+
