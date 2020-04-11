@@ -21,7 +21,7 @@ namespace MyInterpreter.Lexer
             keywords = Mapper.GetKeywordsMapper();
             operatorsMapper = Mapper.GetOperatorsMapper();
         }
-        public Token GetNextToken()
+        public Token Next()
         {
             Token token;
             SkipUnused();
@@ -29,10 +29,12 @@ namespace MyInterpreter.Lexer
                 CurrentToken = token;
             else if ((token = TryToGetNumber()) != null)
                 CurrentToken = token;
+            else if ((token = TryToGetString()) != null)
+                CurrentToken = token;
             else if ((token = TryToGetOperator()) != null)
                 CurrentToken = token;
             
-            return CurrentToken;
+            return CurrentToken; // TODO throw exception with Unrecognized token 
         }
         private void SkipUnused()
         {
@@ -60,13 +62,15 @@ namespace MyInterpreter.Lexer
         }
         private Token TryToGetNumber()
         {
-            //TODO
-            //json.org
-            if(!char.IsDigit(_source.CurrentChar) || _source.CurrentChar == '0')
+            if(!char.IsDigit(_source.CurrentChar))
                 return null;
-            
+
             uint value = uint.Parse(_source.CurrentChar.ToString());
             _source.Next();
+
+            if(value == 0)
+                return new Number(value);
+                
             while(char.IsDigit(_source.CurrentChar))
             {
                 value = value * 10 + uint.Parse(_source.CurrentChar.ToString());
@@ -76,14 +80,29 @@ namespace MyInterpreter.Lexer
         }
         private Token TryToGetString()
         {
-            throw new NotImplementedException();   
+            if(_source.CurrentChar != '\"')
+                return null;
+            
+            _source.Next();
+            var sb = new StringBuilder();
+            while(_source.CurrentChar != '\n' && _source.CurrentChar != '\"')
+            {
+                sb.Append(_source.CurrentChar);
+                _source.Next();       
+            }
+            if(_source.CurrentChar == '\"')
+                return new Text(sb.ToString());
+            else
+                return null;
         }
         private Token TryToGetOperator()
         {
             if(!operatorsMapper.ContainsKey(_source.CurrentChar))
                 return null;
 
-            return operatorsMapper[_source.CurrentChar](_source);
+            Token mappedOperator = (operatorsMapper[_source.CurrentChar](_source));
+            _source.Next();
+            return mappedOperator;
         }
     }
 }

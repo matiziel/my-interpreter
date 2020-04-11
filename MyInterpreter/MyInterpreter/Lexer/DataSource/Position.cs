@@ -1,5 +1,8 @@
 namespace MyInterpreter.Lexer.DataSource
 {
+
+    //TODO need to refractor
+
     public class Position
     {
         public uint Column { get; private set; }
