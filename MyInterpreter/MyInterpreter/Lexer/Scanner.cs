@@ -34,7 +34,7 @@ namespace MyInterpreter.Lexer
             else if ((token = TryToGetOperator()) != null)
                 CurrentToken = token;
             
-            return CurrentToken; // TODO throw exception with Unrecognized token 
+            return CurrentToken; // TODO throw exception with unrecognized token 
         }
         private void SkipUnused()
         {

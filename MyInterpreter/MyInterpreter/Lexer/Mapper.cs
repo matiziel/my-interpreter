@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using MyInterpreter.Lexer.DataSource;
+using MyInterpreter.Lexer.Tokens;
 
-namespace MyInterpreter.Lexer.Tokens
+namespace MyInterpreter.Lexer
 {
     static class Mapper
     {
