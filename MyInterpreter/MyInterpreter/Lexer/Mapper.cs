@@ -21,88 +21,17 @@ namespace MyInterpreter.Lexer
         public static Dictionary<char, Func<ISource, Token>> GetOperatorsMapper()
         {
             var mapper = new Dictionary<char, Func<ISource, Token>>();
-            mapper.Add('=', (src) => {
-                if(src.CurrentChar == '=')
-                {
-                    src.Next();
-                    return new Operator(TokenType.EQUALS, "==");
-                }
-                else
-                    return new Operator(TokenType.ASSIGN, "=");
-            });
-            mapper.Add('<', (src) => {
-                if(src.CurrentChar == '=')
-                {
-                    src.Next();
-                    return new Operator(TokenType.LESS_EQUAL, "<=");
-                }
-                else
-                    return new Operator(TokenType.LESS, "<");
-            });
-            mapper.Add('>', (src) => {
-                if(src.CurrentChar == '=')
-                {
-                    src.Next();
-                    return new Operator(TokenType.GREATER_EQUAL, ">=");
-                }
-                else
-                    return new Operator(TokenType.GREATER, ">");
-            });
-            mapper.Add('!', (src) => {
-                if(src.CurrentChar == '=')
-                {
-                    src.Next();
-                    return new Operator(TokenType.NOT_EQUAL, "!=");
-                }
-                else
-                    return new Operator(TokenType.NOT, "!");
-            });
-            mapper.Add('+', (src) => {
-                if(src.CurrentChar == '=')
-                {
-                    src.Next();
-                    return new Operator(TokenType.PLUS_ASSIGN, "+=");
-                }
-                else
-                    return new Operator(TokenType.PLUS, "+");
-            });
-            mapper.Add('-', (src) => {
-                if(src.CurrentChar == '-')
-                {
-                    src.Next();
-                    return new Operator(TokenType.MINUS_ASSIGN, "-=");
-                }
-                else
-                    return new Operator(TokenType.MINUS, "-");
-            });
-            mapper.Add('*', (src) => {
-                if(src.CurrentChar == '=')
-                {
-                    src.Next();
-                    return new Operator(TokenType.MULTIPLY_ASSIGN, "*=");
-                }
-                else
-                    return new Operator(TokenType.MULTIPLY, "*");
-            });
-            mapper.Add('/', (src) => {
-                if(src.CurrentChar == '=')
-                {
-                    src.Next();
-                    return new Operator(TokenType.DIVIDE_ASSIGN, "/=");
-                }
-                else
-                    return new Operator(TokenType.DIVIDE, "/");
-            });
-            mapper.Add('%', (src) => {
-                if(src.CurrentChar == '=')
-                {
-                    src.Next();
-                    return new Operator(TokenType.MODULO_ASSIGN, "%=");
-                }
-                else
-                    return new Operator(TokenType.MODULO, "%");
-            });
+            mapper.Add('=', (src) => GetOperatorTwoOrOneLetter(src, TokenType.ASSIGN, "=", TokenType.EQUALS, "=="));
+            mapper.Add('<', (src) => GetOperatorTwoOrOneLetter(src, TokenType.LESS, "<", TokenType.LESS_EQUAL, "<="));
+            mapper.Add('>', (src) => GetOperatorTwoOrOneLetter(src, TokenType.GREATER, ">", TokenType.GREATER_EQUAL, ">="));
+            mapper.Add('!', (src) => GetOperatorTwoOrOneLetter(src, TokenType.NOT, "!", TokenType.NOT_EQUAL, "!="));
+            mapper.Add('+', (src) => GetOperatorTwoOrOneLetter(src, TokenType.PLUS, "+", TokenType.PLUS_ASSIGN, "+="));
+            mapper.Add('-', (src) => GetOperatorTwoOrOneLetter(src, TokenType.MINUS, "-", TokenType.MINUS_ASSIGN, "-="));
+            mapper.Add('*', (src) => GetOperatorTwoOrOneLetter(src, TokenType.MULTIPLY, "*", TokenType.MULTIPLY_ASSIGN, "*="));
+            mapper.Add('/', (src) => GetOperatorTwoOrOneLetter(src, TokenType.DIVIDE, "/", TokenType.DIVIDE_ASSIGN, "/="));
+            mapper.Add('%', (src) => GetOperatorTwoOrOneLetter(src, TokenType.MODULO, "%", TokenType.MODULO_ASSIGN, "%="));
             mapper.Add('&', (src) => {
+                src.Next();
                 if(src.CurrentChar == '&')
                 {
                     src.Next();
@@ -112,15 +41,31 @@ namespace MyInterpreter.Lexer
                     return null;
             });
             mapper.Add('|', (src) => {
+                src.Next();
                 if(src.CurrentChar == '|')
                 {
                     src.Next();
-                    return new Operator(TokenType.AND, "||");
+                    return new Operator(TokenType.OR, "||");
                 }
                 else
                     return null;
             });
             return mapper;
+        }
+        private static Operator GetOperatorTwoOrOneLetter(
+            ISource src, 
+            TokenType ifOneLetterType, string ifOneLetterValue, 
+            TokenType ifTwoLetterType, string ifTwoLetterValue
+            )
+        {
+            src.Next();
+            if(src.CurrentChar == '=')
+            {
+                src.Next();
+                return new Operator(ifTwoLetterType, ifTwoLetterValue);
+            }
+            else
+                return new Operator(ifOneLetterType, ifOneLetterValue);
         }
     }
 }

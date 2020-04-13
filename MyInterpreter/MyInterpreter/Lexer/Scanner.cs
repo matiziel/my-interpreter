@@ -33,11 +33,15 @@ namespace MyInterpreter.Lexer
                 CurrentToken = token;
             else if ((token = TryToGetOperator()) != null)
                 CurrentToken = token;
-            
+            else if ((token = TryToGetEndOfText()) != null)
+                CurrentToken = token;
+
             return CurrentToken; // TODO throw exception with unrecognized token 
         }
+
         private void SkipUnused()
         {
+            //TODO skip comments
             while(char.IsWhiteSpace(_source.CurrentChar))
                 _source.Next();
         }
@@ -46,7 +50,7 @@ namespace MyInterpreter.Lexer
             //TODO limit length of identifier
             if(!char.IsLetter(_source.CurrentChar))
                 return null;
-            var sb = new StringBuilder(_source.CurrentChar);
+            var sb = new StringBuilder().Append(_source.CurrentChar);
             _source.Next();
             while(char.IsLetterOrDigit(_source.CurrentChar) || _source.CurrentChar == '_')
             {
@@ -101,8 +105,14 @@ namespace MyInterpreter.Lexer
                 return null;
 
             Token mappedOperator = (operatorsMapper[_source.CurrentChar](_source));
-            _source.Next();
             return mappedOperator;
+        }
+        private Token TryToGetEndOfText()
+        {
+            if(_source.CurrentChar == '\0')
+                return new EndOfText();
+            else 
+                return null;
         }
     }
 }
