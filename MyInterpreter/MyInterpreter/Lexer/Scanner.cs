@@ -12,6 +12,7 @@ namespace MyInterpreter.Lexer
         private readonly ISource _source;
         private readonly Dictionary<string, TokenType> keywords;
         private readonly Dictionary<char, Func<ISource, Token>> operatorsMapper;
+        private readonly Dictionary<char, TokenType> literals;
 
         
         public Scanner(ISource source)
@@ -20,6 +21,7 @@ namespace MyInterpreter.Lexer
             _source = source;
             keywords = Mapper.GetKeywordsMapper();
             operatorsMapper = Mapper.GetOperatorsMapper();
+            literals = Mapper.GetLiteralsMapper();
         }
         public Token Next()
         {
@@ -33,12 +35,13 @@ namespace MyInterpreter.Lexer
                 CurrentToken = token;
             else if ((token = TryToGetOperator()) != null)
                 CurrentToken = token;
+            else if ((token = TryToGetLiteral()) != null)
+                CurrentToken = token;
             else if ((token = TryToGetEndOfText()) != null)
                 CurrentToken = token;
 
             return CurrentToken; // TODO throw exception with unrecognized token 
         }
-
         private void SkipUnused()
         {
             //TODO skip comments
@@ -95,7 +98,10 @@ namespace MyInterpreter.Lexer
                 _source.Next();       
             }
             if(_source.CurrentChar == '\"')
+            {
+                _source.Next();
                 return new Text(sb.ToString());
+            }
             else
                 return null;
         }
@@ -106,6 +112,15 @@ namespace MyInterpreter.Lexer
 
             Token mappedOperator = (operatorsMapper[_source.CurrentChar](_source));
             return mappedOperator;
+        }
+        private Token TryToGetLiteral()
+        {
+            if(!literals.ContainsKey(_source.CurrentChar))
+                return null;
+            
+            Token literal = new Literal(literals[_source.CurrentChar], _source.CurrentChar.ToString());
+            _source.Next();
+            return literal;
         }
         private Token TryToGetEndOfText()
         {

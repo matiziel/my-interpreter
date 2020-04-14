@@ -18,6 +18,17 @@ namespace MyInterpreter.Lexer
             return keywords;
 
         }
+        public static Dictionary<char, TokenType> GetLiteralsMapper()
+        {
+            var literals = new Dictionary<char, TokenType>();
+            literals.Add('(', TokenType.LEFT_PAREN); literals.Add(')', TokenType.RIGHT_PAREN);
+            literals.Add('[', TokenType.LEFT_BRACKET); literals.Add(']', TokenType.RIGHT_BRACKET);
+            literals.Add('{', TokenType.LEFT_BRACE); literals.Add('}', TokenType.RIGHT_BRACE);
+            literals.Add(':', TokenType.COLON); literals.Add(';', TokenType.SEMICOLON);
+            literals.Add(',', TokenType.COMMA);
+            return literals;
+        }
+
         public static Dictionary<char, Func<ISource, Token>> GetOperatorsMapper()
         {
             var mapper = new Dictionary<char, Func<ISource, Token>>();
