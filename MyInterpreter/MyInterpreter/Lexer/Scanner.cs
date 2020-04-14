@@ -6,7 +6,7 @@ using MyInterpreter.Lexer.Tokens;
 
 namespace MyInterpreter.Lexer
 {
-    public class Scanner
+    public class Scanner : IScanner
     {
         public Token CurrentToken { get; private set; }
         private readonly ISource _source;

@@ -6,26 +6,6 @@ using Xunit;
 
 namespace UnitTests.LexerTests
 {
-    class TestSource : ISource
-    {
-        private string sourceString;
-        private int position;
-        public TestSource (string source)
-        {
-            this.sourceString = source;
-            this.position = 0;
-        }
-        public char CurrentChar 
-        { 
-            get 
-            {
-                if(position >= sourceString.Length)
-                    return '\0';
-                return sourceString[position]; 
-            }
-        }
-        public void Next() => ++position;
-    }
     public class LexerTests
     {
         [Theory]
@@ -143,6 +123,19 @@ namespace UnitTests.LexerTests
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
             Assert.IsType<EndOfText>(scanner.CurrentToken);
         }
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\t")]
+        [InlineData("\n")]
+        public void CheckEndOfText_FromString(string text)
+        {
+            var scanner = new Scanner(new TestSource(text));
+            scanner.Next();
+            Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
+            Assert.IsType<EndOfText>(scanner.CurrentToken);
+        }
+
         
     }
 }

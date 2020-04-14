@@ -1,6 +1,7 @@
 ﻿using System;
 using MyInterpreter.Lexer;
 using MyInterpreter.Lexer.Tokens;
+using MyInterpreter.Lexer.DataSource;
 
 namespace MyInterpreter
 {
@@ -8,13 +9,16 @@ namespace MyInterpreter
     {
         static void Main(string[] args)
         {
-            Token t = new Keyword(TokenType.FOR);
-            Token r = new Number(1);
-            Token x = new Identifier("x2137");
-
-            System.Console.WriteLine(t);
-            System.Console.WriteLine(r);
-            System.Console.WriteLine(x);
+            using (var source = new FileSource("testfile.ml"))
+            {
+                var scanner = new Scanner(source);
+                do
+                {
+                    var token = scanner.Next();
+                    System.Console.WriteLine(token.Type + " => " + token.ToString());
+                    System.Console.WriteLine();
+                } while (scanner.CurrentToken.Type != TokenType.EOT);
+            }
         }
     }
 }
