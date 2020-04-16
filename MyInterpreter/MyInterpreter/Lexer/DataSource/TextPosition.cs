@@ -2,11 +2,8 @@ namespace MyInterpreter.Lexer.DataSource
 {
 
     //TODO need to refractor
-    public class TextPosition : Position
+    public class TextPosition
     {
-        public TextPosition(uint row, uint column) : base(row, column)
-        {
-
-        }
+      
     }
 }

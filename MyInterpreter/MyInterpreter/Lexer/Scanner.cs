@@ -44,8 +44,17 @@ namespace MyInterpreter.Lexer
         }
         private void SkipUnused()
         {
-            //TODO skip comments
-            while(char.IsWhiteSpace(_source.CurrentChar))
+            while(char.IsWhiteSpace(_source.CurrentChar) || _source.CurrentChar == '#')
+            {
+                TryToSkipCommentLine();
+                _source.Next(); 
+            }
+        }
+        private void TryToSkipCommentLine()
+        {
+            if(_source.CurrentChar != '#')
+                return;
+            while(_source.CurrentChar != '\n')
                 _source.Next();
         }
         private Token TryToGetIdentifierOrKeyword()

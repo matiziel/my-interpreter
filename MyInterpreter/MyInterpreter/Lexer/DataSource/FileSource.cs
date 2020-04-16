@@ -14,21 +14,19 @@ namespace MyInterpreter.Lexer.DataSource
         { 
             get  
             {
-                if(sourceStream.EndOfStream)
-                    return '\0';
-                return (char)sourceStream.Peek();
+                return !sourceStream.EndOfStream ? (char)sourceStream.Peek() : '\0';
             }
         }
 
-        public TextPosition Position => throw new System.NotImplementedException();
-
+        public TextPosition Position => throw new NotImplementedException();
         public void Next()
         {
             if(sourceStream.EndOfStream)
                 return;
             sourceStream.Read();
         }
-        #region ImplementationIDisposable
+
+        #region IDisposableImplementation
         private bool disposed = false;
         public void Dispose()
         { 
