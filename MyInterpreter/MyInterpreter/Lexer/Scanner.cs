@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MyInterpreter.Exceptions;
 using MyInterpreter.Lexer.DataSource;
 using MyInterpreter.Lexer.Tokens;
 
@@ -13,8 +14,8 @@ namespace MyInterpreter.Lexer
         private readonly Dictionary<string, TokenType> keywords;
         private readonly Dictionary<char, Func<ISource, Token>> operatorsMapper;
         private readonly Dictionary<char, TokenType> literals;
+        private readonly int MAX_IDENTIFIER_LENGHT = 128;
 
-        
         public Scanner(ISource source)
         {
             CurrentToken = null;
@@ -40,7 +41,9 @@ namespace MyInterpreter.Lexer
             else if ((token = TryToGetEndOfText()) != null)
                 CurrentToken = token;
 
-            return CurrentToken; // TODO throw exception with unrecognized token 
+            if(token == null)
+                throw new UnrecognizedToken(_source.Position, _source.GetPieceOfText(10, 10));
+            return CurrentToken;  
         }
         private void SkipUnused()
         {
@@ -55,11 +58,14 @@ namespace MyInterpreter.Lexer
             if(_source.CurrentChar != '#')
                 return;
             while(_source.CurrentChar != '\n')
+            {
+                if(_source.CurrentChar == '\0')
+                    break;
                 _source.Next();
+            }
         }
         private Token TryToGetIdentifierOrKeyword()
         {
-            //TODO limit length of identifier
             if(!char.IsLetter(_source.CurrentChar))
                 return null;
             var sb = new StringBuilder().Append(_source.CurrentChar);
@@ -67,14 +73,16 @@ namespace MyInterpreter.Lexer
             while(char.IsLetterOrDigit(_source.CurrentChar) || _source.CurrentChar == '_')
             {
                 sb.Append(_source.CurrentChar);
+                if(sb.Length > MAX_IDENTIFIER_LENGHT)
+                    throw new TooLongIdentifier(_source.Position, _source.GetPieceOfText(sb.Length + 5, 10));
                 _source.Next();
             }
             string name = sb.ToString();
 
             if(keywords.ContainsKey(name))
-                return new Keyword(keywords[name]);
+                return new Keyword(keywords[name], _source.Position);
             else
-                return new Identifier(name);
+                return new Identifier(name, _source.Position);
         }
         private Token TryToGetNumber()
         {
@@ -85,14 +93,14 @@ namespace MyInterpreter.Lexer
             _source.Next();
 
             if(value == 0)
-                return new Number(value);
+                return new Number(value, _source.Position);
                 
             while(char.IsDigit(_source.CurrentChar))
             {
                 value = value * 10 + uint.Parse(_source.CurrentChar.ToString());
                 _source.Next();
             }            
-            return new Number(value);
+            return new Number(value, _source.Position);
         }
         private Token TryToGetString()
         {
@@ -109,7 +117,7 @@ namespace MyInterpreter.Lexer
             if(_source.CurrentChar == '\"')
             {
                 _source.Next();
-                return new Text(sb.ToString());
+                return new Text(sb.ToString(), _source.Position);
             }
             else
                 return null;
@@ -127,14 +135,14 @@ namespace MyInterpreter.Lexer
             if(!literals.ContainsKey(_source.CurrentChar))
                 return null;
             
-            Token literal = new Literal(literals[_source.CurrentChar], _source.CurrentChar.ToString());
+            Token literal = new Literal(literals[_source.CurrentChar], _source.CurrentChar.ToString(), _source.Position);
             _source.Next();
             return literal;
         }
         private Token TryToGetEndOfText()
         {
             if(_source.CurrentChar == '\0')
-                return new EndOfText();
+                return new EndOfText(_source.Position);
             else 
                 return null;
         }

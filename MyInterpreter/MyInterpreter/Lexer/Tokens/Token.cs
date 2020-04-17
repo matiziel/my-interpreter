@@ -6,11 +6,12 @@ namespace MyInterpreter.Lexer.Tokens
     {
         public TokenType Type { get; private set; }
         public TextPosition Position { get; private set; }
-        protected Token(TokenType type) => Type = type;
-        //TODO
-        //position in source 
-        // position in text
-        //toString extensions method?
+        protected Token(TokenType type, TextPosition position)
+        {
+            Type = type;
+            Position = new TextPosition(position);
+        }
+
     }
 }
 

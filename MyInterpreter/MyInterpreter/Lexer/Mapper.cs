@@ -46,7 +46,7 @@ namespace MyInterpreter.Lexer
                 if(src.CurrentChar == '&')
                 {
                     src.Next();
-                    return new Operator(TokenType.AND, "&&");
+                    return new Operator(TokenType.AND, "&&", src.Position);
                 }
                 else
                     return null;
@@ -56,7 +56,7 @@ namespace MyInterpreter.Lexer
                 if(src.CurrentChar == '|')
                 {
                     src.Next();
-                    return new Operator(TokenType.OR, "||");
+                    return new Operator(TokenType.OR, "||", src.Position);
                 }
                 else
                     return null;
@@ -73,10 +73,10 @@ namespace MyInterpreter.Lexer
             if(src.CurrentChar == '=')
             {
                 src.Next();
-                return new Operator(ifTwoLetterType, ifTwoLetterValue);
+                return new Operator(ifTwoLetterType, ifTwoLetterValue, src.Position);
             }
             else
-                return new Operator(ifOneLetterType, ifOneLetterValue);
+                return new Operator(ifOneLetterType, ifOneLetterValue, src.Position);
         }
     }
 }

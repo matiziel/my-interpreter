@@ -128,7 +128,11 @@ namespace UnitTests.LexerTests
         [InlineData(" ")]
         [InlineData("\t")]
         [InlineData("\n")]
-        public void CheckEndOfText_FromString(string text)
+        [InlineData("#sdkasldkkadkk\n#sadjjadjkad")]
+        [InlineData("#####kmdas")]
+        [InlineData("#sajdj\n\t#sdada")]
+        [InlineData("#sajdj\n\n\n#fagsgdfdhh")]
+        public void CheckEndOfTextWhiteSpacesAndComments_FromString(string text)
         {
             var scanner = new Scanner(new TestSource(text));
             scanner.Next();

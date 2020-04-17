@@ -2,6 +2,7 @@
 using MyInterpreter.Lexer;
 using MyInterpreter.Lexer.Tokens;
 using MyInterpreter.Lexer.DataSource;
+using MyInterpreter.Exceptions;
 
 namespace MyInterpreter
 {
@@ -9,16 +10,26 @@ namespace MyInterpreter
     {
         static void Main(string[] args)
         {
-            using (var source = new FileSource("testfile.ml"))
+            try
             {
-                var scanner = new Scanner(source);
-                do
+                using (var source = new FileSource("../UnitTests/TestFiles/testfile.ml"))
                 {
-                    var token = scanner.Next();
-                    System.Console.WriteLine(token.Type + " => " + token.ToString());
-                    System.Console.WriteLine();
-                } while (scanner.CurrentToken.Type != TokenType.EOT);
+                    var scanner = new Scanner(source);
+                    do
+                    {
+                        var token = scanner.Next();
+                    } while (scanner.CurrentToken.Type != TokenType.EOT);
+                }
             }
+            catch(UnrecognizedToken e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch(TooLongIdentifier e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            
         }
     }
 }
