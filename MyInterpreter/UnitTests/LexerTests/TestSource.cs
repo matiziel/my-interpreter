@@ -24,7 +24,7 @@ namespace UnitTests.LexerTests
         public string GetPieceOfText(int leftShift, int rightShift)
         {
             int begin = (Position.SourcePosition - leftShift >= 0) ? Position.SourcePosition - leftShift : 0;
-            int count = (Position.SourcePosition + rightShift >= sourceString.Length) ? leftShift + rightShift : sourceString.Length - 1; 
+            int count = (begin + leftShift + rightShift < sourceString.Length) ? leftShift + rightShift : sourceString.Length - begin - 1; 
             return sourceString.Substring(begin, count);
         }
     }

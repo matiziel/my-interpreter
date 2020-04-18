@@ -1,4 +1,5 @@
 using System;
+using MyInterpreter.Exceptions;
 using MyInterpreter.Lexer;
 using MyInterpreter.Lexer.DataSource;
 using MyInterpreter.Lexer.Tokens;
@@ -9,7 +10,7 @@ namespace UnitTests.LexerTests
     public class LexerTests
     {
         [Theory]
-        [InlineData("xyz + abc;", new TokenType[]{ TokenType.IDENTIFIER, TokenType.PLUS, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT})]
+        [InlineData("xyz + abc;", new TokenType[] { TokenType.IDENTIFIER, TokenType.PLUS, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT})]
         [InlineData("xyz += abc;", new TokenType[]{ TokenType.IDENTIFIER, TokenType.PLUS_ASSIGN, TokenType.IDENTIFIER,TokenType.SEMICOLON, TokenType.EOT })]
         [InlineData("xyz && abc;", new TokenType[]{ TokenType.IDENTIFIER, TokenType.AND, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT })]
         public void CheckVariousTokens_FromString(string text, TokenType[] tokens)
@@ -69,6 +70,7 @@ namespace UnitTests.LexerTests
             scanner.Next();
             Assert.Equal(TokenType.IDENTIFIER, scanner.CurrentToken.Type);
             Assert.IsType<Identifier>(scanner.CurrentToken);
+            Assert.Equal(text, (scanner.CurrentToken as Identifier).Value);
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
             Assert.IsType<EndOfText>(scanner.CurrentToken); 
@@ -86,6 +88,7 @@ namespace UnitTests.LexerTests
             scanner.Next();
             Assert.Equal(TokenType.NUMBER, scanner.CurrentToken.Type);
             Assert.IsType<Number>(scanner.CurrentToken);
+            Assert.Equal(int.Parse(text), (scanner.CurrentToken as Number).Value);
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
             Assert.IsType<EndOfText>(scanner.CurrentToken); 
@@ -106,6 +109,7 @@ namespace UnitTests.LexerTests
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
             Assert.IsType<EndOfText>(scanner.CurrentToken); 
+            
         }
         [Theory]
         [InlineData("(", TokenType.LEFT_PAREN)] [InlineData(")", TokenType.RIGHT_PAREN)]
@@ -116,9 +120,11 @@ namespace UnitTests.LexerTests
         public void CheckLiteralToken_FromString(string text, TokenType type)
         {
             var scanner = new Scanner(new TestSource(text));
+
             scanner.Next();
             Assert.Equal(type, scanner.CurrentToken.Type);
             Assert.IsType<Literal>(scanner.CurrentToken);
+
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
             Assert.IsType<EndOfText>(scanner.CurrentToken);
@@ -139,7 +145,51 @@ namespace UnitTests.LexerTests
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
             Assert.IsType<EndOfText>(scanner.CurrentToken);
         }
+        [Theory]
+        [InlineData("@2332")]
+        [InlineData("^66623")]
+        [InlineData("?@323243")]
+        [InlineData("$$$$$$$")]
+        [InlineData("''''''''''''")]
+        [InlineData("```")]
+        public void CheckUnrecognizedToken_FromString(string text)
+        {
+            var scanner = new Scanner(new TestSource(text));
+            Assert.Throws<UnrecognizedToken>(() => scanner.Next());
+        }
 
-        
+        [Fact]
+        public void CheckTokens_FromFile()
+        {
+            string path = "../../../TestFiles/testfile.ml";
+            TokenType[] tokenTypes = new TokenType[] {
+                TokenType.IDENTIFIER, TokenType.IDENTIFIER,
+                TokenType.LEFT_PAREN, TokenType.IDENTIFIER,
+                TokenType.IDENTIFIER, TokenType.COMMA,
+                TokenType.IDENTIFIER, TokenType.IDENTIFIER,
+                TokenType.RIGHT_PAREN, TokenType.LEFT_BRACE,
+                TokenType.RETURN, TokenType.IDENTIFIER,
+                TokenType.PLUS, TokenType.IDENTIFIER,
+                TokenType.SEMICOLON, TokenType.RIGHT_BRACE,
+                TokenType.IDENTIFIER, TokenType.IDENTIFIER,
+                TokenType.LEFT_PAREN, TokenType.RIGHT_PAREN,
+                TokenType.LEFT_BRACE, TokenType.IDENTIFIER,
+                TokenType.IDENTIFIER, TokenType.ASSIGN,
+                TokenType.IDENTIFIER, TokenType.LEFT_PAREN,
+                TokenType.NUMBER, TokenType.COMMA, 
+                TokenType.NUMBER, TokenType.RIGHT_PAREN,
+                TokenType.SEMICOLON, TokenType.RIGHT_BRACE,
+                TokenType.EOT
+            };
+            using (var source = new FileSource(path))
+            {
+                var scanner = new Scanner(source);
+                foreach(var type in tokenTypes)
+                {
+                    scanner.Next();
+                    Assert.Equal(type, scanner.CurrentToken.Type);
+                }
+            }
+        }
     }
 }

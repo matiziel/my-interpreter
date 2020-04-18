@@ -61,8 +61,6 @@ namespace MyInterpreter.Lexer.DataSource
             }
             disposed = true;
         }
-
-
         #endregion
     }
 
