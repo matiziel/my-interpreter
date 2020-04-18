@@ -15,7 +15,7 @@ namespace UnitTests.LexerTests
         [InlineData("xyz && abc;", new TokenType[]{ TokenType.IDENTIFIER, TokenType.AND, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT })]
         public void CheckVariousTokens_FromString(string text, TokenType[] tokens)
         {
-            var scanner = new Scanner(new TestSource(text));
+            var scanner = new Scanner(new StringSource(text));
             foreach(var token in tokens)
             {
                 scanner.Next();
@@ -34,7 +34,7 @@ namespace UnitTests.LexerTests
         [InlineData("&&", TokenType.AND)] [InlineData("||", TokenType.OR)]
         public void CheckOperatorToken_FromString(string text, TokenType token)
         {
-            var scanner = new Scanner(new TestSource(text));
+            var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(token, scanner.CurrentToken.Type);
             scanner.Next();
@@ -49,7 +49,7 @@ namespace UnitTests.LexerTests
         [InlineData("return", TokenType.RETURN)]
         public void CheckKeywordToken_FromString(string text, TokenType token)
         {
-            var scanner = new Scanner(new TestSource(text));
+            var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(token, scanner.CurrentToken.Type);
             Assert.IsType<Keyword>(scanner.CurrentToken);
@@ -66,7 +66,7 @@ namespace UnitTests.LexerTests
         [InlineData("ELO420")]
         public void CheckIdentifierToken_FromString(string text)
         {
-            var scanner = new Scanner(new TestSource(text));
+            var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(TokenType.IDENTIFIER, scanner.CurrentToken.Type);
             Assert.IsType<Identifier>(scanner.CurrentToken);
@@ -84,7 +84,7 @@ namespace UnitTests.LexerTests
         [InlineData("23446")]
         public void CheckNumberToken_FromString(string text)
         {
-            var scanner = new Scanner(new TestSource(text));
+            var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(TokenType.NUMBER, scanner.CurrentToken.Type);
             Assert.IsType<Number>(scanner.CurrentToken);
@@ -102,7 +102,7 @@ namespace UnitTests.LexerTests
         [InlineData("\"1qaz2wsx\"")]
         public void CheckStringToken_FromString(string text)
         {
-            var scanner = new Scanner(new TestSource(text));
+            var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(TokenType.STRING, scanner.CurrentToken.Type);
             Assert.IsType<Text>(scanner.CurrentToken);
@@ -119,7 +119,7 @@ namespace UnitTests.LexerTests
         [InlineData(",", TokenType.COMMA)]
         public void CheckLiteralToken_FromString(string text, TokenType type)
         {
-            var scanner = new Scanner(new TestSource(text));
+            var scanner = new Scanner(new StringSource(text));
 
             scanner.Next();
             Assert.Equal(type, scanner.CurrentToken.Type);
@@ -140,7 +140,7 @@ namespace UnitTests.LexerTests
         [InlineData("#sajdj\n\n\n#fagsgdfdhh")]
         public void CheckEndOfTextWhiteSpacesAndComments_FromString(string text)
         {
-            var scanner = new Scanner(new TestSource(text));
+            var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
             Assert.IsType<EndOfText>(scanner.CurrentToken);
@@ -154,7 +154,7 @@ namespace UnitTests.LexerTests
         [InlineData("```")]
         public void CheckUnrecognizedToken_FromString(string text)
         {
-            var scanner = new Scanner(new TestSource(text));
+            var scanner = new Scanner(new StringSource(text));
             Assert.Throws<UnrecognizedToken>(() => scanner.Next());
         }
 

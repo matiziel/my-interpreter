@@ -12,12 +12,18 @@ namespace MyInterpreter
         {
             try
             {
-                using (var source = new FileSource("../UnitTests/TestFiles/testfile.ml"))
+                if(args.Length <= 0)
+                {
+                    System.Console.WriteLine("fatal error: no input files");
+                    return;
+                }
+                using (var source = new FileSource(args[0]))
                 {
                     var scanner = new Scanner(source);
                     do
                     {
-                        var token = scanner.Next();
+                        scanner.Next();
+                        System.Console.WriteLine(scanner.CurrentToken.Type + " => " + scanner.CurrentToken.ToString());
                     } while (scanner.CurrentToken.Type != TokenType.EOT);
                 }
             }

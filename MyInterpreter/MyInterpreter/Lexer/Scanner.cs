@@ -5,12 +5,13 @@ using MyInterpreter.Exceptions;
 using MyInterpreter.Lexer.DataSource;
 using MyInterpreter.Lexer.Tokens;
 
+
 namespace MyInterpreter.Lexer
 {
     public class Scanner : IScanner
     {
         public Token CurrentToken { get; private set; }
-        private readonly ISource _source;
+        private ISource _source;
         private readonly Dictionary<string, TokenType> keywords;
         private readonly Dictionary<char, Func<ISource, Token>> operatorsMapper;
         private readonly Dictionary<char, TokenType> literals;
@@ -42,7 +43,7 @@ namespace MyInterpreter.Lexer
                 CurrentToken = token;
 
             if(token == null)
-                throw new UnrecognizedToken(_source.Position, _source.GetPieceOfText(10, 10));
+                throw new UnrecognizedToken(_source.Position, _source.GetPieceOfText(_source.Position ,10, 10));
             return CurrentToken;  
         }
         private void SkipUnused()
@@ -74,7 +75,7 @@ namespace MyInterpreter.Lexer
             {
                 sb.Append(_source.CurrentChar);
                 if(sb.Length > MAX_IDENTIFIER_LENGHT)
-                    throw new TooLongIdentifier(_source.Position, _source.GetPieceOfText(sb.Length + 5, 10));
+                    throw new TooLongIdentifier(_source.Position, _source.GetPieceOfText(_source.Position, sb.Length + 5, 10));
                 _source.Next();
             }
             string name = sb.ToString();

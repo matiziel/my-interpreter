@@ -15,7 +15,6 @@ namespace MyInterpreter.Lexer.DataSource
             streamReader = new StreamReader(sourceStream);
             Position = new TextPosition();
         }
-        public long PositionSource() => sourceStream.Position;
         public char CurrentChar 
         { 
             get  
@@ -30,7 +29,7 @@ namespace MyInterpreter.Lexer.DataSource
             Position.NextCharacter(CurrentChar);
             streamReader.Read();
         }
-        public string GetPieceOfText(int leftShift, int rightShift)
+        public string GetPieceOfText(TextPosition position, int leftShift, int rightShift)
         {
             long previousPosition = sourceStream.Position;
             sourceStream.Position = (Position.SourcePosition - leftShift >= 0) ? Position.SourcePosition - leftShift : 0;

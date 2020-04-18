@@ -11,7 +11,6 @@ namespace MyInterpreter.Lexer.Tokens
             Type = type;
             Position = new TextPosition(position);
         }
-
     }
 }
 

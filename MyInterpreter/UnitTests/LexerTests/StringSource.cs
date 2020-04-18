@@ -2,11 +2,11 @@ using MyInterpreter.Lexer.DataSource;
 
 namespace UnitTests.LexerTests
 {
-    class TestSource : ISource
+    class StringSource : ISource
     {
         private string sourceString;
         public TextPosition Position { get; private set; }
-        public TestSource (string source)
+        public StringSource (string source)
         {
             this.sourceString = source;
             Position = new TextPosition();
@@ -21,9 +21,9 @@ namespace UnitTests.LexerTests
             }
         }
         public void Next() => Position.NextCharacter(CurrentChar);
-        public string GetPieceOfText(int leftShift, int rightShift)
+        public string GetPieceOfText(TextPosition position, int leftShift, int rightShift)
         {
-            int begin = (Position.SourcePosition - leftShift >= 0) ? Position.SourcePosition - leftShift : 0;
+            int begin = (position.SourcePosition - leftShift >= 0) ? position.SourcePosition - leftShift : 0;
             int count = (begin + leftShift + rightShift < sourceString.Length) ? leftShift + rightShift : sourceString.Length - begin - 1; 
             return sourceString.Substring(begin, count);
         }

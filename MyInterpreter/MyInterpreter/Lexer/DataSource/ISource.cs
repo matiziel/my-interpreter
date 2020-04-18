@@ -5,6 +5,6 @@ namespace MyInterpreter.Lexer.DataSource
         char CurrentChar { get; }
         TextPosition Position { get; }
         void Next();
-        string GetPieceOfText(int leftShift, int rightShift);
+        string GetPieceOfText(TextPosition position, int leftShift, int rightShift);
     }
 }
