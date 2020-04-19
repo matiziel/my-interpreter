@@ -29,17 +29,16 @@ namespace MyInterpreter.Lexer.DataSource
             Position.NextCharacter(CurrentChar);
             streamReader.Read();
         }
-        public string GetPieceOfText(TextPosition position, int leftShift, int rightShift)
+        public string GetLineFromPosition(TextPosition position)
         {
             long previousPosition = sourceStream.Position;
-            sourceStream.Position = (Position.SourcePosition - leftShift >= 0) ? Position.SourcePosition - leftShift : 0;
+            sourceStream.Position = Position.SourcePosition - Position.Column + 1;
 
-            byte[] buffer = new byte[rightShift + leftShift];
-            sourceStream.Read(buffer, 0, rightShift + leftShift);
-
+            byte[] buffer = new byte[64];
+            sourceStream.Read(buffer, 0, 64);
             sourceStream.Position = previousPosition;
-
-            return Encoding.UTF8.GetString(buffer, 0, buffer.Length); 
+            
+            return Encoding.UTF8.GetString(buffer, 0, buffer.Length).Split('\n')[0]; // whole line or 64 characters
         }
 
         #region IDisposableImplementation
@@ -55,8 +54,10 @@ namespace MyInterpreter.Lexer.DataSource
                 return; 
             if (disposing)
             {
-                sourceStream.Dispose();
+                streamReader.Close();
+                sourceStream.Close();
                 streamReader.Dispose();
+                sourceStream.Dispose();
             }
             disposed = true;
         }

@@ -10,17 +10,17 @@ namespace MyInterpreter.Lexer.DataSource
             SourcePosition = 0;
             Row = Column = 1;
         }
+        public TextPosition(TextPosition position, int offset = 0)
+        {
+            Row = position.Row;
+            SourcePosition = position.SourcePosition - offset;
+            Column = position.Column - offset; 
+        }
         public TextPosition(int row, int column, int sourcePosition)
         {
+            Row = row; 
+            Column = column;
             SourcePosition = sourcePosition;
-            Row = row;
-            Column = column; 
-        }
-        public TextPosition(TextPosition position)
-        {
-            SourcePosition = position.SourcePosition;
-            Row = position.Row;
-            Column = position.Column; 
         }
         public void NextCharacter(char currentCharacter)
         {

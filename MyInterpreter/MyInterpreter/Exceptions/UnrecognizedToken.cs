@@ -5,20 +5,11 @@ using MyInterpreter.Lexer.DataSource;
 namespace MyInterpreter.Exceptions
 {
     [System.Serializable]
-    public class UnrecognizedToken : Exception
+    public class UnrecognizedToken : InterpreterException
     {
         public UnrecognizedToken() { }
-        public UnrecognizedToken(TextPosition position, string message) : base(CreateMessage(position, message)) { }
-        private static string CreateMessage(TextPosition position, string message)
-        {
-            var sb = new StringBuilder("Unrecognized token at line: ");
-            sb.Append(position.Row);
-            sb.Append(", column: ");
-            sb.Append(position.Column);
-            sb.Append("\nSource:\n");
-            sb.Append(message);
-            return sb.ToString();
-        }
+        public UnrecognizedToken(TextPosition position, string source) 
+            : base(position, "Unrecognized token", source) { }
         public UnrecognizedToken(string message, System.Exception inner) : base(message, inner) { }
         protected UnrecognizedToken(
             System.Runtime.Serialization.SerializationInfo info,

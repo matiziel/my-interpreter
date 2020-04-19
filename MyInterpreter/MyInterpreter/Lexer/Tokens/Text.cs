@@ -8,11 +8,7 @@ namespace MyInterpreter.Lexer.Tokens
         public Text(string value, TextPosition position) : base(TokenType.STRING)
         {
             Value = value;
-            Position = new TextPosition(
-                position.Row,
-                position.Column - Value.Length - 1,
-                position.SourcePosition - Value.Length - 1
-            );
+            Position = new TextPosition(position, Value.Length - 1);
         }
         public override string ToString() => Value;
     }

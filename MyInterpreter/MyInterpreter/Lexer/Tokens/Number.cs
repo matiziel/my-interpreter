@@ -9,13 +9,8 @@ namespace MyInterpreter.Lexer.Tokens
         { 
             Value = value;
             int offset = Value.ToString().Length;
-            Position = new TextPosition(
-                position.Row,
-                position.Column - offset,
-                position.SourcePosition - offset
-            );
+            Position = new TextPosition(position, Value.ToString().Length);
         }
-        
         public override string ToString() => Value.ToString(); 
     }
 }

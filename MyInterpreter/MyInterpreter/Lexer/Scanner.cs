@@ -13,16 +13,16 @@ namespace MyInterpreter.Lexer
         public Token CurrentToken { get; private set; }
         private ISource _source;
         private readonly Dictionary<string, TokenType> keywords;
-        private readonly Dictionary<char, Func<ISource, Token>> operatorsMapper;
+        private readonly Dictionary<char, Func<ISource, Token>> operators;
         private readonly Dictionary<char, TokenType> literals;
-        private readonly int MAX_IDENTIFIER_LENGHT = 128;
+        private readonly int MAX_IDENTIFIER_LENGTH = 128;
 
         public Scanner(ISource source)
         {
             CurrentToken = null;
             _source = source;
             keywords = Mapper.GetKeywordsMapper();
-            operatorsMapper = Mapper.GetOperatorsMapper();
+            operators = Mapper.GetOperatorsMapper();
             literals = Mapper.GetLiteralsMapper();
         }
         public Token Next()
@@ -43,7 +43,7 @@ namespace MyInterpreter.Lexer
                 CurrentToken = token;
 
             if(token == null)
-                throw new UnrecognizedToken(_source.Position, _source.GetPieceOfText(_source.Position ,10, 10));
+                throw new UnrecognizedToken(_source.Position, _source.GetLineFromPosition(_source.Position));
             return CurrentToken;  
         }
         private void SkipUnused()
@@ -74,8 +74,8 @@ namespace MyInterpreter.Lexer
             while(char.IsLetterOrDigit(_source.CurrentChar) || _source.CurrentChar == '_')
             {
                 sb.Append(_source.CurrentChar);
-                if(sb.Length > MAX_IDENTIFIER_LENGHT)
-                    throw new TooLongIdentifier(_source.Position, _source.GetPieceOfText(_source.Position, sb.Length + 5, 10));
+                if(sb.Length > MAX_IDENTIFIER_LENGTH)
+                    throw new TooLongIdentifier(_source.Position, _source.GetLineFromPosition(_source.Position), sb.Length);
                 _source.Next();
             }
             string name = sb.ToString();
@@ -125,10 +125,10 @@ namespace MyInterpreter.Lexer
         }
         private Token TryToGetOperator()
         {
-            if(!operatorsMapper.ContainsKey(_source.CurrentChar))
+            if(!operators.ContainsKey(_source.CurrentChar))
                 return null;
 
-            Token mappedOperator = (operatorsMapper[_source.CurrentChar](_source));
+            Token mappedOperator = (operators[_source.CurrentChar](_source));
             return mappedOperator;
         }
         private Token TryToGetLiteral()

@@ -21,11 +21,11 @@ namespace UnitTests.LexerTests
             }
         }
         public void Next() => Position.NextCharacter(CurrentChar);
-        public string GetPieceOfText(TextPosition position, int leftShift, int rightShift)
+        public string GetLineFromPosition(TextPosition position)
         {
-            int begin = (position.SourcePosition - leftShift >= 0) ? position.SourcePosition - leftShift : 0;
-            int count = (begin + leftShift + rightShift < sourceString.Length) ? leftShift + rightShift : sourceString.Length - begin - 1; 
-            return sourceString.Substring(begin, count);
+            int begin = position.SourcePosition - position.Column + 1;
+            int count = sourceString.Length;
+            return sourceString.Substring(begin, count).Split('\n')[0];
         }
     }
 }
