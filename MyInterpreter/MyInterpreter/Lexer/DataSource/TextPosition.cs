@@ -10,6 +10,12 @@ namespace MyInterpreter.Lexer.DataSource
             SourcePosition = 0;
             Row = Column = 1;
         }
+        public TextPosition(int row, int column, int sourcePosition)
+        {
+            SourcePosition = sourcePosition;
+            Row = row;
+            Column = column; 
+        }
         public TextPosition(TextPosition position)
         {
             SourcePosition = position.SourcePosition;

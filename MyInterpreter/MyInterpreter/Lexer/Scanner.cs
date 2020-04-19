@@ -136,9 +136,10 @@ namespace MyInterpreter.Lexer
             if(!literals.ContainsKey(_source.CurrentChar))
                 return null;
             
-            Token literal = new Literal(literals[_source.CurrentChar], _source.CurrentChar.ToString(), _source.Position);
+            char literal = _source.CurrentChar;;
             _source.Next();
-            return literal;
+            return new Literal(literals[literal], literal.ToString(), _source.Position);
+            
         }
         private Token TryToGetEndOfText()
         {

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using MyInterpreter.Exceptions;
 using MyInterpreter.Lexer;
 using MyInterpreter.Lexer.DataSource;
@@ -157,29 +158,20 @@ namespace UnitTests.LexerTests
             var scanner = new Scanner(new StringSource(text));
             Assert.Throws<UnrecognizedToken>(() => scanner.Next());
         }
+        
 
         [Fact]
-        public void CheckTokens_FromFile()
+        public void CheckTokensTypes_FromFile()
         {
-            string path = "../../../TestFiles/testfile.ml";
+            string path = MakeTestFile();
             TokenType[] tokenTypes = new TokenType[] {
-                TokenType.IDENTIFIER, TokenType.IDENTIFIER,
-                TokenType.LEFT_PAREN, TokenType.IDENTIFIER,
-                TokenType.IDENTIFIER, TokenType.COMMA,
-                TokenType.IDENTIFIER, TokenType.IDENTIFIER,
-                TokenType.RIGHT_PAREN, TokenType.LEFT_BRACE,
-                TokenType.RETURN, TokenType.IDENTIFIER,
-                TokenType.PLUS, TokenType.IDENTIFIER,
-                TokenType.SEMICOLON, TokenType.RIGHT_BRACE,
                 TokenType.IDENTIFIER, TokenType.IDENTIFIER,
                 TokenType.LEFT_PAREN, TokenType.RIGHT_PAREN,
                 TokenType.LEFT_BRACE, TokenType.IDENTIFIER,
                 TokenType.IDENTIFIER, TokenType.ASSIGN,
-                TokenType.IDENTIFIER, TokenType.LEFT_PAREN,
-                TokenType.NUMBER, TokenType.COMMA, 
-                TokenType.NUMBER, TokenType.RIGHT_PAREN,
-                TokenType.SEMICOLON, TokenType.RIGHT_BRACE,
-                TokenType.EOT
+                TokenType.NUMBER, TokenType.PLUS,
+                TokenType.NUMBER, TokenType.SEMICOLON, 
+                TokenType.RIGHT_BRACE, TokenType.EOT
             };
             using (var source = new FileSource(path))
             {
@@ -191,5 +183,64 @@ namespace UnitTests.LexerTests
                 }
             }
         }
+        [Fact]
+        public void CheckTokensValues_FromFile()
+        {
+            string path = MakeTestFile();
+            string[] values = new string[] {
+                "int", "main", "(", ")",
+                "{", "int", "x", "=", "1", "+", "2", ";", "}",
+            };
+            using (var source = new FileSource(path))
+            {
+                var scanner = new Scanner(source);
+                foreach(var value in values)
+                {
+                    scanner.Next();
+                    Assert.Equal(value, scanner.CurrentToken.ToString());
+                }
+            }
+        }
+        [Fact]
+        public void CheckTokensPositions_FromFile()
+        {
+            string path = MakeTestFile();
+            TextPosition[] positions = new TextPosition[] {
+                new TextPosition(3, 1, 18), new TextPosition(3, 5, 22), new TextPosition(3, 9, 26), 
+                new TextPosition(3, 10, 27), new TextPosition(4, 1, 29), new TextPosition(5, 5 ,35),
+                new TextPosition(5, 9, 39), new TextPosition(5, 11, 41), new TextPosition(5 ,13, 43),
+                new TextPosition(5, 15, 45), new TextPosition(5, 17, 47), new TextPosition(5, 18, 48),
+                new TextPosition(6, 1, 67), new TextPosition(7, 1, 69), 
+            };
+            using (var source = new FileSource(path))
+            {
+                var scanner = new Scanner(source);
+                foreach(var position in positions)
+                {
+                    scanner.Next();
+                    Assert.Equal(position.SourcePosition, scanner.CurrentToken.Position.SourcePosition);
+                    Assert.Equal(position.Row, scanner.CurrentToken.Position.Row);
+                    Assert.Equal(position.Column, scanner.CurrentToken.Position.Column);
+                }
+            }
+        }
+
+        private string MakeTestFile()
+        {
+            string path = "../../../TestFiles/testfile.ml";
+            string[] lines = { 
+                "# test comment 1", "", 
+                "int main()", "{",
+                "    int x = 1 + 2; # test comment 2", "}"
+            };
+            using (StreamWriter outputFile = new StreamWriter(path))
+            {
+                foreach (string line in lines)
+                    outputFile.WriteLine(line);
+            }
+            return path;
+        }
+
+
     }
 }
