@@ -48,22 +48,25 @@ namespace MyInterpreter.Lexer
         }
         private void SkipUnused()
         {
-            while(char.IsWhiteSpace(_source.CurrentChar) || _source.CurrentChar == '#')
-            {
-                TryToSkipCommentLine();
-                _source.Next(); 
-            }
+            while(TryToSkipWhiteSpaces() || TryToSkipCommentLine());
         }
-        private void TryToSkipCommentLine()
+        private bool TryToSkipWhiteSpaces()
+        {
+            if(!char.IsWhiteSpace(_source.CurrentChar))
+                return false;
+
+            while(char.IsWhiteSpace(_source.CurrentChar))
+                _source.Next();
+            return true;
+        }
+        private bool TryToSkipCommentLine()
         {
             if(_source.CurrentChar != '#')
-                return;
-            while(_source.CurrentChar != '\n')
-            {
-                if(_source.CurrentChar == '\0')
-                    break;
+                return false;
+
+            while(_source.CurrentChar != '\n' && _source.CurrentChar != '\0')
                 _source.Next();
-            }
+            return true;
         }
         private Token TryToGetIdentifierOrKeyword()
         {
