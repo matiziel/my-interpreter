@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MyInterpreter.Exceptions;
-using MyInterpreter.Lexer.DataSource;
+using MyInterpreter.DataSource;
 using MyInterpreter.Lexer.Tokens;
 
 

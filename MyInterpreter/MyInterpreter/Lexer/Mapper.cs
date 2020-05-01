@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MyInterpreter.Lexer.DataSource;
+using MyInterpreter.DataSource;
 using MyInterpreter.Lexer.Tokens;
 
 namespace MyInterpreter.Lexer
@@ -21,9 +21,9 @@ namespace MyInterpreter.Lexer
         public static Dictionary<char, TokenType> GetLiteralsMapper()
         {
             var literals = new Dictionary<char, TokenType>();
-            literals.Add('(', TokenType.LEFT_PAREN); literals.Add(')', TokenType.RIGHT_PAREN);
-            literals.Add('[', TokenType.LEFT_BRACKET); literals.Add(']', TokenType.RIGHT_BRACKET);
-            literals.Add('{', TokenType.LEFT_BRACE); literals.Add('}', TokenType.RIGHT_BRACE);
+            literals.Add('(', TokenType.PAREN_OPEN); literals.Add(')', TokenType.PAREN_CLOSE);
+            literals.Add('[', TokenType.BRACKET_OPEN); literals.Add(']', TokenType.BRACKET_CLOSE);
+            literals.Add('{', TokenType.BRACE_OPEN); literals.Add('}', TokenType.BRACE_CLOSE);
             literals.Add(':', TokenType.COLON); literals.Add(';', TokenType.SEMICOLON);
             literals.Add(',', TokenType.COMMA);
             return literals;

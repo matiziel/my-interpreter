@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using MyInterpreter.Exceptions;
 using MyInterpreter.Lexer;
-using MyInterpreter.Lexer.DataSource;
+using MyInterpreter.DataSource;
 using MyInterpreter.Lexer.Tokens;
 using Xunit;
 
@@ -113,9 +113,9 @@ namespace UnitTests.LexerTests
             
         }
         [Theory]
-        [InlineData("(", TokenType.LEFT_PAREN)] [InlineData(")", TokenType.RIGHT_PAREN)]
-        [InlineData("[", TokenType.LEFT_BRACKET)] [InlineData("]", TokenType.RIGHT_BRACKET)]
-        [InlineData("{", TokenType.LEFT_BRACE)] [InlineData("}", TokenType.RIGHT_BRACE)]
+        [InlineData("(", TokenType.PAREN_OPEN)] [InlineData(")", TokenType.PAREN_CLOSE)]
+        [InlineData("[", TokenType.BRACKET_OPEN)] [InlineData("]", TokenType.BRACKET_CLOSE)]
+        [InlineData("{", TokenType.BRACE_OPEN)] [InlineData("}", TokenType.BRACE_CLOSE)]
         [InlineData(":", TokenType.COLON)] [InlineData(";", TokenType.SEMICOLON)]
         [InlineData(",", TokenType.COMMA)]
         public void CheckLiteralToken_FromString(string text, TokenType type)
@@ -166,12 +166,12 @@ namespace UnitTests.LexerTests
             string path = MakeTestFile();
             TokenType[] tokenTypes = new TokenType[] {
                 TokenType.IDENTIFIER, TokenType.IDENTIFIER,
-                TokenType.LEFT_PAREN, TokenType.RIGHT_PAREN,
-                TokenType.LEFT_BRACE, TokenType.IDENTIFIER,
+                TokenType.PAREN_OPEN, TokenType.PAREN_CLOSE,
+                TokenType.BRACE_OPEN, TokenType.IDENTIFIER,
                 TokenType.IDENTIFIER, TokenType.ASSIGN,
                 TokenType.NUMBER, TokenType.PLUS,
                 TokenType.NUMBER, TokenType.SEMICOLON, 
-                TokenType.RIGHT_BRACE, TokenType.EOT
+                TokenType.BRACE_CLOSE, TokenType.EOT
             };
             using (var source = new FileSource(path))
             {

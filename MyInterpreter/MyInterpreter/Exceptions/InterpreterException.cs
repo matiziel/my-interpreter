@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using MyInterpreter.Lexer.DataSource;
+using MyInterpreter.DataSource;
 
 namespace MyInterpreter.Exceptions
 {

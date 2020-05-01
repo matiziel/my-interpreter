@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace MyInterpreter.Lexer.DataSource
+namespace MyInterpreter.DataSource
 {
     public class FileSource : ISource, IDisposable
     {

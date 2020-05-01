@@ -1,4 +1,4 @@
-namespace MyInterpreter.Lexer.DataSource
+namespace MyInterpreter.DataSource
 {
     public class TextPosition
     {

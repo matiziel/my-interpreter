@@ -1,7 +1,7 @@
 ﻿using System;
 using MyInterpreter.Lexer;
 using MyInterpreter.Lexer.Tokens;
-using MyInterpreter.Lexer.DataSource;
+using MyInterpreter.DataSource;
 using MyInterpreter.Exceptions;
 
 namespace MyInterpreter

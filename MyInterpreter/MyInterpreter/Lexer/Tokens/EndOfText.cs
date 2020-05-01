@@ -1,4 +1,4 @@
-using MyInterpreter.Lexer.DataSource;
+using MyInterpreter.DataSource;
 
 namespace MyInterpreter.Lexer.Tokens
 {
