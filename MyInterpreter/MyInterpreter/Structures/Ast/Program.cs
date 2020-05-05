@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-namespace MyInterpreter.Parser.Ast
+namespace MyInterpreter.Structures.Ast
 {
     public class Program
     {

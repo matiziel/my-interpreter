@@ -1,6 +1,6 @@
-using MyInterpreter.Tokens;
+using MyInterpreter.Structures.Tokens;
 
-namespace MyInterpreter.Parser.Ast
+namespace MyInterpreter.Structures.Ast
 {
     public class Logical
     {

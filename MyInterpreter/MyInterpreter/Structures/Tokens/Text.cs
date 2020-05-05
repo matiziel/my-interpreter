@@ -1,6 +1,6 @@
 using MyInterpreter.DataSource;
 
-namespace MyInterpreter.Tokens
+namespace MyInterpreter.Structures.Tokens
 {
     public class Text : Token
     {

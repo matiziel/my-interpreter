@@ -1,4 +1,4 @@
-namespace MyInterpreter.Tokens
+namespace MyInterpreter.Structures.Tokens
 {
     public enum TokenType
     {

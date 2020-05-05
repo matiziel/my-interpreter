@@ -1,4 +1,4 @@
-using MyInterpreter.Tokens;
+using MyInterpreter.Structures.Tokens;
 
 namespace MyInterpreter.Lexer
 {
