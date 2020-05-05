@@ -3,7 +3,7 @@ using System.IO;
 using MyInterpreter.Exceptions;
 using MyInterpreter.Lexer;
 using MyInterpreter.DataSource;
-using MyInterpreter.Structures.Tokens;
+using MyInterpreter.Lexer.Tokens;
 using Xunit;
 
 namespace UnitTests.LexerTests

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MyInterpreter.DataSource;
-using MyInterpreter.Structures.Tokens;
+using MyInterpreter.Lexer.Tokens;
 
 namespace MyInterpreter.Lexer
 {

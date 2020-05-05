@@ -1,4 +1,4 @@
-namespace MyInterpreter.Structures.Ast
+namespace MyInterpreter.Parser.Ast
 {
     public class FunctionDefinition
     {

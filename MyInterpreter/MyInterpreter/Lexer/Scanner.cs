@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MyInterpreter.Exceptions;
 using MyInterpreter.DataSource;
-using MyInterpreter.Structures.Tokens;
+using MyInterpreter.Lexer.Tokens;
 
 
 namespace MyInterpreter.Lexer

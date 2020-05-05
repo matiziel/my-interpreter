@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MyInterpreter.Structures.Ast
+namespace MyInterpreter.Parser.Ast
 {
     public class FunctionCall
     {

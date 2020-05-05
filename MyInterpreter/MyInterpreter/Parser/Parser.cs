@@ -1,5 +1,5 @@
 using MyInterpreter.Lexer;
-using MyInterpreter.Structures.Ast;
+using MyInterpreter.Parser.Ast;
 
 namespace MyInterpreter.Parser
 {
