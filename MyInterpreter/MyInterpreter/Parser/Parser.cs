@@ -1,4 +1,5 @@
 using MyInterpreter.Lexer;
+using MyInterpreter.Parser.Ast;
 
 namespace MyInterpreter.Parser
 {
@@ -10,6 +11,10 @@ namespace MyInterpreter.Parser
         {
             _scanner = scanner;
         }
-        
+
+        public Program Parse()
+        {
+            return new Program();
+        }
     }
 }

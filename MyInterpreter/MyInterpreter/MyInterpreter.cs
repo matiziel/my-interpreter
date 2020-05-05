@@ -6,7 +6,7 @@ using MyInterpreter.Exceptions;
 
 namespace MyInterpreter
 {
-    class Program
+    class MyInterpreter
     {
         static void Main(string[] args)
         {
