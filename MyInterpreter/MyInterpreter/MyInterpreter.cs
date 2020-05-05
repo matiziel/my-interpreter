@@ -1,6 +1,6 @@
 ﻿using System;
 using MyInterpreter.Lexer;
-using MyInterpreter.Lexer.Tokens;
+using MyInterpreter.Tokens;
 using MyInterpreter.DataSource;
 using MyInterpreter.Exceptions;
 

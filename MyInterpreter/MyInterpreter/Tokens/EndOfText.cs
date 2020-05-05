@@ -1,6 +1,6 @@
 using MyInterpreter.DataSource;
 
-namespace MyInterpreter.Lexer.Tokens
+namespace MyInterpreter.Tokens
 {
     public class EndOfText : Token
     {

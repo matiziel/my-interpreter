@@ -1,16 +1,15 @@
 using MyInterpreter.DataSource;
 
-namespace MyInterpreter.Lexer.Tokens
+namespace MyInterpreter.Tokens
 {
-    public class Identifier : Token
+    public class Literal : Token
     {
         public string Value { get; private set; }
-        public Identifier(string value, TextPosition position) : base (TokenType.IDENTIFIER)
+        public Literal(TokenType type, string value, TextPosition position) : base(type) 
         {
-            Value = value; 
+            Value = value;
             Position = new TextPosition(position, Value.Length);
-        } 
-        
+        }
         public override string ToString() => Value;
     }
 }

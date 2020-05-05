@@ -1,6 +1,6 @@
 using MyInterpreter.DataSource;
 
-namespace MyInterpreter.Lexer.Tokens
+namespace MyInterpreter.Tokens
 {
     public abstract class Token
     {
