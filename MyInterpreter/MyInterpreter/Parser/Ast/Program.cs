@@ -14,5 +14,10 @@ namespace MyInterpreter.Parser.Ast
         }
         public void AddDefinition(Definition definition) => definitions.Add(definition);
         public void AddFunctionDefinition(FunctionDefinition fuctionDefinition) => fuctionDefinitions.Add(fuctionDefinition);
+
+        public void Execute()
+        {
+            
+        }
     }
 }
