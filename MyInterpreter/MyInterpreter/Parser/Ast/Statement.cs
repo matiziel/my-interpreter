@@ -1,10 +1,7 @@
 namespace MyInterpreter.Parser.Ast
 {
-    public class Statement : IExecutive
+    public interface Statement
     {
-        public void Execute()
-        {
-            throw new System.NotImplementedException();
-        }
+        void Execute();
     }
 }
