@@ -3,6 +3,7 @@ using MyInterpreter.Lexer;
 using MyInterpreter.Lexer.Tokens;
 using MyInterpreter.DataSource;
 using MyInterpreter.Exceptions;
+using MyInterpreter.Exceptions.LexerExceptions;
 
 namespace MyInterpreter
 {

@@ -4,7 +4,7 @@ using System.Text;
 using MyInterpreter.Exceptions;
 using MyInterpreter.DataSource;
 using MyInterpreter.Lexer.Tokens;
-
+using MyInterpreter.Exceptions.LexerExceptions;
 
 namespace MyInterpreter.Lexer
 {

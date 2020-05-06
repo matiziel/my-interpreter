@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using MyInterpreter.DataSource;
 
-namespace MyInterpreter.Exceptions
+namespace MyInterpreter.Exceptions.LexerExceptions
 {
     [System.Serializable]
     public class UnrecognizedToken : InterpreterException

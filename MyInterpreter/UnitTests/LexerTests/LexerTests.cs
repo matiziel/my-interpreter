@@ -5,6 +5,7 @@ using MyInterpreter.Lexer;
 using MyInterpreter.DataSource;
 using MyInterpreter.Lexer.Tokens;
 using Xunit;
+using MyInterpreter.Exceptions.LexerExceptions;
 
 namespace UnitTests.LexerTests
 {
