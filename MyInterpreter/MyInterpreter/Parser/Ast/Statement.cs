@@ -1,8 +1,8 @@
 namespace MyInterpreter.Parser.Ast
 {
-    public class Expression
+    public class Statement : IExecutive
     {
-        public object Evaluate()
+        public void Execute()
         {
             throw new System.NotImplementedException();
         }
