@@ -3,7 +3,7 @@ using MyInterpreter.Parser.Ast.Expressions;
 
 namespace MyInterpreter.Parser.Ast
 {
-    public class FunctionCall
+    public class FunctionCall : Expression
     {
         public string Name { get; private set; }
         private readonly List<Expression> parametersList;
@@ -13,5 +13,10 @@ namespace MyInterpreter.Parser.Ast
             parametersList = new List<Expression>();
         }
         public void AddParameter(Expression e) => parametersList.Add(e);
+
+        public object Evaluate()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,4 @@
-namespace MyInterpreter.Parser.Ast
+namespace MyInterpreter.Parser.Ast.Statements
 {
     public interface Statement
     {

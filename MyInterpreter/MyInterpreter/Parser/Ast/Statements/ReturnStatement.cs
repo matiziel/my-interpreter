@@ -1,6 +1,6 @@
 using MyInterpreter.Parser.Ast.Expressions;
 
-namespace MyInterpreter.Parser.Ast
+namespace MyInterpreter.Parser.Ast.Statements
 {
     public class ReturnStatement : Statement
     {
