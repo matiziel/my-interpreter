@@ -22,7 +22,6 @@ namespace MyInterpreter.Parser
 
         public Program Parse()
         {
-            
             _scanner.Next();
             while(TryParseDefinitionOrFunction())
                 ;
@@ -91,14 +90,14 @@ namespace MyInterpreter.Parser
         {
             List<Parameter> parameters = new List<Parameter>();
             if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
-                parameters.Add(new Parameter(ParseType(), ParseIdentifier()));
+                parameters.Add(new Parameter(TryParseType(), TryParseIdentifier()));
 
             while(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)  // == comma
             {
                 if(_scanner.CurrentToken.Type != TokenType.COMMA)
                     throw new UnexpectedToken();
                 _scanner.Next();
-                parameters.Add(new Parameter(ParseType(), ParseIdentifier()));
+                parameters.Add(new Parameter(TryParseType(), TryParseIdentifier()));
             }
             _scanner.Next();
             return parameters;
