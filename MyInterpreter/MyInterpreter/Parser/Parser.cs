@@ -32,21 +32,21 @@ namespace MyInterpreter.Parser
         {
             string type = GetTypeName();
             string name = GetIdentifier();
-
-            if(_scanner.CurrentToken.Type == TokenType.PAREN_OPEN)
+            if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
             {
                 _scanner.Next();
-                var parameters = ParseParameterList();
+                program.AddDefinition(new Definition(type, name));
                 _scanner.Next();
-                var blockStatement = ParseBlockStatement();
-                program.AddFunction(new Function(type, name, blockStatement));
             }
-            else if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
+            else if(_scanner.CurrentToken.Type == TokenType.SEMICOLON)
             {
                 
             }
-            else if(_scanner.CurrentToken.Type == TokenType.SEMICOLON)
-                program.AddDefinition(new Definition());
+            else if(_scanner.CurrentToken.Type == TokenType.PAREN_OPEN)
+            {
+                _scanner.Next();
+                program.AddFunction(new Function(type, name, ParseParameterList(), ParseBlockStatement()));
+            }
             else
                 throw new UnexpectedToken();
         }
@@ -80,13 +80,17 @@ namespace MyInterpreter.Parser
         private List<Parameter> ParseParameterList()
         {
             List<Parameter> parameters = new List<Parameter>();
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
+                parameters.Add(new Parameter(GetTypeName(), GetIdentifier()));
+
             while(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
             {
-                parameters.Add(new Parameter(GetTypeName(), GetIdentifier()));
                 if(_scanner.CurrentToken.Type != TokenType.COMMA)
                     throw new UnexpectedToken();
                 _scanner.Next();
+                parameters.Add(new Parameter(GetTypeName(), GetIdentifier()));
             }
+            _scanner.Next();
             return parameters;
         }
         private BlockStatement ParseBlockStatement()
@@ -100,6 +104,7 @@ namespace MyInterpreter.Parser
             {
                 statement.AddStatement(ParseStatement());
             }
+            _scanner.Next();
             return statement;
         }
         private Statement ParseStatement()
