@@ -43,7 +43,7 @@ namespace MyInterpreter.Parser
             }
             else if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
             {
-
+                
             }
             else if(_scanner.CurrentToken.Type == TokenType.SEMICOLON)
                 program.AddDefinition(new Definition());
