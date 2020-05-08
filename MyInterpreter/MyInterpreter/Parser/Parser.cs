@@ -39,7 +39,7 @@ namespace MyInterpreter.Parser
                 var parameters = ParseParameterList();
                 _scanner.Next();
                 var blockStatement = ParseBlockStatement();
-                program.AddFunctionDefinition(new FunctionDefinition(type, name, blockStatement));
+                program.AddFunction(new Function(type, name, blockStatement));
             }
             else if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
             {

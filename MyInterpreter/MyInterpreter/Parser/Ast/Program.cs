@@ -5,16 +5,15 @@ namespace MyInterpreter.Parser.Ast
 {
     public class Program
     {
-        private readonly List<FunctionDefinition> fuctionDefinitions;
+        private readonly List<Function> fuctions;
         private readonly List<Definition> definitions;
         public Program()
         {
-            fuctionDefinitions = new List<FunctionDefinition>();
+            fuctions = new List<Function>();
             definitions = new List<Definition>();
         }
         public void AddDefinition(Definition definition) => definitions.Add(definition);
-        public void AddFunctionDefinition(FunctionDefinition fuctionDefinition) => fuctionDefinitions.Add(fuctionDefinition);
-
+        public void AddFunction(Function fuction) => fuctions.Add(fuction);
         public void Execute()
         {
             
