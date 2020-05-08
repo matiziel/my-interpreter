@@ -30,13 +30,16 @@ namespace MyInterpreter.Parser
 
         private void ParseDefinitionsOrFunctionDefs(Program program)
         {
-            string typename = GetTypeName();
+            string type = GetTypeName();
             string name = GetIdentifier();
 
             if(_scanner.CurrentToken.Type == TokenType.PAREN_OPEN)
             {
                 _scanner.Next();
                 var parameters = ParseParameterList();
+                _scanner.Next();
+                var blockStatement = ParseBlockStatement();
+                program.AddFunctionDefinition(new FunctionDefinition(type, name, blockStatement));
             }
             else if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
             {
@@ -85,6 +88,23 @@ namespace MyInterpreter.Parser
                 _scanner.Next();
             }
             return parameters;
+        }
+        private BlockStatement ParseBlockStatement()
+        {
+            if(_scanner.CurrentToken.Type != TokenType.BRACE_OPEN)
+                throw new UnexpectedToken();
+            
+            _scanner.Next();
+            BlockStatement statement = new BlockStatement();
+            while(_scanner.CurrentToken.Type != TokenType.BRACE_CLOSE)
+            {
+                statement.AddStatement(ParseStatement());
+            }
+            return statement;
+        }
+        private Statement ParseStatement()
+        {
+            throw new NotImplementedException();
         }
     }
 }
