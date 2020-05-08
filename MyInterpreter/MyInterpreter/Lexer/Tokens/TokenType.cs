@@ -2,8 +2,9 @@ namespace MyInterpreter.Lexer.Tokens
 {
     public enum TokenType
     {
-        NUMBER, STRING, TEXT,
-        WHILE, FOR, IF, ELSE, RETURN,
+        NUMBER, TEXT,
+        WHILE, FOR, IF, ELSE, RETURN, 
+        INT, STRING, VOID, MATRIX,
         IDENTIFIER,
         EOT,
         AND, OR, NOT,

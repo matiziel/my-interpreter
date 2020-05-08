@@ -3,21 +3,21 @@ using MyInterpreter.Parser.Ast.Operators;
 namespace MyInterpreter.Parser.Ast.Expressions
 {
     public class MultiplicativeExpression : Expression
-    {
-        public Expression LeftExpression { get; private set; }
-        public Expression RightExpression { get; private set; }
-        public MultiplicativeOperator Operator { get; private set; }
+    {        
+        private Expression leftExpression;
+        private Expression rightExpression;
+        private MultiplicativeOperator multiplicativeOperator;
         public MultiplicativeExpression(Expression left, Expression right, MultiplicativeOperator operatorValue)
         {
-            LeftExpression = left;
-            RightExpression = right;
-            Operator = operatorValue;
+            leftExpression = left;
+            rightExpression = right;
+            multiplicativeOperator = operatorValue;
         }
         public MultiplicativeExpression(Expression left)
         {
-            LeftExpression = left;
-            RightExpression = null;
-            Operator = null;
+            leftExpression = left;
+            rightExpression = null;
+            multiplicativeOperator = null;
         }
         public object Evaluate()
         {

@@ -15,6 +15,10 @@ namespace MyInterpreter.Lexer
             keywords.Add("if", TokenType.IF);
             keywords.Add("else", TokenType.ELSE);
             keywords.Add("return", TokenType.RETURN);
+            keywords.Add("matrix", TokenType.MATRIX);
+            keywords.Add("int", TokenType.INT);
+            keywords.Add("void", TokenType.VOID);
+            keywords.Add("string", TokenType.STRING);
             return keywords;
 
         }

@@ -4,4 +4,5 @@ namespace MyInterpreter.Parser.Ast.Expressions
     {
         object Evaluate();
     }
+    //visitor dla value ?
 }

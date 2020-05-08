@@ -5,16 +5,16 @@ namespace MyInterpreter.Parser.Ast
 {
     public class Function
     {
-        public string Type { get; private set; }
-        public string Name { get; private set; }
+        private string type;
+        private string name;
         private List<Parameter> parameters;
-        public BlockStatement BlockStatement { get; private set; }
-        public Function(string type, string name, List<Parameter> parametersList, BlockStatement blockStatement)
+        private BlockStatement blockStatement;
+        public Function(string type, string name, List<Parameter> parameters, BlockStatement blockStatement)
         {
-            Type = type;
-            Name = name;
-            parameters = parametersList;
-            BlockStatement = blockStatement;
+            this.type = type;
+            this.name = name;
+            this.parameters = parameters;
+            this.blockStatement = blockStatement;
         }
     }
 }

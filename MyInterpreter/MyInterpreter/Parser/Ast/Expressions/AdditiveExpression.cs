@@ -4,23 +4,24 @@ namespace MyInterpreter.Parser.Ast.Expressions
 {
     public class AdditiveExpression : Expression
     {
-        public Expression LeftExpression { get; private set; }
-        public Expression RightExpression { get; private set; }
-        public AdditiveOperator Operator { get; private set; }
+        private Expression leftExpression;
+        private Expression rightExpression;
+        private AdditiveOperator additiveOperator;
         public AdditiveExpression(Expression left, Expression right, AdditiveOperator operatorValue)
         {
-            LeftExpression = left;
-            RightExpression = right;
-            Operator = operatorValue;
+            leftExpression = left;
+            rightExpression = right;
+            additiveOperator = operatorValue;
         }
         public AdditiveExpression(Expression left)
         {
-            LeftExpression = left;
-            RightExpression = null;
-            Operator = null;
+            leftExpression = left;
+            rightExpression = null;
+            additiveOperator = null;
         }
         public object Evaluate()
         {
+            //lambda 
             throw new System.NotImplementedException();
         }
     }

@@ -4,8 +4,8 @@ namespace MyInterpreter.Parser.Ast.Statements
 {
     public class ReturnStatement : Statement
     {
-        public Expression Value { get; private set; }
-        public ReturnStatement(Expression value) => Value = value;
+        private Expression value;
+        public ReturnStatement(Expression value) => this.value = value;
 
         public void Execute()
         {

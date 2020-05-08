@@ -4,12 +4,12 @@ namespace MyInterpreter.Parser.Ast
 {
     public class Range
     {
-        public Expression FirstExpr { get; private set; }
-        public Expression SecondExpr { get; private set; }
+        private Expression firstExpr;
+        private Expression secondExpr;
         public Range(Expression first, Expression second)
         {
-            FirstExpr = first;
-            SecondExpr = second;
+            firstExpr = first;
+            secondExpr = second;
         }
     }
 }

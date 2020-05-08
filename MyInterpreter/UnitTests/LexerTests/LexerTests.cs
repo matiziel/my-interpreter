@@ -49,6 +49,10 @@ namespace UnitTests.LexerTests
         [InlineData("else", TokenType.ELSE)]
         [InlineData("for", TokenType.FOR)]
         [InlineData("return", TokenType.RETURN)]
+        [InlineData("int", TokenType.INT)]
+        [InlineData("string", TokenType.STRING)]
+        [InlineData("void", TokenType.VOID)]
+        [InlineData("matrix", TokenType.MATRIX)]
         public void CheckKeywordToken_FromString(string text, TokenType token)
         {
             var scanner = new Scanner(new StringSource(text));
@@ -60,8 +64,6 @@ namespace UnitTests.LexerTests
             Assert.IsType<EndOfText>(scanner.CurrentToken);
         }
         [Theory]
-        [InlineData("int")]
-        [InlineData("string")]
         [InlineData("abc2")]
         [InlineData("xyz1")]
         [InlineData("SumOfThree")]
@@ -106,7 +108,7 @@ namespace UnitTests.LexerTests
         {
             var scanner = new Scanner(new StringSource(text));
             scanner.Next();
-            Assert.Equal(TokenType.STRING, scanner.CurrentToken.Type);
+            Assert.Equal(TokenType.TEXT, scanner.CurrentToken.Type);
             Assert.IsType<Text>(scanner.CurrentToken);
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
@@ -166,9 +168,9 @@ namespace UnitTests.LexerTests
         {
             string path = MakeTestFile();
             TokenType[] tokenTypes = new TokenType[] {
-                TokenType.IDENTIFIER, TokenType.IDENTIFIER,
+                TokenType.INT, TokenType.IDENTIFIER,
                 TokenType.PAREN_OPEN, TokenType.PAREN_CLOSE,
-                TokenType.BRACE_OPEN, TokenType.IDENTIFIER,
+                TokenType.BRACE_OPEN, TokenType.INT,
                 TokenType.IDENTIFIER, TokenType.ASSIGN,
                 TokenType.NUMBER, TokenType.PLUS,
                 TokenType.NUMBER, TokenType.SEMICOLON, 

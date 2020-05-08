@@ -5,14 +5,14 @@ namespace MyInterpreter.Parser.Ast
 {
     public class Program
     {
-        private readonly List<Function> fuctions;
-        private readonly List<Definition> definitions;
-        public Program()
+        private readonly IDictionary<string, Function> functions;
+        private readonly IEnumerable<Definition> definitions; 
+        public Program(IDictionary<string, Function> functions, IEnumerable<Definition> definitions)
         {
-            fuctions = new List<Function>();
-            definitions = new List<Definition>();
+            this.functions = functions;
+            this.definitions = definitions;
         }
-        public void AddDefinition(Definition definition) => definitions.Add(definition);
-        public void AddFunction(Function fuction) => fuctions.Add(fuction);
+        public Function GetFunctionByName(string name) 
+            => functions.ContainsKey(name) ? functions[name] : null;
     }
 }

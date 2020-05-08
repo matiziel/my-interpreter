@@ -29,6 +29,7 @@ namespace MyInterpreter.DataSource
             Position.NextCharacter(CurrentChar);
             streamReader.Read();
         }
+        //TODO need to refractor
         public string GetLineFromPosition(TextPosition position)
         {
             long previousPosition = sourceStream.Position;

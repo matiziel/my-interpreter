@@ -5,15 +5,16 @@ namespace MyInterpreter.Parser.Ast.Conditionals
 {
     public class Logical : Conditional
     {
-        public Expression LeftExpression { get; private set; }
-        public Expression RightExpression { get; private set; }
-        public EqualityOperator Operator { get; private set; }
-        public bool IsNegated { get; private set; }
-        public Logical(Expression left, Expression right, bool isNegated = false)
+        private Expression leftExpression;
+        private Expression rightExpression;
+        private EqualityOperator equalityOperator;
+        private bool isNegated;
+        public Logical(Expression left, Expression right, EqualityOperator equalityOperator, bool isNegated = false)
         {
-            LeftExpression = left;
-            RightExpression = right;
-            IsNegated = isNegated;
+            leftExpression = left;
+            rightExpression = right;
+            this.equalityOperator = equalityOperator;
+            this.isNegated = isNegated;
         }
         public bool Evaluate()
         {
