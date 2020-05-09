@@ -19,7 +19,6 @@ namespace MyInterpreter.Parser
             _functions = new Dictionary<string, Function>();
             _definitions = new List<Definition>();
         }
-
         public Program Parse()
         {
             _scanner.Next();
@@ -27,7 +26,6 @@ namespace MyInterpreter.Parser
                 ;
             return new Program(_functions, _definitions);
         }
-
         private bool TryParseDefinitionOrFunction()
         {
             if(_scanner.CurrentToken.Type == TokenType.EOT)
@@ -109,7 +107,7 @@ namespace MyInterpreter.Parser
                 return null;
             parameters.Add(param);
 
-            while(_scanner.CurrentToken.Type == TokenType.COMMA)  // == comma
+            while(_scanner.CurrentToken.Type == TokenType.COMMA) 
             {
                 _scanner.Next();
                 if((param = TryParseParameter()) == null)
@@ -134,9 +132,9 @@ namespace MyInterpreter.Parser
             
             _scanner.Next();
             var statements = new List<Statement>();
-            Statement statement;
-            while((statement = TryParseStatement()) != null)
-                statements.Add(statement);
+            Statement stat;
+            while((stat = TryParseStatement()) != null)
+                statements.Add(stat);
             
             if(_scanner.CurrentToken.Type != TokenType.BRACE_CLOSE)
                 throw new UnexpectedToken();
@@ -147,29 +145,6 @@ namespace MyInterpreter.Parser
         private Statement TryParseStatement()
         {
             Statement statement = null;
-            switch(_scanner.CurrentToken.Type)
-            {
-                case TokenType.BRACE_OPEN:
-                    statement = TryParseBlockStatement();
-                    break;
-                case TokenType.IF:
-                    statement = ParseIfStatement();
-                    break;
-                case TokenType.WHILE:
-                    statement = ParseWhileStatement();
-                    break;
-                case TokenType.FOR:
-                    statement = ParseForStatement();
-                    break;
-                case TokenType.RETURN:
-                    statement = ParseReturnStatement();
-                    break;
-                case TokenType.IDENTIFIER:
-                    statement = ParseAssignmentOrDefinition();
-                    break;
-                default:
-                    throw new UnexpectedToken();
-            }
             return statement;
         }
         private Statement ParseIfStatement()
