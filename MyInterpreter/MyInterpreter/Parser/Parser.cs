@@ -103,25 +103,29 @@ namespace MyInterpreter.Parser
         private List<Parameter> TryParseParameterList()
         {
             var parameters = new List<Parameter>();
-            
             Parameter param;
-            if((param = TryParseParameter()) != null)
-                parameters.Add(param);
+
+            if((param = TryParseParameter()) == null)
+                return null;
+            parameters.Add(param);
 
             while(_scanner.CurrentToken.Type == TokenType.COMMA)  // == comma
             {
                 _scanner.Next();
-                if(_scanner.CurrentToken.Type != TokenType.COMMA)
+                if((param = TryParseParameter()) == null)
                     throw new UnexpectedToken();
-                _scanner.Next();
-                parameters.Add(new Parameter(TryParseType(), TryParseIdentifier()));
+                parameters.Add(param);
             }
-            _scanner.Next();
             return parameters;
         }
         private Parameter TryParseParameter()
         {
-
+            string type, name;
+            if((type = TryParseType()) == null)
+                return null;
+            if((name = TryParseIdentifier()) == null)
+                throw new UnexpectedToken();
+            return new Parameter(type, name);
         }
         private BlockStatement TryParseBlockStatement()
         {
