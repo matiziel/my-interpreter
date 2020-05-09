@@ -21,7 +21,6 @@ namespace MyInterpreter.Parser.Ast.Expressions
         }
         public object Evaluate()
         {
-            //lambda 
             throw new System.NotImplementedException();
         }
     }

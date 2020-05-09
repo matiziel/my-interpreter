@@ -4,6 +4,8 @@ using MyInterpreter.Exceptions.ParserExceptions;
 using MyInterpreter.Lexer;
 using MyInterpreter.Lexer.Tokens;
 using MyInterpreter.Parser.Ast;
+using MyInterpreter.Parser.Ast.Conditionals;
+using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Statements;
 
 namespace MyInterpreter.Parser
@@ -137,6 +139,27 @@ namespace MyInterpreter.Parser
                 throw new UnexpectedToken();
             return new Parameter(type, name);
         }
+        private Statement TryParseStatement()
+        {
+            Statement statement;
+            if((statement = TryParseBlockStatement()) != null)
+                return statement;
+            else if((statement = TryParseIfStatement()) != null)
+                return statement;
+            else if((statement = TryParseWhileStatement()) != null)
+                return statement;
+            else if((statement = TryParseForStatement()) != null)
+                return statement;
+            else if((statement = TryParseReturnStatement()) != null)
+                return statement;
+            else if((statement = TryParseAssignment()) != null)
+                return statement;
+            else if((statement = TryParseDefinition()) != null)
+                return statement;
+            else if((statement = TryParseFunctionCall()) != null)
+                return statement;
+            return null;
+        }
         private BlockStatement TryParseBlockStatement()
         {
             if(_scanner.CurrentToken.Type != TokenType.BRACE_OPEN)
@@ -154,30 +177,61 @@ namespace MyInterpreter.Parser
             _scanner.Next();
             return new BlockStatement(statements);
         }
-        private Statement TryParseStatement()
+        private IfStatement TryParseIfStatement()
         {
+            if(_scanner.CurrentToken.Type != TokenType.IF)
+                return null;
+            _scanner.Next();
+
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
+                throw new UnexpectedToken();
+            _scanner.Next();
+
+            Conditional conditional;
+            if((conditional = TryParseConditional()) == null)
+                throw new UnexpectedToken();
+
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
+                throw new UnexpectedToken();
+            _scanner.Next();
+
+            Statement statementIf;
+            if((statementIf = TryParseStatement()) == null)
+                throw new UnexpectedToken();
+
+             if(_scanner.CurrentToken.Type != TokenType.ELSE)
+                return new IfStatement(conditional, statementIf);
+            _scanner.Next();
+
+            Statement statementElse;
+            if((statementElse = TryParseStatement()) == null)
+                throw new UnexpectedToken();
+            
+            return new IfStatement(conditional, statementIf, statementElse);
+        }
+        private WhileStatement TryParseWhileStatement()
+        {
+            if(_scanner.CurrentToken.Type != TokenType.WHILE)
+                return null;
+            _scanner.Next();
+
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
+                throw new UnexpectedToken();
+            _scanner.Next();
+
+            Conditional conditional;
+            if((conditional = TryParseConditional()) == null)
+                throw new UnexpectedToken();
+
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
+                throw new UnexpectedToken();
+            _scanner.Next();
+
             Statement statement;
-            if((statement = TryParseBlockStatement()) != null)
-                return statement;
-            else if((statement = TryParseWhileStatement()) != null)
-                return statement;
-            else if((statement = TryParseForStatement()) != null)
-                return statement;
-            else if((statement = TryParseReturnStatement()) != null)
-                return statement;
-            else if((statement = TryParseAssignmentOrDefinition()) != null)
-                return statement;
-            else if((statement = TryParseFunctionCall()) != null)
-                return statement;
-            return null;
-        }
-        private Statement TryParseIfStatement()
-        {
-            throw new NotImplementedException();
-        }
-        private Statement TryParseWhileStatement()
-        {
-            throw new NotImplementedException();
+            if((statement = TryParseStatement()) == null)
+                throw new UnexpectedToken();
+
+            return new WhileStatement(conditional, statement);   
         }
         private Statement TryParseForStatement()
         {
@@ -185,13 +239,33 @@ namespace MyInterpreter.Parser
         }
         private Statement TryParseReturnStatement()
         {
+            if(_scanner.CurrentToken.Type != TokenType.RETURN)
+                return null;
+            _scanner.Next();
+
+            Expression expression;
+            if((expression = TryParseExpression()) == null)
+                throw new UnexpectedToken();
+            
+            return new ReturnStatement(expression);
+        }
+        private Statement TryParseAssignment()
+        {
             throw new NotImplementedException();
         }
-        private Statement TryParseAssignmentOrDefinition()
+        private Definition TryParseDefinition()
         {
             throw new NotImplementedException();
         }
         private Statement TryParseFunctionCall()
+        {
+            throw new NotImplementedException();
+        }
+        private Conditional TryParseConditional()
+        {
+            throw new NotImplementedException();
+        }
+        private Expression TryParseExpression()
         {
             throw new NotImplementedException();
         }
