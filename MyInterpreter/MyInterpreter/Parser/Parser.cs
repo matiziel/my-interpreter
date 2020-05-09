@@ -76,7 +76,19 @@ namespace MyInterpreter.Parser
         }
         private Definition TryParseDefinition(string type, string name)
         {
-            throw new NotImplementedException();
+            if(_scanner.CurrentToken.Type == TokenType.SEMICOLON)
+            {
+                _scanner.Next();
+                return new Definition(type, name);
+            }
+            else if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
+            {
+                //TODO add parsing definition with initialization
+                throw new NotImplementedException();
+            }
+            else
+                return null;
+
         }
         private Function TryParseFunction(string type, string name)
         {
@@ -104,7 +116,7 @@ namespace MyInterpreter.Parser
             Parameter param;
 
             if((param = TryParseParameter()) == null)
-                return null;
+                return parameters;
             parameters.Add(param);
 
             while(_scanner.CurrentToken.Type == TokenType.COMMA) 
@@ -144,28 +156,45 @@ namespace MyInterpreter.Parser
         }
         private Statement TryParseStatement()
         {
-            Statement statement = null;
-            return statement;
+            Statement statement;
+            if((statement = TryParseBlockStatement()) != null)
+                return statement;
+            else if((statement = TryParseWhileStatement()) != null)
+                return statement;
+            else if((statement = TryParseForStatement()) != null)
+                return statement;
+            else if((statement = TryParseReturnStatement()) != null)
+                return statement;
+            else if((statement = TryParseAssignmentOrDefinition()) != null)
+                return statement;
+            else if((statement = TryParseFunctionCall()) != null)
+                return statement;
+            return null;
         }
-        private Statement ParseIfStatement()
+        private Statement TryParseIfStatement()
         {
             throw new NotImplementedException();
         }
-        private Statement ParseWhileStatement()
+        private Statement TryParseWhileStatement()
         {
             throw new NotImplementedException();
         }
-        private Statement ParseForStatement()
+        private Statement TryParseForStatement()
         {
             throw new NotImplementedException();
         }
-        private Statement ParseReturnStatement()
+        private Statement TryParseReturnStatement()
         {
             throw new NotImplementedException();
         }
-        private Statement ParseAssignmentOrDefinition()
+        private Statement TryParseAssignmentOrDefinition()
         {
             throw new NotImplementedException();
         }
+        private Statement TryParseFunctionCall()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
