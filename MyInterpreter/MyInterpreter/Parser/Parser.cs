@@ -11,8 +11,8 @@ namespace MyInterpreter.Parser
     public class Parser
     {
         private readonly IScanner _scanner;
-        IDictionary<string, Function> _functions;
-        ICollection<Definition> _definitions;
+        private readonly IDictionary<string, Function> _functions;
+        private readonly ICollection<Definition> _definitions;
         public Parser(IScanner scanner)
         {
             _scanner = scanner;
@@ -41,12 +41,12 @@ namespace MyInterpreter.Parser
             if((name = TryParseIdentifier()) == null)
                 throw new UnexpectedToken();
                 
-            Definition definition;
-            Function function;
-            if((definition = TryParseDefinition(type, name)) != null)
-                _definitions.Add(definition);
-            else if((function = TryParseFunction(type, name)) != null)
-                _functions.Add(name, function);
+            Definition def;
+            Function fun;
+            if((def = TryParseDefinition(type, name)) != null)
+                _definitions.Add(def);
+            else if((fun = TryParseFunction(type, name)) != null)
+                _functions.Add(name, fun);
             else 
                 throw new UnexpectedToken();
 
@@ -63,10 +63,8 @@ namespace MyInterpreter.Parser
         private string TryToGetType(Token token)
         {
             if(token.Type != TokenType.INT && token.Type != TokenType.STRING
-                && token.Type != TokenType.VOID && token.Type != TokenType.MATRIX
-            )
+                && token.Type != TokenType.VOID && token.Type != TokenType.MATRIX)
                 return null;
-            
             return token.ToString();
         }
         private string TryParseIdentifier()
@@ -84,16 +82,35 @@ namespace MyInterpreter.Parser
         }
         private Function TryParseFunction(string type, string name)
         {
-            throw new NotImplementedException();
-        }
-        private List<Parameter> ParseParameterList()
-        {
-            List<Parameter> parameters = new List<Parameter>();
-            if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
-                parameters.Add(new Parameter(TryParseType(), TryParseIdentifier()));
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
+                return null;
+            _scanner.Next();
 
-            while(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)  // == comma
+            IEnumerable<Parameter> parameters;
+            if((parameters = TryParseParameterList()) == null)
+                throw new UnexpectedToken();
+            
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
+                throw new UnexpectedToken();
+            _scanner.Next();
+
+            BlockStatement statement;
+            if((statement = TryParseBlockStatement()) == null)
+                throw new UnexpectedToken();
+
+            return new Function(type, name, parameters, statement);
+        }
+        private List<Parameter> TryParseParameterList()
+        {
+            var parameters = new List<Parameter>();
+            
+            Parameter param;
+            if((param = TryParseParameter()) != null)
+                parameters.Add(param);
+
+            while(_scanner.CurrentToken.Type == TokenType.COMMA)  // == comma
             {
+                _scanner.Next();
                 if(_scanner.CurrentToken.Type != TokenType.COMMA)
                     throw new UnexpectedToken();
                 _scanner.Next();
@@ -102,27 +119,34 @@ namespace MyInterpreter.Parser
             _scanner.Next();
             return parameters;
         }
-        private BlockStatement ParseBlockStatement()
+        private Parameter TryParseParameter()
+        {
+
+        }
+        private BlockStatement TryParseBlockStatement()
         {
             if(_scanner.CurrentToken.Type != TokenType.BRACE_OPEN)
-                throw new UnexpectedToken();
+                return null;
             
             _scanner.Next();
-            BlockStatement statement = new BlockStatement();
-            while(_scanner.CurrentToken.Type != TokenType.BRACE_CLOSE)
-            {
-                statement.AddStatement(ParseStatement());
-            }
+            var statements = new List<Statement>();
+            Statement statement;
+            while((statement = TryParseStatement()) != null)
+                statements.Add(statement);
+            
+            if(_scanner.CurrentToken.Type != TokenType.BRACE_CLOSE)
+                throw new UnexpectedToken();
+
             _scanner.Next();
-            return statement;
+            return new BlockStatement(statements);
         }
-        private Statement ParseStatement()
+        private Statement TryParseStatement()
         {
             Statement statement = null;
             switch(_scanner.CurrentToken.Type)
             {
                 case TokenType.BRACE_OPEN:
-                    statement = ParseBlockStatement();
+                    statement = TryParseBlockStatement();
                     break;
                 case TokenType.IF:
                     statement = ParseIfStatement();

@@ -106,6 +106,8 @@ namespace MyInterpreter.Lexer
             }            
             return new Number(value, _source.Position);
         }
+
+        //TODO need to refractor ex. \n or \t is not supported
         private Token TryToGetString()
         {
             if(_source.CurrentChar != '\"')

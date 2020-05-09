@@ -7,9 +7,9 @@ namespace MyInterpreter.Parser.Ast
     {
         private string type;
         private string name;
-        private List<Parameter> parameters;
+        private IEnumerable<Parameter> parameters;
         private BlockStatement blockStatement;
-        public Function(string type, string name, List<Parameter> parameters, BlockStatement blockStatement)
+        public Function(string type, string name, IEnumerable<Parameter> parameters, BlockStatement blockStatement)
         {
             this.type = type;
             this.name = name;
