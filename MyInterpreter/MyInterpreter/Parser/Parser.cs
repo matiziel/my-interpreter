@@ -6,6 +6,7 @@ using MyInterpreter.Lexer.Tokens;
 using MyInterpreter.Parser.Ast;
 using MyInterpreter.Parser.Ast.Conditionals;
 using MyInterpreter.Parser.Ast.Expressions;
+using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Parser.Ast.Statements;
 
 namespace MyInterpreter.Parser
@@ -252,12 +253,45 @@ namespace MyInterpreter.Parser
             string name;
             if((name = TryParseIdentifier()) == null)
                 return null;
-            
-            throw new NotImplementedException();
+
+            Statement statement;
+            if((statement = TryParseFunctionCall(name)) != null)
+                return statement;
+            else if((statement = TryParseAssignment(name)) != null)
+                return statement;
+            else
+                throw new UnexpectedToken();            
         }
         private FunctionCall TryParseFunctionCall(string name)
         {
-            throw new NotImplementedException();
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
+                return null;
+            _scanner.Next();
+
+            IEnumerable<Expression> arguments;
+            if((arguments = TryParseArgumentList()) == null)
+                throw new UnexpectedToken();
+
+            return new FunctionCall(name, arguments);
+        }
+
+        private IEnumerable<Expression> TryParseArgumentList()
+        {
+            var arguments = new List<Expression>();
+            Expression expr;
+
+            if((expr = TryParseExpression()) == null)
+                return arguments;
+            arguments.Add(expr);
+
+            while(_scanner.CurrentToken.Type == TokenType.COMMA)
+            {
+                _scanner.Next();
+                if((expr = TryParseExpression()) == null)
+                    throw new UnexpectedToken();
+                arguments.Add(expr);
+            }
+            return arguments;
         }
         private Assignment TryParseAssignment(string name)
         {
@@ -281,6 +315,61 @@ namespace MyInterpreter.Parser
         {
             throw new NotImplementedException();
         }
+        private Logical TryParseLogical()
+        {   
+            bool isNegated = _scanner.CurrentToken.Type == TokenType.NOT;
+            if(isNegated)
+                _scanner.Next();
+            Logical logical;
+            if((logical = TryParseSimpleConditional(isNegated)) != null)
+                return logical;
+            if((logical = TryParseSimpleConditional(isNegated)) != null)
+                return logical;
+            else
+            {
+                if(isNegated)
+                    throw new UnexpectedToken();
+                else
+                    return null;
+            }
+        }
+        private SimpleConditional TryParseSimpleConditional(bool isNegated)
+        {
+            Expression left, right;
+            EqualityOperator equalityOperator;
+
+            if((left = TryParseExpression()) == null)
+                return null;
+
+            if((equalityOperator = TryParseEqualityOperator()) == null)
+                throw new UnexpectedToken();
+            if((right = TryParseExpression()) == null)
+                throw new UnexpectedToken();
+
+            return new SimpleConditional(left, right, equalityOperator, isNegated);
+        }
+        private ParenConditional TryParseParenConditional(bool isNegated)
+        {
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
+                return null;
+            _scanner.Next();
+
+            Conditional conditional;
+            if((conditional = TryParseConditional()) == null)
+                throw new UnexpectedToken();
+            
+            if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
+                throw new UnexpectedToken();
+            _scanner.Next();
+
+            return new ParenConditional(conditional, isNegated);
+        }
+
+        private EqualityOperator TryParseEqualityOperator()
+        {
+            throw new NotImplementedException();
+        }
+
         private Expression TryParseExpression()
         {
             throw new NotImplementedException();

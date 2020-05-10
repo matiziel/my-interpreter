@@ -7,11 +7,11 @@ namespace MyInterpreter.Parser.Ast
     public class FunctionCall : Expression, Statement
     {
         private string name;
-        private readonly IEnumerable<Expression> parameters;
-        public FunctionCall(string name, IEnumerable<Expression> parameters)
+        private readonly IEnumerable<Expression> arguments;
+        public FunctionCall(string name, IEnumerable<Expression> arguments)
         {
             this.name = name;
-            this.parameters = parameters;
+            this.arguments = arguments;
         }
 
         public object Evaluate()
