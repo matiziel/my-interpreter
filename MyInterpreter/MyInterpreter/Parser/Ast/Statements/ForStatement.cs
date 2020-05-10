@@ -1,7 +1,10 @@
 namespace MyInterpreter.Parser.Ast.Statements
 {
-    public class ForStatement
+    public class ForStatement : Statement
     {
-        
+        public void Execute()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

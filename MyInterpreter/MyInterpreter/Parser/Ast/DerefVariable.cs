@@ -8,7 +8,7 @@ namespace MyInterpreter.Parser.Ast
         private string name;
         private Range left;
         private Range right;
-        public DerefVariable(string name, Range left, Range right)
+        public DerefVariable(string name, Range left = null, Range right = null)
         {
             this.name = name;
             this.left = left;

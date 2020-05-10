@@ -2,11 +2,11 @@ using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser.Ast.Expressions
 {
-    public class ParenExpression : PrimaryExpression
+    public class ConstantExpression : PrimaryExpression
     {
-        Expression expression;
-        public ParenExpression(Expression expression)  =>
-            this.expression = expression;
+        private Value value;
+        public ConstantExpression(Value value)
+            =>  this.value = value;
         public Value Evaluate()
         {
             throw new System.NotImplementedException();
