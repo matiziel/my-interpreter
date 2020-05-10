@@ -1,8 +1,8 @@
 namespace MyInterpreter.Parser.Ast.Values
 {
-    public class Void : Value
+    public class Void_t : Value
     {
         public ValueType Type { get; private set; }
-        public Void() => Type = ValueType.Void;
+        public Void_t() => Type = ValueType.Void;
     }
 }

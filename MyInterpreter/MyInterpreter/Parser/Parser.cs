@@ -403,7 +403,14 @@ namespace MyInterpreter.Parser
         }
         private Value TryParseValue()
         {
-            throw new NotImplementedException();
+            Value value;
+            if(_scanner.CurrentToken.Type == TokenType.NUMBER)
+                value = new Int_t((_scanner.CurrentToken as Number).Value);
+            else if(_scanner.CurrentToken.Type == TokenType.TEXT)
+                value = new String_t(_scanner.CurrentToken.ToString());
+            else    
+                return null;
+            return value;
         }
 
     }
