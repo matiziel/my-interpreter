@@ -2,9 +2,9 @@ namespace MyInterpreter.Parser.Ast.Values
 {
     public class Int_t : Value
     {
-        public uint Value { get; private set; }
+        public int Value { get; private set; }
         public ValueType Type { get; private set; }
-        public Int_t(uint value)
+        public Int_t(int value)
         {
             Value = value;
             Type = ValueType.Int;

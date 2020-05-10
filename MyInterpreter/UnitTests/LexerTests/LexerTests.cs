@@ -92,7 +92,7 @@ namespace UnitTests.LexerTests
             scanner.Next();
             Assert.Equal(TokenType.NUMBER, scanner.CurrentToken.Type);
             Assert.IsType<Number>(scanner.CurrentToken);
-            Assert.Equal(uint.Parse(text), (scanner.CurrentToken as Number).Value);
+            Assert.Equal(int.Parse(text), (scanner.CurrentToken as Number).Value);
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
             Assert.IsType<EndOfText>(scanner.CurrentToken); 

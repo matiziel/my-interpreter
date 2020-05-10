@@ -87,8 +87,16 @@ namespace MyInterpreter.Parser
             }
             else if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
             {
-                //TODO add parsing definition with initialization
-                throw new NotImplementedException();
+                _scanner.Next();
+                Expression expr;
+                if((expr = TryParseExpression()) == null)
+                    throw new UnexpectedToken();
+
+                if(_scanner.CurrentToken.Type == TokenType.SEMICOLON)
+                    throw new UnexpectedToken();
+                
+                _scanner.Next();
+                return new Definition(type, name, expr);
             }
             else
                 return null;
@@ -391,14 +399,50 @@ namespace MyInterpreter.Parser
 
             return new ParenConditional(conditional, isNegated);
         }
-
         private EqualityOperator TryParseEqualityOperator()
         {
             throw new NotImplementedException();
         }
-
         private Expression TryParseExpression()
         {
+            Expression left;
+            if((left = TryParseMultiplicativeExpression()) == null)
+                return null;
+
+            IOperator additiveOperator;
+            while((additiveOperator = TryParseOperator()) is AdditiveOperator)
+            {
+                Expression right;
+                if((right = TryParseMultiplicativeExpression()) == null)
+                    throw new UnexpectedToken();
+                left = new AdditiveExpression(left, right, additiveOperator as AdditiveOperator);
+            }
+            return left;
+        }
+        private Expression TryParseMultiplicativeExpression()
+        {
+            Expression left;
+            if((left = TryParseUnary()) == null)
+                return null;
+
+            IOperator multiplicativeOperator;
+            while((multiplicativeOperator = TryParseOperator()) is MultiplicativeOperator)
+            {
+                Expression right;
+                if((right = TryParseUnary()) == null)
+                    throw new UnexpectedToken();
+                left = new MultiplicativeExpression(left, right, multiplicativeOperator as MultiplicativeOperator);
+            }
+            return left;
+        }
+        private Expression TryParseUnary()
+        {
+            bool isNegative = _scanner.CurrentToken.Type == TokenType.MINUS;
+            if(isNegative)
+                _scanner.Next();
+
+            
+            
             throw new NotImplementedException();
         }
         private Value TryParseValue()
@@ -410,7 +454,13 @@ namespace MyInterpreter.Parser
                 value = new String_t(_scanner.CurrentToken.ToString());
             else    
                 return null;
+
+            _scanner.Next();
             return value;
+        }
+        private IOperator TryParseOperator()
+        {
+            throw new NotImplementedException();
         }
 
     }

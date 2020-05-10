@@ -5,7 +5,7 @@ using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser.Ast
 {
-    public class FunctionCall : Expression, Statement
+    public class FunctionCall : PrimaryExpression, Statement
     {
         private string name;
         private readonly IEnumerable<Expression> arguments;
