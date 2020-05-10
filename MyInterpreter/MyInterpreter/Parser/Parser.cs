@@ -152,11 +152,9 @@ namespace MyInterpreter.Parser
                 return statement;
             else if((statement = TryParseReturnStatement()) != null)
                 return statement;
-            else if((statement = TryParseAssignment()) != null)
+            else if((statement = TryParseAssignmentOrFunctionCall()) != null)
                 return statement;
             else if((statement = TryParseDefinition()) != null)
-                return statement;
-            else if((statement = TryParseFunctionCall()) != null)
                 return statement;
             return null;
         }
@@ -249,17 +247,35 @@ namespace MyInterpreter.Parser
             
             return new ReturnStatement(expression);
         }
-        private Statement TryParseAssignment()
+        private Statement TryParseAssignmentOrFunctionCall()
+        {
+            string name;
+            if((name = TryParseIdentifier()) == null)
+                return null;
+            
+            throw new NotImplementedException();
+        }
+        private FunctionCall TryParseFunctionCall(string name)
+        {
+            throw new NotImplementedException();
+        }
+        private Assignment TryParseAssignment(string name)
         {
             throw new NotImplementedException();
         }
         private Definition TryParseDefinition()
         {
-            throw new NotImplementedException();
-        }
-        private Statement TryParseFunctionCall()
-        {
-            throw new NotImplementedException();
+            string type;
+            if((type = TryParseType()) == null)
+                return null;
+            string name;
+            if((name = TryParseIdentifier()) == null)
+                throw new UnexpectedToken();
+            Definition def;
+            if((def = TryParseDefinition(type, name)) == null)
+                throw new UnexpectedToken();
+            
+            return def;
         }
         private Conditional TryParseConditional()
         {
