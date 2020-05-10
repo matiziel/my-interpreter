@@ -4,17 +4,12 @@ namespace MyInterpreter.Parser.Ast.Conditionals
     {
         private Conditional leftConditional;
         private Conditional rightConditional;
-        public OrConditional(Conditional left, Conditional right = null)
+        public OrConditional(Conditional left, Conditional right)
         {
             leftConditional = left;
             rightConditional = right;
         }
-        public bool Evaluate()
-        {
-            if(rightConditional != null)
-                return leftConditional.Evaluate() || rightConditional.Evaluate();
-            else
-                return leftConditional.Evaluate();
-        }
+        public bool Evaluate() 
+            => leftConditional.Evaluate() || rightConditional.Evaluate();
     }
 }

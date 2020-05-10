@@ -4,8 +4,8 @@ namespace MyInterpreter.Lexer.Tokens
 {
     public class Number : Token
     {
-        public int Value { get; private set; }
-        public Number(int value, TextPosition position) : base(TokenType.NUMBER) 
+        public uint Value { get; private set; }
+        public Number(uint value, TextPosition position) : base(TokenType.NUMBER) 
         { 
             Value = value;
             int offset = Value.ToString().Length;

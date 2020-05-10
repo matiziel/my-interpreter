@@ -1,9 +1,11 @@
+using MyInterpreter.Parser.Ast.Values;
+
 namespace MyInterpreter.Parser.Ast.Expressions
 {
     public interface Expression
     {
         //lambda 
-        object Evaluate();
+        Value Evaluate();
     }
     //visitor dla value ?
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Statements;
+using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser.Ast
 {
@@ -14,7 +15,7 @@ namespace MyInterpreter.Parser.Ast
             this.arguments = arguments;
         }
 
-        public object Evaluate()
+        public Value Evaluate()
         {
             throw new System.NotImplementedException();
         }

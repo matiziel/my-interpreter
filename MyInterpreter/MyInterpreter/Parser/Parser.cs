@@ -8,6 +8,7 @@ using MyInterpreter.Parser.Ast.Conditionals;
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Parser.Ast.Statements;
+using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser
 {
@@ -313,7 +314,33 @@ namespace MyInterpreter.Parser
         }
         private Conditional TryParseConditional()
         {
-            throw new NotImplementedException();
+            Conditional left;
+            if((left = TryParseAndConditional()) == null)
+                return null;
+            
+            while(_scanner.CurrentToken.Type == TokenType.OR)
+            {
+                Conditional right;
+                if((right = TryParseAndConditional()) == null)
+                    throw new UnexpectedToken();
+                left = new OrConditional(left, right);
+            }
+            return left;
+        }
+        private Conditional TryParseAndConditional()
+        {
+            Conditional left;
+            if((left = TryParseLogical()) == null)
+                return null;
+            
+            while(_scanner.CurrentToken.Type == TokenType.OR)
+            {
+                Conditional right;
+                if((right = TryParseLogical()) == null)
+                    throw new UnexpectedToken();
+                left = new AndConditional(left, right);
+            }
+            return left;
         }
         private Logical TryParseLogical()
         {   
@@ -371,6 +398,10 @@ namespace MyInterpreter.Parser
         }
 
         private Expression TryParseExpression()
+        {
+            throw new NotImplementedException();
+        }
+        private Value TryParseValue()
         {
             throw new NotImplementedException();
         }

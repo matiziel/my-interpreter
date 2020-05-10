@@ -1,4 +1,5 @@
 using MyInterpreter.Parser.Ast.Operators;
+using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser.Ast.Expressions
 {
@@ -19,7 +20,7 @@ namespace MyInterpreter.Parser.Ast.Expressions
             rightExpression = null;
             multiplicativeOperator = null;
         }
-        public object Evaluate()
+        public Value Evaluate()
         {
             throw new System.NotImplementedException();
         }

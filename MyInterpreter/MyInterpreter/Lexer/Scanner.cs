@@ -93,7 +93,7 @@ namespace MyInterpreter.Lexer
             if(!char.IsDigit(_source.CurrentChar))
                 return null;
 
-            int value = int.Parse(_source.CurrentChar.ToString());
+            uint value = uint.Parse(_source.CurrentChar.ToString());
             _source.Next();
 
             if(value == 0)
@@ -101,7 +101,7 @@ namespace MyInterpreter.Lexer
                 
             while(char.IsDigit(_source.CurrentChar))
             {
-                value = value * 10 + int.Parse(_source.CurrentChar.ToString());
+                value = value * 10 + uint.Parse(_source.CurrentChar.ToString());
                 _source.Next();
             }            
             return new Number(value, _source.Position);
