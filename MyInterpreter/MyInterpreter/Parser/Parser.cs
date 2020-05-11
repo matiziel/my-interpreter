@@ -37,14 +37,14 @@ namespace MyInterpreter.Parser
             if(_scanner.CurrentToken.Type == TokenType.EOT)
                 return false;
 
-            string type = TryParseType() ?? throw new UnexpectedToken();
+            TypeValue? type = TryParseType() ?? throw new UnexpectedToken();
             string name = TryParseIdentifier() ?? throw new UnexpectedToken();
 
             Definition def;
             Function fun;
-            if((fun = TryParseFunction(type, name)) != null)
+            if((fun = TryParseFunction(type.Value, name)) != null)
                 _functions.Add(name, fun);
-            else if((def = TryParseDefinition(type, name)) != null)
+            else if((def = TryParseDefinition(type.Value, name)) != null)
             {
                 if(_scanner.CurrentToken.Type == TokenType.SEMICOLON)
                 {
@@ -59,20 +59,26 @@ namespace MyInterpreter.Parser
 
             return true;
         }
-        private string TryParseType()
+        private TypeValue? TryParseType()
         {
-            string typename = TryToGetType(_scanner.CurrentToken);
+            TypeValue? typename = TryToGetType(_scanner.CurrentToken);
             if(typename is null)
                 return null;
             _scanner.Next();
             return typename;
         }
-        private string TryToGetType(Token token)
+        private TypeValue? TryToGetType(Token token)
         {
-            if(token.Type != TokenType.INT && token.Type != TokenType.STRING
-                && token.Type != TokenType.VOID && token.Type != TokenType.MATRIX)
+            if(token.Type == TokenType.INT)
+                return TypeValue.Int;
+            else if(token.Type == TokenType.STRING)
+                return TypeValue.String;
+            else if(token.Type == TokenType.VOID)
+                return TypeValue.Void;
+            else if(token.Type == TokenType.MATRIX)
+                return TypeValue.Matrix;
+            else 
                 return null;
-            return token.ToString();
         }
         private string TryParseIdentifier()
         {
@@ -83,7 +89,7 @@ namespace MyInterpreter.Parser
             _scanner.Next();
             return name;
         }
-        private Definition TryParseDefinition(string type, string name)
+        private Definition TryParseDefinition(TypeValue type, string name)
         {
             Variable variable = TryParseVariable(type, name);
             if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
@@ -96,12 +102,12 @@ namespace MyInterpreter.Parser
                 return new Definition(variable);
 
         }
-        private Variable TryParseVariable(string type, string name)
+        private Variable TryParseVariable(TypeValue type, string name)
         {
             if(_scanner.CurrentToken.Type != TokenType.BRACKET_OPEN)
                 return new Variable(type, name);
 
-            if(type != "matrix")
+            if(type != TypeValue.Matrix)
                 throw new UnexpectedToken();
             _scanner.Next();
 
@@ -116,7 +122,7 @@ namespace MyInterpreter.Parser
             return new Variable(type, name, first, second);
 
         }
-        private Function TryParseFunction(string type, string name)
+        private Function TryParseFunction(TypeValue type, string name)
         {
             if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
                 return null;
@@ -151,11 +157,11 @@ namespace MyInterpreter.Parser
         }
         private Parameter TryParseParameter()
         {
-            string type = TryParseType();
+            TypeValue? type = TryParseType();
             if(type is null)
                 return null;
             string name = TryParseIdentifier() ?? throw new UnexpectedToken();
-            return new Parameter(type, name);
+            return new Parameter(type.Value, name);
         }
         private Statement TryParseStatement()
         {
@@ -366,12 +372,12 @@ namespace MyInterpreter.Parser
         }
         private Definition TryParseDefinition()
         {
-            string type = TryParseType();
+            TypeValue? type = TryParseType();
             if(type is null)
                 return null;
 
             string name = TryParseIdentifier() ?? throw new UnexpectedToken();
-            Definition def = TryParseDefinition(type, name) ?? throw new UnexpectedToken();
+            Definition def = TryParseDefinition(type.Value, name) ?? throw new UnexpectedToken();
 
             return def;
         }

@@ -5,18 +5,17 @@ namespace MyInterpreter.Parser.Ast
 {
     public class Variable
     {
-        private string type;
+        public TypeValue Type { get; private set; }
         public string Name { get; private set;}
-        private Expression first; 
-        private Expression second;
-        private Value value;
-        public Variable(string type, string name, Expression first = null, Expression second = null)
+        public Expression First { get; private set; }
+        public Expression Second { get; private set; }
+        public Value Value { get; set; }
+        public Variable(TypeValue type, string name, Expression first = null, Expression second = null)
         {
-            this.type = type;
+            Type = type;
             Name = name;
-            this.first = first;
-            this.second = second;
+            First = first;
+            Second = second;
         }
-        public void SetValue(Value value) => this.value = value;
     }
 }

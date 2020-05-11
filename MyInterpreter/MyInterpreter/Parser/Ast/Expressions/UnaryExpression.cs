@@ -13,8 +13,8 @@ namespace MyInterpreter.Parser.Ast.Expressions
             this.isNegated = isNegated; 
         }
         public Value Evaluate(ExecEnvironment environment)
-        {
-            throw new System.NotImplementedException();
-        }
+            => isNegated ? 
+                ExpressionExecutor.GetNegative(expression.Evaluate(environment)) 
+                : expression.Evaluate(environment);
     }
 }

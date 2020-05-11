@@ -1,6 +1,7 @@
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Execution;
+using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser.Ast.Conditionals
 {
@@ -18,7 +19,9 @@ namespace MyInterpreter.Parser.Ast.Conditionals
         }
         public override bool Evaluate(ExecEnvironment environment)
         {
-            throw new System.NotImplementedException();
+            Value left = leftExpression.Evaluate(environment);
+            Value right = rightExpression.Evaluate(environment);
+            return ExpressionExecutor.EvaluateSimpleConditional(left, right, equalityOperator);
         }
     }
 }

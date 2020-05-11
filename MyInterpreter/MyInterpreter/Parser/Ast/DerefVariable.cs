@@ -17,7 +17,7 @@ namespace MyInterpreter.Parser.Ast
         }
         public Value Evaluate(ExecEnvironment environment)
         {
-            throw new System.NotImplementedException();
+            return environment.GetVariable(name).Value;
         }
     }
 }

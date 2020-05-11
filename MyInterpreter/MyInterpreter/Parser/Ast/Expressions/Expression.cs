@@ -5,8 +5,6 @@ namespace MyInterpreter.Parser.Ast.Expressions
 {
     public interface Expression
     {
-        //lambda 
         Value Evaluate(ExecEnvironment environment);
     }
-    //visitor dla value ?
 }

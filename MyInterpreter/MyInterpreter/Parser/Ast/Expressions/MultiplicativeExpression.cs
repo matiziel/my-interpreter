@@ -23,7 +23,11 @@ namespace MyInterpreter.Parser.Ast.Expressions
         }
         public Value Evaluate(ExecEnvironment environment)
         {
-            throw new System.NotImplementedException();
+            return ExpressionExecutor.EvaluateExpression(
+                leftExpression.Evaluate(environment),
+                rightExpression.Evaluate(environment),
+                multiplicativeOperator
+            );
         }
     }
 }

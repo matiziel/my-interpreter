@@ -2,9 +2,9 @@ namespace MyInterpreter.Parser.Ast.Values
 {
     public interface Value 
     { 
-        ValueType Type { get; }
+        TypeValue Type { get; }
     }
-    public enum ValueType 
+    public enum TypeValue
     {
         Int, String, Void, Matrix
     }
