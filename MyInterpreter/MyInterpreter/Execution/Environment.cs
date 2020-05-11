@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using MyInterpreter.Parser.Ast;
 
-namespace MyInterpreter.SemanticAnalyzer
+namespace MyInterpreter.Execution
 {
     public class ExecEnvironment
     {

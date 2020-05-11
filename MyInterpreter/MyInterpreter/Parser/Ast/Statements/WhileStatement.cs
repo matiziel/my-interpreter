@@ -1,5 +1,5 @@
 using MyInterpreter.Parser.Ast.Conditionals;
-using MyInterpreter.SemanticAnalyzer;
+using MyInterpreter.Execution;
 
 namespace MyInterpreter.Parser.Ast.Statements
 {

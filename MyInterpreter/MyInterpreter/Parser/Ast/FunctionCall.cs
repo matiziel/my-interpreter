@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Statements;
 using MyInterpreter.Parser.Ast.Values;
-using MyInterpreter.SemanticAnalyzer;
+using MyInterpreter.Execution;
 
 namespace MyInterpreter.Parser.Ast
 {
