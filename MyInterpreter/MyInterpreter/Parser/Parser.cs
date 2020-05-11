@@ -17,11 +17,13 @@ namespace MyInterpreter.Parser
         private readonly IScanner _scanner;
         private readonly IDictionary<string, Function> _functions;
         private readonly ICollection<Definition> _definitions;
+        private readonly Dictionary<TokenType, Func<IOperator>> _operatorsMapper;
         public Parser(IScanner scanner)
         {
             _scanner = scanner;
             _functions = new Dictionary<string, Function>();
             _definitions = new List<Definition>();
+            _operatorsMapper = Mapper.GetOperators();
         }
         public Program Parse()
         {
@@ -83,14 +85,35 @@ namespace MyInterpreter.Parser
         }
         private Definition TryParseDefinition(string type, string name)
         {
+            Variable variable = TryParseVariable(type, name);
             if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
             {
                 _scanner.Next();
                 Expression expr = TryParseExpression() ?? throw new UnexpectedToken();
-                return new Definition(type, name, expr);
+                return new Definition(variable, expr);
             }
             else
-                return new Definition(type, name);
+                return new Definition(variable);
+
+        }
+        private Variable TryParseVariable(string type, string name)
+        {
+            if(_scanner.CurrentToken.Type != TokenType.BRACKET_OPEN)
+                return new Variable(type, name);
+
+            if(type != "matrix")
+                throw new UnexpectedToken();
+            _scanner.Next();
+
+            Expression first = TryParseExpression() ?? throw new UnexpectedToken();
+
+            if(_scanner.CurrentToken.Type != TokenType.COMMA)
+                throw new UnexpectedToken();
+            _scanner.Next();
+
+            Expression second = TryParseExpression() ?? throw new UnexpectedToken();
+
+            return new Variable(type, name, first, second);
 
         }
         private Function TryParseFunction(string type, string name)
@@ -240,15 +263,37 @@ namespace MyInterpreter.Parser
             if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
                 throw new UnexpectedToken();
             _scanner.Next();
-             
-             //TODO 
+            
+            Assignment assignmentFirst = null;
+            if(_scanner.CurrentToken.Type == TokenType.IDENTIFIER)
+            {
+                assignmentFirst = TryParseAssignment(_scanner.CurrentToken.ToString());
+                _scanner.Next();
+            }
+
+            if(_scanner.CurrentToken.Type != TokenType.SEMICOLON)
+                throw new UnexpectedToken();
+            _scanner.Next();
+
+            Conditional conditional = TryParseConditional();
+
+            if(_scanner.CurrentToken.Type != TokenType.SEMICOLON)
+                throw new UnexpectedToken();
+            _scanner.Next();
+
+            Assignment assignmentSecond = null;
+            if(_scanner.CurrentToken.Type == TokenType.IDENTIFIER)
+            {
+                assignmentSecond = TryParseAssignment(_scanner.CurrentToken.ToString());
+                _scanner.Next();
+            }
             if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
                 throw new UnexpectedToken();
             _scanner.Next();
 
-            Expression expression = TryParseExpression() ?? throw new UnexpectedToken();
+            Statement statement = TryParseStatement() ?? throw new UnexpectedToken();
 
-            return new ForStatement();
+            return new ForStatement(statement, conditional, assignmentFirst, assignmentSecond);
         }
         private ReturnStatement TryParseReturnStatement()
         {
@@ -395,7 +440,11 @@ namespace MyInterpreter.Parser
         }
         private EqualityOperator TryParseEqualityOperator()
         {
-            throw new NotImplementedException();
+            IOperator equalityOperator = TryParseOperator();
+            if(equalityOperator is EqualityOperator)
+                return equalityOperator as EqualityOperator;
+            else
+                return null;
         }
         private Expression TryParseExpression()
         {
@@ -439,7 +488,6 @@ namespace MyInterpreter.Parser
             else
                 return null;
         }
-
         private PrimaryExpression TryParsePrimaryExpression()
         {
             PrimaryExpression expression;
@@ -454,7 +502,11 @@ namespace MyInterpreter.Parser
         }
         private ConstantExpression TryParseConstantExpression()
         {
-            throw new NotImplementedException();
+            Value value = TryParseValue();
+            if(value is null)
+                return null;
+            
+            return new ConstantExpression(value);
         }
         private PrimaryExpression TryParseDerefVarOrFunCall()
         {
@@ -533,8 +585,11 @@ namespace MyInterpreter.Parser
         }
         private IOperator TryParseOperator()
         {
-            throw new NotImplementedException();
+            if(!_operatorsMapper.ContainsKey(_scanner.CurrentToken.Type))
+                return null;
+            IOperator value = _operatorsMapper[_scanner.CurrentToken.Type]();
+            _scanner.Next();
+            return value;
         }
-
     }
 }

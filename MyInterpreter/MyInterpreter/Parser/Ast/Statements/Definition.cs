@@ -4,13 +4,11 @@ namespace MyInterpreter.Parser.Ast.Statements
 {
     public class Definition : Statement
     {
-        private string type;
-        private string name;
+        private Variable variable;
         private Expression expression;
-        public Definition(string type, string name, Expression expression = null)
+        public Definition(Variable variable, Expression expression = null)
         {
-            this.type = type;
-            this.name = name;
+            this.variable = variable;
             this.expression = expression;
         }
         public void Execute()
