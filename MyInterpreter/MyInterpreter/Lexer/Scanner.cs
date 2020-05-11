@@ -25,7 +25,7 @@ namespace MyInterpreter.Lexer
             operators = Mapper.GetOperatorsMapper();
             literals = Mapper.GetLiteralsMapper();
         }
-        public Token Next()
+        public void Next()
         {
             Token token;
             SkipUnused();
@@ -43,8 +43,7 @@ namespace MyInterpreter.Lexer
                 CurrentToken = token;
 
             if(token == null)
-                throw new UnrecognizedToken(_source.Position, _source.GetLineFromPosition(_source.Position));
-            return CurrentToken;  
+                throw new UnrecognizedToken(_source.Position, _source.GetLineFromPosition(_source.Position));  
         }
         private void SkipUnused()
         {

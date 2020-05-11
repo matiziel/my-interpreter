@@ -1,5 +1,6 @@
 ﻿using System;
 using MyInterpreter.Lexer;
+using MyInterpreter.Parser;
 using MyInterpreter.Lexer.Tokens;
 using MyInterpreter.DataSource;
 using MyInterpreter.Exceptions;
@@ -21,11 +22,8 @@ namespace MyInterpreter
                 using (var source = new FileSource(args[0]))
                 {
                     var scanner = new Scanner(source);
-                    do
-                    {
-                        scanner.Next();
-                        System.Console.WriteLine(scanner.CurrentToken.Type + " => " + scanner.CurrentToken.ToString());
-                    } while (scanner.CurrentToken.Type != TokenType.EOT);
+                    var parser = new Parser.Parser(scanner);
+                    parser.Parse();
                 }
             }
             catch(UnrecognizedToken e)

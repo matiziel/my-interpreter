@@ -5,6 +5,6 @@ namespace MyInterpreter.Lexer
     public interface IScanner
     {
         Token CurrentToken { get; }
-        Token Next();
+        void Next();
     }
 }

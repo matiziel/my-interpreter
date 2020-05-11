@@ -22,7 +22,7 @@ namespace MyInterpreter.Parser
 
             operators.Add(TokenType.MULTIPLY, () => new MultiplicativeOperator("/")); 
             operators.Add(TokenType.DIVIDE, () => new MultiplicativeOperator("*")); 
-            operators.Add(TokenType.DIVIDE, () => new MultiplicativeOperator("%")); 
+            operators.Add(TokenType.MODULO, () => new MultiplicativeOperator("%")); 
 
             operators.Add(TokenType.EQUALS, () => new EqualityOperator("=="));
             operators.Add(TokenType.NOT_EQUAL, () => new EqualityOperator("!="));
