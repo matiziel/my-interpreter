@@ -1,4 +1,5 @@
 using MyInterpreter.Parser.Ast.Values;
+using MyInterpreter.SemanticAnalyzer;
 
 namespace MyInterpreter.Parser.Ast.Expressions
 {
@@ -11,7 +12,7 @@ namespace MyInterpreter.Parser.Ast.Expressions
             this.expression = expression;
             this.isNegated = isNegated; 
         }
-        public Value Evaluate()
+        public Value Evaluate(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }

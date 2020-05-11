@@ -1,4 +1,5 @@
 using MyInterpreter.Parser.Ast.Conditionals;
+using MyInterpreter.SemanticAnalyzer;
 
 namespace MyInterpreter.Parser.Ast.Statements
 {
@@ -13,7 +14,7 @@ namespace MyInterpreter.Parser.Ast.Statements
             this.statementElse = statementElse;
             this.conditional = conditional;
         }
-        public void Execute()
+        public void Execute(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }

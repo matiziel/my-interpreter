@@ -1,7 +1,9 @@
+using MyInterpreter.SemanticAnalyzer;
+
 namespace MyInterpreter.Parser.Ast.Statements
 {
     public interface Statement
     {
-        void Execute();
+        void Execute(ExecEnvironment environment);
     }
 }

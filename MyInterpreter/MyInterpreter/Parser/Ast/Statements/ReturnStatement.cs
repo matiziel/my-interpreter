@@ -1,4 +1,5 @@
 using MyInterpreter.Parser.Ast.Expressions;
+using MyInterpreter.SemanticAnalyzer;
 
 namespace MyInterpreter.Parser.Ast.Statements
 {
@@ -7,7 +8,7 @@ namespace MyInterpreter.Parser.Ast.Statements
         private Expression value;
         public ReturnStatement(Expression value) => this.value = value;
 
-        public void Execute()
+        public void Execute(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }

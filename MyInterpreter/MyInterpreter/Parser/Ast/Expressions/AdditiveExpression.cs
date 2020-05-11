@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Parser.Ast.Values;
+using MyInterpreter.SemanticAnalyzer;
 
 namespace MyInterpreter.Parser.Ast.Expressions
 {
@@ -20,7 +21,7 @@ namespace MyInterpreter.Parser.Ast.Expressions
             rightExpression = null;
             additiveOperator = null;
         }
-        public Value Evaluate()
+        public Value Evaluate(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }

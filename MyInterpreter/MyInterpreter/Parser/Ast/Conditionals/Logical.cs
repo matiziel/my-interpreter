@@ -1,8 +1,10 @@
+using MyInterpreter.SemanticAnalyzer;
+
 namespace MyInterpreter.Parser.Ast.Conditionals
 {
     public abstract class Logical : Conditional
     {
         protected bool isNegated;
-        public abstract bool Evaluate();
+        public abstract bool Evaluate(ExecEnvironment environment);
     }
 }

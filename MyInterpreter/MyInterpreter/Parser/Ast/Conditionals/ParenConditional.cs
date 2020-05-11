@@ -1,3 +1,5 @@
+using MyInterpreter.SemanticAnalyzer;
+
 namespace MyInterpreter.Parser.Ast.Conditionals
 {
     public class ParenConditional : Logical
@@ -8,9 +10,7 @@ namespace MyInterpreter.Parser.Ast.Conditionals
             this.parenConditional = parenConditional;
             this.isNegated = isNegated;
         }
-        public override bool Evaluate()
-        {
-            throw new System.NotImplementedException();
-        }
+        public override bool Evaluate(ExecEnvironment environment)
+            => isNegated ? !parenConditional.Evaluate(environment) : parenConditional.Evaluate(environment);
     }
 }

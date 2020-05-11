@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Operators;
+using MyInterpreter.SemanticAnalyzer;
 
 namespace MyInterpreter.Parser.Ast.Conditionals
 {
@@ -15,7 +16,7 @@ namespace MyInterpreter.Parser.Ast.Conditionals
             equalityOperator = equality;
             this.isNegated = isNegated;
         }
-        public override bool Evaluate()
+        public override bool Evaluate(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }

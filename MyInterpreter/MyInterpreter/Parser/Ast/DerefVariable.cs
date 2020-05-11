@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Values;
+using MyInterpreter.SemanticAnalyzer;
 
 namespace MyInterpreter.Parser.Ast
 {
@@ -14,7 +15,7 @@ namespace MyInterpreter.Parser.Ast
             this.left = left;
             this.right = right;
         }
-        public Value Evaluate()
+        public Value Evaluate(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }

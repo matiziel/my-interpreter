@@ -1,3 +1,5 @@
+using MyInterpreter.SemanticAnalyzer;
+
 namespace MyInterpreter.Parser.Ast.Conditionals
 {
     public class OrConditional : Conditional
@@ -9,7 +11,9 @@ namespace MyInterpreter.Parser.Ast.Conditionals
             leftConditional = left;
             rightConditional = right;
         }
-        public bool Evaluate() 
-            => leftConditional.Evaluate() || rightConditional.Evaluate();
+        public bool Evaluate(ExecEnvironment environment) 
+            => rightConditional is null ? 
+                leftConditional.Evaluate(environment) :
+                leftConditional.Evaluate(environment) || rightConditional.Evaluate(environment);
     }
 }

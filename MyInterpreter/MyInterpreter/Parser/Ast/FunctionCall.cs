@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Statements;
 using MyInterpreter.Parser.Ast.Values;
+using MyInterpreter.SemanticAnalyzer;
 
 namespace MyInterpreter.Parser.Ast
 {
@@ -13,14 +14,12 @@ namespace MyInterpreter.Parser.Ast
         {
             this.name = name;
             this.arguments = arguments;
-        }
-
-        public Value Evaluate()
+        }        
+        public void Execute(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }
-
-        public void Execute()
+        public Value Evaluate(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }

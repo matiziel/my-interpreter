@@ -1,4 +1,5 @@
 using MyInterpreter.Parser.Ast.Values;
+using MyInterpreter.SemanticAnalyzer;
 
 namespace MyInterpreter.Parser.Ast.Expressions
 {
@@ -7,7 +8,7 @@ namespace MyInterpreter.Parser.Ast.Expressions
         Expression expression;
         public ParenExpression(Expression expression)  =>
             this.expression = expression;
-        public Value Evaluate()
+        public Value Evaluate(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }

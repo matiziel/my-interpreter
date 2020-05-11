@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Operators;
+using MyInterpreter.SemanticAnalyzer;
 
 namespace MyInterpreter.Parser.Ast.Statements
 {
@@ -14,7 +15,7 @@ namespace MyInterpreter.Parser.Ast.Statements
             this.assignmentOperator = assignmentOperator;
             this.expression = expression;
         }
-        public void Execute()
+        public void Execute(ExecEnvironment environment)
         {
             throw new System.NotImplementedException();
         }
