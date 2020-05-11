@@ -18,7 +18,8 @@ namespace MyInterpreter.Parser.Ast.Statements
         }
         public void Execute(ExecEnvironment environment)
         {
-            throw new System.NotImplementedException();
+            for (first.Execute(environment); conditional.Evaluate(environment); second.Execute(environment))
+                statement.Execute(environment);
         }
     }
 }

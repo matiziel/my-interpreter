@@ -10,7 +10,10 @@ namespace MyInterpreter.Parser.Ast.Statements
             => this.statements = statements;
         public void Execute(ExecEnvironment environment)
         {
-            
+            environment.MakeLocalScope();
+            foreach (var item in statements)
+                item.Execute(environment);
+            environment.DestroyScope();
         }
     }
 }

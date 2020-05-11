@@ -18,6 +18,7 @@ namespace MyInterpreter.Parser.Ast.Statements
         public void Execute(ExecEnvironment environment)
         {
             Variable var = environment.GetVariable(name);
+            var.Value = expression.Evaluate(environment);
         }
     }
 }

@@ -14,7 +14,9 @@ namespace MyInterpreter.Parser.Ast.Statements
         }
         public void Execute(ExecEnvironment environment)
         {
-            throw new System.NotImplementedException();
+            environment.AddVariable(variable);
+            if(!(expression is null))
+                environment.GetVariable(variable.Name).Value = expression.Evaluate(environment);
         }
     }
 }
