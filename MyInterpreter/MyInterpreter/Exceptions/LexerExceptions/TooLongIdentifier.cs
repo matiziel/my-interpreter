@@ -6,7 +6,7 @@ using MyInterpreter.DataSource;
 namespace MyInterpreter.Exceptions.LexerExceptions
 {
     [System.Serializable]
-    public class TooLongIdentifier : InterpreterException
+    public class TooLongIdentifier : LexerException
     {
         public TooLongIdentifier() { }
         public TooLongIdentifier(TextPosition position, string source, int length) 

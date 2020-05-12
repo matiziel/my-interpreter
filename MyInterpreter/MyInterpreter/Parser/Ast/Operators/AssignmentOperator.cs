@@ -6,14 +6,6 @@ namespace MyInterpreter.Parser.Ast.Operators
     public class AssignmentOperator : IOperator
     {
         public string Operator { get; private set; }
-        public AssignmentOperator(string value)
-        {
-            if(operators.Contains(value))
-                Operator = value;
-            else throw new WrongOperator();
-        }
-        private static HashSet<string> operators = new HashSet<string>() {
-            "+=", "-=", "/=", "*=", "%=", "="
-        };
+        public AssignmentOperator(string value) => Operator = value;
     }
 }

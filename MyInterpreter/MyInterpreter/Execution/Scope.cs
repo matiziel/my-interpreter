@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MyInterpreter.Parser.Ast;
+using System.Linq;
 
 namespace MyInterpreter.Execution
 {
@@ -7,6 +8,7 @@ namespace MyInterpreter.Execution
     {
         private Scope parentScope;
         private IDictionary<string, Variable> variables;
+        private HashSet<string> parentValueNames;
         private Scope(Scope parentScope)
         {
             this.parentScope = parentScope;
@@ -16,6 +18,7 @@ namespace MyInterpreter.Execution
         {
             this.parentScope = parentScope;
             this.variables = variables;
+            this.parentValueNames = variables.Keys.ToHashSet();
         }
 
         public static Scope CreateLocalScope(Scope parentScope)
@@ -27,7 +30,9 @@ namespace MyInterpreter.Execution
             return new Scope(parentScope);
         }
         public static Scope DestroyScope(Scope scope)
-        {
+        {   
+            foreach (var item in scope.parentValueNames)
+                scope.variables.Remove(item);
             return scope.parentScope;
         }
         public Variable GetVariable(string name)

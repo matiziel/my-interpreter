@@ -2,13 +2,13 @@ using System;
 using System.Text;
 using MyInterpreter.DataSource;
 
-namespace MyInterpreter.Exceptions
+namespace MyInterpreter.Exceptions.LexerExceptions
 {
     [System.Serializable]
-    public abstract class InterpreterException : Exception
+    public abstract class LexerException : Exception
     {
-        public InterpreterException() { }
-        public InterpreterException(TextPosition position, string message, string source) : base(CreateMessage(position, message, source)) { }
+        public LexerException() { }
+        public LexerException(TextPosition position, string message, string source) : base(CreateMessage(position, message, source)) { }
         private static string CreateMessage(TextPosition position, string message, string source)
         {
             var sb = new StringBuilder(message);
@@ -21,8 +21,8 @@ namespace MyInterpreter.Exceptions
             sb.Append("^");
             return sb.ToString();
         }
-        public InterpreterException(string message, System.Exception inner) : base(message, inner) { }
-        protected InterpreterException(
+        public LexerException(string message, System.Exception inner) : base(message, inner) { }
+        protected LexerException(
             System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 

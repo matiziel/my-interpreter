@@ -6,7 +6,7 @@ using MyInterpreter.DataSource;
 namespace MyInterpreter.Exceptions.LexerExceptions
 {
     [System.Serializable]
-    public class UnrecognizedToken : InterpreterException
+    public class UnrecognizedToken : LexerException
     {
         public UnrecognizedToken() { }
         public UnrecognizedToken(TextPosition position, string source) 

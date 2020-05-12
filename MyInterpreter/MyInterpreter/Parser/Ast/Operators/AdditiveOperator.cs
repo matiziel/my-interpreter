@@ -9,8 +9,6 @@ namespace MyInterpreter.Parser.Ast.Operators
         {
             if(value == "+" || value == "-")
                 Operator = value;
-            else 
-                throw new WrongOperator();
         }
     }
 }

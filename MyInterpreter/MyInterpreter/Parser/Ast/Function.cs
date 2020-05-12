@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MyInterpreter.Parser.Ast.Statements;
 using MyInterpreter.Parser.Ast.Values;
+using System;
 
 namespace MyInterpreter.Parser.Ast
 {
@@ -16,6 +17,10 @@ namespace MyInterpreter.Parser.Ast
             this.name = name;
             this.parameters = parameters;
             this.blockStatement = blockStatement;
+        }
+        public Value Execute()
+        {
+            throw new NotImplementedException();
         }
     }
 }

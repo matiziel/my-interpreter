@@ -37,8 +37,8 @@ namespace MyInterpreter.Parser
             if(_scanner.CurrentToken.Type == TokenType.EOT)
                 return false;
 
-            TypeValue? type = TryParseType() ?? throw new UnexpectedToken();
-            string name = TryParseIdentifier() ?? throw new UnexpectedToken();
+            TypeValue? type = TryParseType() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
+            string name = TryParseIdentifier() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             Definition def;
             Function fun;
@@ -52,10 +52,10 @@ namespace MyInterpreter.Parser
                     _scanner.Next();
                 }
                 else
-                    throw new UnexpectedToken();
+                    throw new UnexpectedToken(_scanner.CurrentToken.Position);
             }
             else 
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return true;
         }
@@ -95,7 +95,7 @@ namespace MyInterpreter.Parser
             if(_scanner.CurrentToken.Type == TokenType.ASSIGN)
             {
                 _scanner.Next();
-                Expression expr = TryParseExpression() ?? throw new UnexpectedToken();
+                Expression expr = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 return new Definition(variable, expr);
             }
             else
@@ -108,16 +108,16 @@ namespace MyInterpreter.Parser
                 return new Variable(type, name);
 
             if(type != TypeValue.Matrix)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Expression first = TryParseExpression() ?? throw new UnexpectedToken();
+            Expression first = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             if(_scanner.CurrentToken.Type != TokenType.COMMA)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Expression second = TryParseExpression() ?? throw new UnexpectedToken();
+            Expression second = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return new Variable(type, name, first, second);
 
@@ -128,13 +128,13 @@ namespace MyInterpreter.Parser
                 return null;
             _scanner.Next();
 
-            IEnumerable<Parameter> parameters = TryParseParameterList() ?? throw new UnexpectedToken();;
+            IEnumerable<Parameter> parameters = TryParseParameterList() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            BlockStatement statement = TryParseBlockStatement() ?? throw new UnexpectedToken();
+            BlockStatement statement = TryParseBlockStatement() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return new Function(type, name, parameters, statement);
         }
@@ -150,7 +150,7 @@ namespace MyInterpreter.Parser
             while(_scanner.CurrentToken.Type == TokenType.COMMA) 
             {
                 _scanner.Next();
-                param = TryParseParameter() ?? throw new UnexpectedToken();
+                param = TryParseParameter() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 parameters.Add(param);
             }
             return parameters;
@@ -160,7 +160,7 @@ namespace MyInterpreter.Parser
             TypeValue? type = TryParseType();
             if(type is null)
                 return null;
-            string name = TryParseIdentifier() ?? throw new UnexpectedToken();
+            string name = TryParseIdentifier() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
             return new Parameter(type.Value, name);
         }
         private Statement TryParseStatement()
@@ -177,21 +177,21 @@ namespace MyInterpreter.Parser
             else if((statement = TryParseReturnStatement()) != null)
             {
                 if(_scanner.CurrentToken.Type != TokenType.SEMICOLON)
-                    throw new UnexpectedToken();
+                    throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 _scanner.Next();
                 return statement;
             }
             else if((statement = TryParseAssignmentOrFunctionCall()) != null)
             {
                 if(_scanner.CurrentToken.Type != TokenType.SEMICOLON)
-                    throw new UnexpectedToken();
+                    throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 _scanner.Next();
                 return statement;
             }
             else if((statement = TryParseDefinition()) != null)
             {
                 if(_scanner.CurrentToken.Type != TokenType.SEMICOLON)
-                    throw new UnexpectedToken();
+                    throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 _scanner.Next();
                 return statement;
             }
@@ -209,7 +209,7 @@ namespace MyInterpreter.Parser
                 statements.Add(stat);
             
             if(_scanner.CurrentToken.Type != TokenType.BRACE_CLOSE)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             _scanner.Next();
             return new BlockStatement(statements);
@@ -221,22 +221,22 @@ namespace MyInterpreter.Parser
             _scanner.Next();
 
             if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Conditional conditional = TryParseConditional() ?? throw new UnexpectedToken();
+            Conditional conditional = TryParseConditional() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Statement statementIf = TryParseStatement() ?? throw new UnexpectedToken();
+            Statement statementIf = TryParseStatement() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
              if(_scanner.CurrentToken.Type != TokenType.ELSE)
                 return new IfStatement(conditional, statementIf);
             _scanner.Next();
 
-            Statement statementElse = TryParseStatement() ?? throw new UnexpectedToken();
+            Statement statementElse = TryParseStatement() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return new IfStatement(conditional, statementIf, statementElse);
         }
@@ -247,16 +247,16 @@ namespace MyInterpreter.Parser
             _scanner.Next();
 
             if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Conditional conditional = TryParseConditional() ?? throw new UnexpectedToken();
+            Conditional conditional = TryParseConditional() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Statement statement = TryParseStatement() ?? throw new UnexpectedToken();
+            Statement statement = TryParseStatement() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return new WhileStatement(conditional, statement);   
         }
@@ -267,18 +267,18 @@ namespace MyInterpreter.Parser
             _scanner.Next();
 
             if(_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
             
             Assignment assignmentFirst = null;
             string name = TryParseIdentifier();
             if(!(name is null))
             {
-                assignmentFirst = TryParseAssignment(name) ?? throw new UnexpectedToken();
+                assignmentFirst = TryParseAssignment(name) ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
             }
 
             if(_scanner.CurrentToken.Type != TokenType.SEMICOLON)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
             Conditional conditional = TryParseConditional();
@@ -291,13 +291,13 @@ namespace MyInterpreter.Parser
             name = TryParseIdentifier();
             if(!(name is null))
             {
-                assignmentFirst = TryParseAssignment(name) ?? throw new UnexpectedToken();
+                assignmentFirst = TryParseAssignment(name) ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
             }
             if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Statement statement = TryParseStatement() ?? throw new UnexpectedToken();
+            Statement statement = TryParseStatement() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return new ForStatement(statement, conditional, assignmentFirst, assignmentSecond);
         }
@@ -307,7 +307,7 @@ namespace MyInterpreter.Parser
                 return null;
             _scanner.Next();
 
-            Expression expression = TryParseExpression() ?? throw new UnexpectedToken();
+            Expression expression = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
             
             return new ReturnStatement(expression);
         }
@@ -323,7 +323,7 @@ namespace MyInterpreter.Parser
             else if((statement = TryParseAssignment(name)) != null)
                 return statement;
             else
-                throw new UnexpectedToken();            
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);            
         }
         private FunctionCall TryParseFunctionCall(string name)
         {
@@ -331,10 +331,10 @@ namespace MyInterpreter.Parser
                 return null;
             _scanner.Next();
 
-            IEnumerable<Expression> arguments = TryParseArgumentList() ?? throw new UnexpectedToken();
+            IEnumerable<Expression> arguments = TryParseArgumentList() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
             return new FunctionCall(name, arguments);
@@ -352,7 +352,7 @@ namespace MyInterpreter.Parser
             while(_scanner.CurrentToken.Type == TokenType.COMMA)
             {
                 _scanner.Next();
-                expr = TryParseExpression() ?? throw new UnexpectedToken();
+                expr = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 arguments.Add(expr);
             }
             return arguments;
@@ -363,10 +363,10 @@ namespace MyInterpreter.Parser
             if(derefVar is null)
                 return null;
             
-            IOperator assignmentOperator = TryParseOperator() ?? throw new UnexpectedToken();
+            IOperator assignmentOperator = TryParseOperator() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Expression expression = TryParseExpression() ?? throw new UnexpectedToken();
+            Expression expression = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return new Assignment(name, assignmentOperator as AssignmentOperator, expression);
         }
@@ -376,8 +376,8 @@ namespace MyInterpreter.Parser
             if(type is null)
                 return null;
 
-            string name = TryParseIdentifier() ?? throw new UnexpectedToken();
-            Definition def = TryParseDefinition(type.Value, name) ?? throw new UnexpectedToken();
+            string name = TryParseIdentifier() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
+            Definition def = TryParseDefinition(type.Value, name) ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return def;
         }
@@ -390,7 +390,7 @@ namespace MyInterpreter.Parser
             while(_scanner.CurrentToken.Type == TokenType.OR)
             {
                 _scanner.Next();
-                Conditional right = TryParseAndConditional() ?? throw new UnexpectedToken();
+                Conditional right = TryParseAndConditional() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 left = new OrConditional(left, right);
             }
             return left;
@@ -404,7 +404,7 @@ namespace MyInterpreter.Parser
             while(_scanner.CurrentToken.Type == TokenType.AND)
             {
                 _scanner.Next();
-                Conditional right = TryParseLogical() ?? throw new UnexpectedToken();
+                Conditional right = TryParseLogical() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 left = new AndConditional(left, right);
             }
             return left;
@@ -422,7 +422,7 @@ namespace MyInterpreter.Parser
             else
             {
                 if(isNegated)
-                    throw new UnexpectedToken();
+                    throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 else
                     return null;
             }
@@ -433,8 +433,8 @@ namespace MyInterpreter.Parser
             if(left is null)
                 return null;
 
-            EqualityOperator equalityOperator = TryParseEqualityOperator() ?? throw new UnexpectedToken();
-            Expression right = TryParseExpression() ?? throw new UnexpectedToken();
+            EqualityOperator equalityOperator = TryParseEqualityOperator() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
+            Expression right = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return new SimpleConditional(left, right, equalityOperator, isNegated);
         }
@@ -444,10 +444,10 @@ namespace MyInterpreter.Parser
                 return null;
             _scanner.Next();
 
-            Conditional conditional = TryParseConditional() ?? throw new UnexpectedToken();
+            Conditional conditional = TryParseConditional() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
             
             if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
             return new ParenConditional(conditional, isNegated);
@@ -473,7 +473,7 @@ namespace MyInterpreter.Parser
             while((additiveOperator = TryParseOperator()) is AdditiveOperator)
             {
                 _scanner.Next();
-                Expression right = TryParseMultiplicativeExpression() ?? throw new UnexpectedToken();
+                Expression right = TryParseMultiplicativeExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 left = new AdditiveExpression(left, right, additiveOperator as AdditiveOperator);
             }
             return left;
@@ -488,7 +488,7 @@ namespace MyInterpreter.Parser
             while((multiplicativeOperator = TryParseOperator()) is MultiplicativeOperator)
             {
                 _scanner.Next();
-                Expression right = TryParseUnary() ?? throw new UnexpectedToken();
+                Expression right = TryParseUnary() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
                 left = new MultiplicativeExpression(left, right, multiplicativeOperator as MultiplicativeOperator);
             }
             return left;
@@ -503,7 +503,7 @@ namespace MyInterpreter.Parser
             if((expression = TryParsePrimaryExpression()) != null)
                 return new UnaryExpression(expression, isNegated);
             else if(isNegated)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             else
                 return null;
         }
@@ -539,7 +539,7 @@ namespace MyInterpreter.Parser
             else if((expression = TryParseDerefVariable(name)) != null)
                 return expression;
             else
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
         }
         private DerefVariable TryParseDerefVariable(string name)
         {
@@ -547,16 +547,16 @@ namespace MyInterpreter.Parser
                 return new DerefVariable(name);
             _scanner.Next();
 
-            Ast.Range left = TryParseRange() ?? throw new UnexpectedToken();
+            Ast.Range left = TryParseRange() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             if(_scanner.CurrentToken.Type == TokenType.COMMA)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Ast.Range right = TryParseRange() ?? throw new UnexpectedToken();
+            Ast.Range right = TryParseRange() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             if(_scanner.CurrentToken.Type == TokenType.BRACKET_CLOSE)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
             return new DerefVariable(name, left, right);
@@ -568,10 +568,10 @@ namespace MyInterpreter.Parser
                 return null;
 
             if(_scanner.CurrentToken.Type != TokenType.COLON)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
-            Expression second = TryParseExpression() ?? throw new UnexpectedToken();
+            Expression second = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
             return new Ast.Range(first, second);
         }
@@ -581,10 +581,10 @@ namespace MyInterpreter.Parser
                 return null;
             _scanner.Next();
 
-            Expression expression = TryParseExpression() ?? throw new UnexpectedToken();
+            Expression expression = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
             
             if(_scanner.CurrentToken.Type != TokenType.PAREN_CLOSE)
-                throw new UnexpectedToken();
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
             return new ParenExpression(expression);
