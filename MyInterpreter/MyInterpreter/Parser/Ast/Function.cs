@@ -5,7 +5,7 @@ using System;
 
 namespace MyInterpreter.Parser.Ast
 {
-    public class Function
+    public class Function : Node
     {
         private TypeValue type;
         private string name;
@@ -21,6 +21,10 @@ namespace MyInterpreter.Parser.Ast
         public Value Execute()
         {
             throw new NotImplementedException();
+        }
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

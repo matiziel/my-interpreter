@@ -19,5 +19,9 @@ namespace MyInterpreter.Parser.Ast
         {
             return environment.GetVariable(name).Value;
         }
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

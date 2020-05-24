@@ -22,6 +22,10 @@ namespace MyInterpreter.Parser.Ast.Conditionals
             Value left = leftExpression.Evaluate(environment);
             Value right = rightExpression.Evaluate(environment);
             return ExpressionExecutor.EvaluateSimpleConditional(left, right, equalityOperator);
+        }   
+        public override void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

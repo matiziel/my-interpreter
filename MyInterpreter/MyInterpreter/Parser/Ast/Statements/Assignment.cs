@@ -20,5 +20,9 @@ namespace MyInterpreter.Parser.Ast.Statements
             Variable var = environment.GetVariable(name);
             var.Value = expression.Evaluate(environment);
         }
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

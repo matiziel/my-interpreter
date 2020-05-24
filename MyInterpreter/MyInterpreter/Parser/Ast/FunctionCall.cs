@@ -23,5 +23,9 @@ namespace MyInterpreter.Parser.Ast
         {
             throw new System.NotImplementedException();
         }
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

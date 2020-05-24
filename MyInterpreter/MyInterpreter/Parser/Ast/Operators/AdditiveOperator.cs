@@ -10,5 +10,9 @@ namespace MyInterpreter.Parser.Ast.Operators
             if(value == "+" || value == "-")
                 Operator = value;
         }
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

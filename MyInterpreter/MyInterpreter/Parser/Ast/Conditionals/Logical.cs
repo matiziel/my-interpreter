@@ -6,5 +6,6 @@ namespace MyInterpreter.Parser.Ast.Conditionals
     {
         protected bool isNegated;
         public abstract bool Evaluate(ExecEnvironment environment);
+        public abstract void Accept(PrintVisitor visitor);
     }
 }

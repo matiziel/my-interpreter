@@ -2,7 +2,7 @@ using MyInterpreter.Execution;
 
 namespace MyInterpreter.Parser.Ast.Conditionals
 {
-    public interface Conditional
+    public interface Conditional : Node
     {
         bool Evaluate(ExecEnvironment environment);
     }

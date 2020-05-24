@@ -15,5 +15,9 @@ namespace MyInterpreter.Parser.Ast.Statements
                 item.Execute(environment);
             environment.DestroyScope();
         }
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

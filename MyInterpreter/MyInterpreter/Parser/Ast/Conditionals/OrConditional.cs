@@ -15,5 +15,9 @@ namespace MyInterpreter.Parser.Ast.Conditionals
             => rightConditional is null ? 
                 leftConditional.Evaluate(environment) :
                 leftConditional.Evaluate(environment) || rightConditional.Evaluate(environment);
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

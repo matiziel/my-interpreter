@@ -3,7 +3,7 @@ using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser.Ast
 {
-    public class Variable
+    public class Variable : Node
     {
         public TypeValue Type { get; private set; }
         public string Name { get; private set;}
@@ -16,6 +16,10 @@ namespace MyInterpreter.Parser.Ast
             Name = name;
             First = first;
             Second = second;
+        }
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

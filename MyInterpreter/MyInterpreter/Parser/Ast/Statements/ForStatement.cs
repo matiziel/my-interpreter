@@ -21,5 +21,9 @@ namespace MyInterpreter.Parser.Ast.Statements
             for (first.Execute(environment); conditional.Evaluate(environment); second.Execute(environment))
                 statement.Execute(environment);
         }
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

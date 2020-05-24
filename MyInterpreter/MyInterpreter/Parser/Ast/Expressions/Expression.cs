@@ -3,7 +3,7 @@ using MyInterpreter.Execution;
 
 namespace MyInterpreter.Parser.Ast.Expressions
 {
-    public interface Expression
+    public interface Expression : Node
     {
         Value Evaluate(ExecEnvironment environment);
     }

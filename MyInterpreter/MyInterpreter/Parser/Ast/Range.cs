@@ -2,7 +2,7 @@ using MyInterpreter.Parser.Ast.Expressions;
 
 namespace MyInterpreter.Parser.Ast
 {
-    public class Range
+    public class Range : Node
     {
         private Expression firstExpr;
         private Expression secondExpr;
@@ -10,6 +10,10 @@ namespace MyInterpreter.Parser.Ast
         {
             firstExpr = first;
             secondExpr = second;
+        }
+        public void Accept(PrintVisitor visitor)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
