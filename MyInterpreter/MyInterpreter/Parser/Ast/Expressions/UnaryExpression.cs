@@ -14,7 +14,9 @@ namespace MyInterpreter.Parser.Ast.Expressions {
                 ExpressionExecutor.GetNegative(expression.Evaluate(environment))
                 : expression.Evaluate(environment);
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            if(isNegated)
+                visitor.VisitNegatedExpression(this);
+            expression.Accept(visitor);
         }
     }
 }

@@ -20,7 +20,6 @@ namespace MyInterpreter.Parser.Ast.Conditionals {
             return ExpressionExecutor.EvaluateSimpleConditional(left, right, equalityOperator);
         }
         public override void Accept(PrintVisitor visitor) {
-            visitor.VisitSimpleConditional(this);
             leftExpression.Accept(visitor);
             equalityOperator.Accept(visitor);
             rightExpression.Accept(visitor);

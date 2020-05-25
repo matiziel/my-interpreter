@@ -25,7 +25,9 @@ namespace MyInterpreter.Parser.Ast.Expressions {
             );
         }
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            leftExpression.Accept(visitor);
+            multiplicativeOperator.Accept(visitor);
+            rightExpression.Accept(visitor);
         }
     }
 }

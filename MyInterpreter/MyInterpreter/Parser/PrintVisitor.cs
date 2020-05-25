@@ -28,12 +28,15 @@ namespace MyInterpreter.Parser {
         public void VisitOrConditional(OrConditional orConditional) =>
             stringBuilder.Append(" || ");
         
-        public void VisitSimpleConditional(SimpleConditional conditional) =>
-            stringBuilder.Append("SimpleConditional->\n");
-            
-        public void VisitParenConditional(ParenConditional conditional) =>
-            stringBuilder.Append("ParenConditional->\n");
+        public void VisitParenConditional(ParenConditional conditional, char paren) =>
+            stringBuilder.Append(paren);
+        public void VisitConstantExpression(ConstantExpression expression) =>
+            stringBuilder.Append("ConstantExpression->\n");
 
+        public void VisitParenExpression(ParenExpression expression, char paren) =>
+            stringBuilder.Append(paren);
+        public void VisitNegatedExpression(UnaryExpression expression) =>
+            stringBuilder.Append("-");
         public void VisitAdditiveOperator(AdditiveOperator additiveOperator) =>
             stringBuilder.Append(additiveOperator.Operator);
         
@@ -66,8 +69,7 @@ namespace MyInterpreter.Parser {
         public void VisitBlockStatement(BlockStatement statement) =>
             stringBuilder.Append("BlockStatement->\n");
 
-        public void VisitConstantExpression(ConstantExpression expression) =>
-            stringBuilder.Append("ConstantExpression->\n");
+        
         
         public void VisitValueInt(Int_t value) =>
             stringBuilder.Append(value.Value);
