@@ -5,13 +5,13 @@ using System;
 
 namespace MyInterpreter.Parser.Ast {
     public class Function : Node {
-        private TypeValue type;
-        private string name;
+        public TypeValue Type { get; private set; }
+        public string Name { get; private set; }
         private IEnumerable<Parameter> parameters;
         private BlockStatement blockStatement;
         public Function(TypeValue type, string name, IEnumerable<Parameter> parameters, BlockStatement blockStatement) {
-            this.type = type;
-            this.name = name;
+            Type = type;
+            Name = name;
             this.parameters = parameters;
             this.blockStatement = blockStatement;
         }
@@ -20,7 +20,7 @@ namespace MyInterpreter.Parser.Ast {
         }
         public void Accept(PrintVisitor visitor) {
             visitor.VisitFunction(this);
-            foreach(var param in parameters) {
+            foreach (var param in parameters) {
                 param.Accept(visitor);
             }
             blockStatement.Accept(visitor);

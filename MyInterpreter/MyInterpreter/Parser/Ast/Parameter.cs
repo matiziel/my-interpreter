@@ -9,7 +9,7 @@ namespace MyInterpreter.Parser.Ast {
             Name = name;
         }
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitParameter(this);
         }
 
     }

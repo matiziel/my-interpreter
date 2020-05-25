@@ -7,19 +7,24 @@ using MyInterpreter.Exceptions;
 using MyInterpreter.Exceptions.LexerExceptions;
 using MyInterpreter.Exceptions.ParserExceptions;
 using System.Text;
+using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter {
     class MyInterpreter {
         static void Main(string[] args) {
-            if (args.Length <= 0) {
-                System.Console.WriteLine("fatal error: no input files");
-                return;
-            }
-            using (var source = new FileSource(args[0])) {
+            // if (args.Length <= 0) {
+            //     System.Console.WriteLine("fatal error: no input files");
+            //     return;
+            // }
+            var path = "/home/mateusz/Downloads/TestFiles/CorrectFile.ml";
+            using (var source = new FileSource(path)) {
                 try {
                     var scanner = new Scanner(source);
                     var parser = new Parser.Parser(scanner);
-                    parser.Parse();
+                    var printVisitor = new PrintVisitor();
+                    parser.Parse().Accept(printVisitor);
+                    System.Console.WriteLine(printVisitor.Value);
+
                 }
                 catch (LexerException e) {
                     System.Console.WriteLine(e.Message);

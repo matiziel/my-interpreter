@@ -15,7 +15,9 @@ namespace MyInterpreter.Parser.Ast {
             Second = second;
         }
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitVariable(this);
+            First?.Accept(visitor);
+            Second?.Accept(visitor);
         }
     }
 }

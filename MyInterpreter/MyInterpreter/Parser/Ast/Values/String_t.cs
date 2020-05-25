@@ -9,7 +9,7 @@ namespace MyInterpreter.Parser.Ast.Values {
             Type = TypeValue.String;
         }
         public void Accept(PrintVisitor visitor) {
-            throw new NotImplementedException();
+            visitor.VisitValueString(this);
         }
 
     }

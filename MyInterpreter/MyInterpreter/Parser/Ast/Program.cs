@@ -12,7 +12,13 @@ namespace MyInterpreter.Parser.Ast {
         public Function GetFunctionByName(string name)
             => functions.ContainsKey(name) ? functions[name] : null;
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitProgram(this);
+            foreach (var def in definitions) {
+                def.Accept(visitor);
+            }
+            foreach (var fun in functions) {
+                fun.Value.Accept(visitor);
+            }
         }
     }
 }
