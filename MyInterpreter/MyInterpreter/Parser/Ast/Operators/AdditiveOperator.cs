@@ -8,7 +8,7 @@ namespace MyInterpreter.Parser.Ast.Operators {
                 Operator = value;
         }
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitOperator(this);
         }
     }
 }

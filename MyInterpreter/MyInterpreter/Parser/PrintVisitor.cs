@@ -30,25 +30,14 @@ namespace MyInterpreter.Parser {
         
         public void VisitParenConditional(ParenConditional conditional, char paren) =>
             stringBuilder.Append(paren);
-        public void VisitConstantExpression(ConstantExpression expression) =>
-            stringBuilder.Append("ConstantExpression->\n");
 
         public void VisitParenExpression(ParenExpression expression, char paren) =>
             stringBuilder.Append(paren);
         public void VisitNegatedExpression(UnaryExpression expression) =>
             stringBuilder.Append("-");
-        public void VisitAdditiveOperator(AdditiveOperator additiveOperator) =>
-            stringBuilder.Append(additiveOperator.Operator);
-        
-        public void VisitAssignmentOperator(AssignmentOperator assignmentOperator) =>
-            stringBuilder.Append(assignmentOperator.Operator);
-
-        public void VisitEqualityOperator(EqualityOperator equality) =>
-            stringBuilder.Append(equality.Operator);
-
-        public void VisitMultiplicativeOperator(MultiplicativeOperator multiplicativeOperator) =>
-            stringBuilder.Append(multiplicativeOperator.Operator);
-
+        public void VisitOperator(IOperator ioperator) =>
+            stringBuilder.Append(ioperator.Operator);
+    
         public void VisitDefinition(Definition definition) =>
             stringBuilder.Append("Definition->");
 
