@@ -19,7 +19,11 @@ namespace MyInterpreter.Parser.Ast {
             throw new NotImplementedException();
         }
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitFunction(this);
+            foreach(var param in parameters) {
+                param.Accept(visitor);
+            }
+            blockStatement.Accept(visitor);
         }
     }
 }

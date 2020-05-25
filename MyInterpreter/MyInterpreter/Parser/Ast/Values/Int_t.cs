@@ -1,3 +1,5 @@
+using System;
+
 namespace MyInterpreter.Parser.Ast.Values {
     public class Int_t : Value {
         public int Value { get; private set; }
@@ -5,6 +7,9 @@ namespace MyInterpreter.Parser.Ast.Values {
         public Int_t(int value) {
             Value = value;
             Type = TypeValue.Int;
+        }
+        public void Accept(PrintVisitor visitor) {
+            visitor.VisitValueInt(this);
         }
     }
 }

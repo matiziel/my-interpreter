@@ -1,5 +1,5 @@
 namespace MyInterpreter.Parser.Ast.Values {
-    public interface Value {
+    public interface Value : Node {
         TypeValue Type { get; }
     }
     public enum TypeValue {

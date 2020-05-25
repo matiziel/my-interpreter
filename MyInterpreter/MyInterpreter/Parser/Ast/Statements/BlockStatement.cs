@@ -13,7 +13,10 @@ namespace MyInterpreter.Parser.Ast.Statements {
             environment.DestroyScope();
         }
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitBlockStatement(this);
+            foreach (var item in statements) {
+                item.Accept(visitor);
+            }
         }
     }
 }

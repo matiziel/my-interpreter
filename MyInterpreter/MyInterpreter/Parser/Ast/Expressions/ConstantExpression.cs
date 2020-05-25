@@ -7,7 +7,8 @@ namespace MyInterpreter.Parser.Ast.Expressions {
         public ConstantExpression(Value value) => this.value = value;
         public Value Evaluate(ExecEnvironment environment) => value;
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitConstantExpression(this);
+            value.Accept(visitor);
         }
     }
 }
