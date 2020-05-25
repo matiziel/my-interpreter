@@ -10,7 +10,8 @@ namespace MyInterpreter.Parser.Ast.Conditionals {
         public override bool Evaluate(ExecEnvironment environment)
             => isNegated ? !parenConditional.Evaluate(environment) : parenConditional.Evaluate(environment);
         public override void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitParenConditional(this);
+            parenConditional.Accept(visitor);
         }
     }
 }

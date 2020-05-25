@@ -6,7 +6,7 @@ namespace MyInterpreter.Parser.Ast.Operators {
         public string Operator { get; private set; }
         public AssignmentOperator(string value) => Operator = value;
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitAssignmentOperator(this);
         }
     }
 }

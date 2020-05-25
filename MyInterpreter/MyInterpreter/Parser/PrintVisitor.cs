@@ -3,6 +3,7 @@ using System.Text;
 using MyInterpreter.Parser.Ast;
 using MyInterpreter.Parser.Ast.Conditionals;
 using MyInterpreter.Parser.Ast.Expressions;
+using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Parser.Ast.Statements;
 using MyInterpreter.Parser.Ast.Values;
 
@@ -11,9 +12,9 @@ namespace MyInterpreter.Parser {
         private StringBuilder stringBuilder;
         public PrintVisitor() => stringBuilder = new StringBuilder();
         public string Value { get => stringBuilder.ToString(); }
-        public void VisitProgram(Program program) {
+        public void VisitProgram(Program program) =>
             stringBuilder.Append("Program->\n");
-        }
+        
         public void VisitFunction(Function function) {
             stringBuilder.Append("Function->");
             stringBuilder.Append(function.Type);
@@ -21,12 +22,33 @@ namespace MyInterpreter.Parser {
             stringBuilder.Append(function.Name);
             stringBuilder.Append("\n");
         }
-        public void VisitAndConditional(AndConditional andConditional) {
-            throw new NotImplementedException();
-        }
-        public void VisitDefinition(Definition definition) {
+        public void VisitAndConditional(AndConditional andConditional) =>
+            stringBuilder.Append(" && ");
+        
+        public void VisitOrConditional(OrConditional orConditional) =>
+            stringBuilder.Append(" || ");
+        
+        public void VisitSimpleConditional(SimpleConditional conditional) =>
+            stringBuilder.Append("SimpleConditional->\n");
+            
+        public void VisitParenConditional(ParenConditional conditional) =>
+            stringBuilder.Append("ParenConditional->\n");
+
+        public void VisitAdditiveOperator(AdditiveOperator additiveOperator) =>
+            stringBuilder.Append(additiveOperator.Operator);
+        
+        public void VisitAssignmentOperator(AssignmentOperator assignmentOperator) =>
+            stringBuilder.Append(assignmentOperator.Operator);
+
+        public void VisitEqualityOperator(EqualityOperator equality) =>
+            stringBuilder.Append(equality.Operator);
+
+        public void VisitMultiplicativeOperator(MultiplicativeOperator multiplicativeOperator) =>
+            stringBuilder.Append(multiplicativeOperator.Operator);
+
+        public void VisitDefinition(Definition definition) =>
             stringBuilder.Append("Definition->");
-        }
+
         public void VisitParameter(Parameter parameter) {
             stringBuilder.Append("Parameter->");
             stringBuilder.Append(parameter.Type);
@@ -41,26 +63,23 @@ namespace MyInterpreter.Parser {
             stringBuilder.Append(variable.Name);
             stringBuilder.Append("\n");
         }
-        public void VisitBlockStatement(BlockStatement statement) {
+        public void VisitBlockStatement(BlockStatement statement) =>
             stringBuilder.Append("BlockStatement->\n");
-        }
-        public void VisitSimpleConditional(SimpleConditional conditional) {
-            stringBuilder.Append("SimpleConditional->\n");
-        }
-        public void VisitConstantExpression(ConstantExpression expression) {
+
+        public void VisitConstantExpression(ConstantExpression expression) =>
             stringBuilder.Append("ConstantExpression->\n");
-        }
-        public void VisitValueInt(Int_t value) {
+        
+        public void VisitValueInt(Int_t value) =>
             stringBuilder.Append(value.Value);
-        }
+        
         public void VisitValueString(String_t value) {
-            stringBuilder.Append('"');
+            stringBuilder.Append('\"');
             stringBuilder.Append(value.Value);
-            stringBuilder.Append('"');
+            stringBuilder.Append('\"');
         }
-        public void VisitValueVoid(Void_t value) {
+        public void VisitValueVoid(Void_t value) =>
             stringBuilder.Append(value.Type);
-        }
+        
         
     }
 }
