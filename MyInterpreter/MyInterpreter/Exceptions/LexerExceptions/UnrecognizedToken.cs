@@ -3,17 +3,15 @@ using System.Runtime.Serialization;
 using System.Text;
 using MyInterpreter.DataSource;
 
-namespace MyInterpreter.Exceptions.LexerExceptions
-{
+namespace MyInterpreter.Exceptions.LexerExceptions {
     [System.Serializable]
-    public class UnrecognizedToken : LexerException
-    {
+    public class UnrecognizedToken : LexerException {
         public UnrecognizedToken() { }
-        public UnrecognizedToken(TextPosition position, string source) 
+        public UnrecognizedToken(TextPosition position, string source)
             : base(position, "Unrecognized token", source) { }
-        public UnrecognizedToken(string message, Exception inner) 
+        public UnrecognizedToken(string message, Exception inner)
             : base(message, inner) { }
-        protected UnrecognizedToken(SerializationInfo info, StreamingContext context) 
+        protected UnrecognizedToken(SerializationInfo info, StreamingContext context)
             : base(info, context) { }
     }
 }

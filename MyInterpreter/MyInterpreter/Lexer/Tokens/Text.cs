@@ -1,12 +1,9 @@
 using MyInterpreter.DataSource;
 
-namespace MyInterpreter.Lexer.Tokens
-{
-    public class Text : Token
-    {
+namespace MyInterpreter.Lexer.Tokens {
+    public class Text : Token {
         public string Value { get; private set; }
-        public Text(string value, TextPosition position) : base(TokenType.TEXT)
-        {
+        public Text(string value, TextPosition position) : base(TokenType.TEXT) {
             Value = value;
             Position = new TextPosition(position, Value.Length - 1);
         }

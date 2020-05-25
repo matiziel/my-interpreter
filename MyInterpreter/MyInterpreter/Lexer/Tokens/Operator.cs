@@ -1,13 +1,10 @@
 using MyInterpreter.DataSource;
 
-namespace MyInterpreter.Lexer.Tokens
-{
-    public class Operator : Token
-    {
+namespace MyInterpreter.Lexer.Tokens {
+    public class Operator : Token {
         public string Value { get; private set; }
-        public Operator(TokenType type, string value, TextPosition position) : base(type) 
-        {
-            Value = value; 
+        public Operator(TokenType type, string value, TextPosition position) : base(type) {
+            Value = value;
             Position = new TextPosition(position, Value.Length);
 
         }

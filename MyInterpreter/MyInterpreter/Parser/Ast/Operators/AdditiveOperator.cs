@@ -1,17 +1,13 @@
 using MyInterpreter.Exceptions.ParserExceptions;
 
-namespace MyInterpreter.Parser.Ast.Operators
-{
-    public class AdditiveOperator : IOperator
-    {
+namespace MyInterpreter.Parser.Ast.Operators {
+    public class AdditiveOperator : IOperator {
         public string Operator { get; private set; }
-        public AdditiveOperator(string value)
-        {
-            if(value == "+" || value == "-")
+        public AdditiveOperator(string value) {
+            if (value == "+" || value == "-")
                 Operator = value;
         }
-        public void Accept(PrintVisitor visitor)
-        {
+        public void Accept(PrintVisitor visitor) {
             throw new System.NotImplementedException();
         }
     }

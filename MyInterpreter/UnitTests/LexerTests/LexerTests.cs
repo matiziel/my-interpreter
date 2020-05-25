@@ -7,35 +7,39 @@ using MyInterpreter.Lexer.Tokens;
 using Xunit;
 using MyInterpreter.Exceptions.LexerExceptions;
 
-namespace UnitTests.LexerTests
-{
-    public class LexerTests
-    {
+namespace UnitTests.LexerTests {
+    public class LexerTests {
         [Theory]
-        [InlineData("xyz + abc;", new TokenType[] { TokenType.IDENTIFIER, TokenType.PLUS, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT})]
-        [InlineData("xyz += abc;", new TokenType[]{ TokenType.IDENTIFIER, TokenType.PLUS_ASSIGN, TokenType.IDENTIFIER,TokenType.SEMICOLON, TokenType.EOT })]
-        [InlineData("xyz && abc;", new TokenType[]{ TokenType.IDENTIFIER, TokenType.AND, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT })]
-        public void CheckVariousTokens_FromString(string text, TokenType[] tokens)
-        {
+        [InlineData("xyz + abc;", new TokenType[] { TokenType.IDENTIFIER, TokenType.PLUS, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT })]
+        [InlineData("xyz += abc;", new TokenType[] { TokenType.IDENTIFIER, TokenType.PLUS_ASSIGN, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT })]
+        [InlineData("xyz && abc;", new TokenType[] { TokenType.IDENTIFIER, TokenType.AND, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT })]
+        public void CheckVariousTokens_FromString(string text, TokenType[] tokens) {
             var scanner = new Scanner(new StringSource(text));
-            foreach(var token in tokens)
-            {
+            foreach (var token in tokens) {
                 scanner.Next();
                 Assert.Equal(token, scanner.CurrentToken.Type);
             }
         }
         [Theory]
-        [InlineData("+", TokenType.PLUS)] [InlineData("+=", TokenType.PLUS_ASSIGN)]
-        [InlineData("-", TokenType.MINUS)] [InlineData("-=", TokenType.MINUS_ASSIGN)]
-        [InlineData("*", TokenType.MULTIPLY)] [InlineData("*=", TokenType.MULTIPLY_ASSIGN)]
-        [InlineData("/", TokenType.DIVIDE)] [InlineData("/=", TokenType.DIVIDE_ASSIGN)]
-        [InlineData("=", TokenType.ASSIGN)] [InlineData("==", TokenType.EQUALS)]
-        [InlineData("<", TokenType.LESS)] [InlineData("<=", TokenType.LESS_EQUAL)]
-        [InlineData(">", TokenType.GREATER)] [InlineData(">=", TokenType.GREATER_EQUAL)]
-        [InlineData("!", TokenType.NOT)] [InlineData("!=", TokenType.NOT_EQUAL)]
-        [InlineData("&&", TokenType.AND)] [InlineData("||", TokenType.OR)]
-        public void CheckOperatorToken_FromString(string text, TokenType token)
-        {
+        [InlineData("+", TokenType.PLUS)]
+        [InlineData("+=", TokenType.PLUS_ASSIGN)]
+        [InlineData("-", TokenType.MINUS)]
+        [InlineData("-=", TokenType.MINUS_ASSIGN)]
+        [InlineData("*", TokenType.MULTIPLY)]
+        [InlineData("*=", TokenType.MULTIPLY_ASSIGN)]
+        [InlineData("/", TokenType.DIVIDE)]
+        [InlineData("/=", TokenType.DIVIDE_ASSIGN)]
+        [InlineData("=", TokenType.ASSIGN)]
+        [InlineData("==", TokenType.EQUALS)]
+        [InlineData("<", TokenType.LESS)]
+        [InlineData("<=", TokenType.LESS_EQUAL)]
+        [InlineData(">", TokenType.GREATER)]
+        [InlineData(">=", TokenType.GREATER_EQUAL)]
+        [InlineData("!", TokenType.NOT)]
+        [InlineData("!=", TokenType.NOT_EQUAL)]
+        [InlineData("&&", TokenType.AND)]
+        [InlineData("||", TokenType.OR)]
+        public void CheckOperatorToken_FromString(string text, TokenType token) {
             var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(token, scanner.CurrentToken.Type);
@@ -53,8 +57,7 @@ namespace UnitTests.LexerTests
         [InlineData("string", TokenType.STRING)]
         [InlineData("void", TokenType.VOID)]
         [InlineData("matrix", TokenType.MATRIX)]
-        public void CheckKeywordToken_FromString(string text, TokenType token)
-        {
+        public void CheckKeywordToken_FromString(string text, TokenType token) {
             var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(token, scanner.CurrentToken.Type);
@@ -68,8 +71,7 @@ namespace UnitTests.LexerTests
         [InlineData("xyz1")]
         [InlineData("SumOfThree")]
         [InlineData("ELO420")]
-        public void CheckIdentifierToken_FromString(string text)
-        {
+        public void CheckIdentifierToken_FromString(string text) {
             var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(TokenType.IDENTIFIER, scanner.CurrentToken.Type);
@@ -77,7 +79,7 @@ namespace UnitTests.LexerTests
             Assert.Equal(text, (scanner.CurrentToken as Identifier).Value);
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
-            Assert.IsType<EndOfText>(scanner.CurrentToken); 
+            Assert.IsType<EndOfText>(scanner.CurrentToken);
         }
         [Theory]
         [InlineData("0")]
@@ -86,8 +88,7 @@ namespace UnitTests.LexerTests
         [InlineData("1230")]
         [InlineData("2131451")]
         [InlineData("23446")]
-        public void CheckNumberToken_FromString(string text)
-        {
+        public void CheckNumberToken_FromString(string text) {
             var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(TokenType.NUMBER, scanner.CurrentToken.Type);
@@ -95,7 +96,7 @@ namespace UnitTests.LexerTests
             Assert.Equal(int.Parse(text), (scanner.CurrentToken as Number).Value);
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
-            Assert.IsType<EndOfText>(scanner.CurrentToken); 
+            Assert.IsType<EndOfText>(scanner.CurrentToken);
         }
         [Theory]
         [InlineData("\"abcd\"")]
@@ -104,25 +105,27 @@ namespace UnitTests.LexerTests
         [InlineData("\"2137ELO\"")]
         [InlineData("\"qwerty\"")]
         [InlineData("\"1qaz2wsx\"")]
-        public void CheckStringToken_FromString(string text)
-        {
+        public void CheckStringToken_FromString(string text) {
             var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(TokenType.TEXT, scanner.CurrentToken.Type);
             Assert.IsType<Text>(scanner.CurrentToken);
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
-            Assert.IsType<EndOfText>(scanner.CurrentToken); 
-            
+            Assert.IsType<EndOfText>(scanner.CurrentToken);
+
         }
         [Theory]
-        [InlineData("(", TokenType.PAREN_OPEN)] [InlineData(")", TokenType.PAREN_CLOSE)]
-        [InlineData("[", TokenType.BRACKET_OPEN)] [InlineData("]", TokenType.BRACKET_CLOSE)]
-        [InlineData("{", TokenType.BRACE_OPEN)] [InlineData("}", TokenType.BRACE_CLOSE)]
-        [InlineData(":", TokenType.COLON)] [InlineData(";", TokenType.SEMICOLON)]
+        [InlineData("(", TokenType.PAREN_OPEN)]
+        [InlineData(")", TokenType.PAREN_CLOSE)]
+        [InlineData("[", TokenType.BRACKET_OPEN)]
+        [InlineData("]", TokenType.BRACKET_CLOSE)]
+        [InlineData("{", TokenType.BRACE_OPEN)]
+        [InlineData("}", TokenType.BRACE_CLOSE)]
+        [InlineData(":", TokenType.COLON)]
+        [InlineData(";", TokenType.SEMICOLON)]
         [InlineData(",", TokenType.COMMA)]
-        public void CheckLiteralToken_FromString(string text, TokenType type)
-        {
+        public void CheckLiteralToken_FromString(string text, TokenType type) {
             var scanner = new Scanner(new StringSource(text));
 
             scanner.Next();
@@ -142,8 +145,7 @@ namespace UnitTests.LexerTests
         [InlineData("#####kmdas")]
         [InlineData("#sajdj\n\t#sdada")]
         [InlineData("#sajdj\n\n\n#fagsgdfdhh")]
-        public void CheckEndOfTextWhiteSpacesAndComments_FromString(string text)
-        {
+        public void CheckEndOfTextWhiteSpacesAndComments_FromString(string text) {
             var scanner = new Scanner(new StringSource(text));
             scanner.Next();
             Assert.Equal(TokenType.EOT, scanner.CurrentToken.Type);
@@ -156,16 +158,14 @@ namespace UnitTests.LexerTests
         [InlineData("$$$$$$$")]
         [InlineData("''''''''''''")]
         [InlineData("```")]
-        public void CheckUnrecognizedToken_FromString(string text)
-        {
+        public void CheckUnrecognizedToken_FromString(string text) {
             var scanner = new Scanner(new StringSource(text));
             Assert.Throws<UnrecognizedToken>(() => scanner.Next());
         }
-        
+
 
         [Fact]
-        public void CheckTokensTypes_FromFile()
-        {
+        public void CheckTokensTypes_FromFile() {
             string path = MakeTestFile();
             TokenType[] tokenTypes = new TokenType[] {
                 TokenType.INT, TokenType.IDENTIFIER,
@@ -173,53 +173,45 @@ namespace UnitTests.LexerTests
                 TokenType.BRACE_OPEN, TokenType.INT,
                 TokenType.IDENTIFIER, TokenType.ASSIGN,
                 TokenType.NUMBER, TokenType.PLUS,
-                TokenType.NUMBER, TokenType.SEMICOLON, 
+                TokenType.NUMBER, TokenType.SEMICOLON,
                 TokenType.BRACE_CLOSE, TokenType.EOT
             };
-            using (var source = new FileSource(path))
-            {
+            using (var source = new FileSource(path)) {
                 var scanner = new Scanner(source);
-                foreach(var type in tokenTypes)
-                {
+                foreach (var type in tokenTypes) {
                     scanner.Next();
                     Assert.Equal(type, scanner.CurrentToken.Type);
                 }
             }
         }
         [Fact]
-        public void CheckTokensValues_FromFile()
-        {
+        public void CheckTokensValues_FromFile() {
             string path = MakeTestFile();
             string[] values = new string[] {
                 "int", "main", "(", ")",
                 "{", "int", "x", "=", "1", "+", "2", ";", "}",
             };
-            using (var source = new FileSource(path))
-            {
+            using (var source = new FileSource(path)) {
                 var scanner = new Scanner(source);
-                foreach(var value in values)
-                {
+                foreach (var value in values) {
                     scanner.Next();
                     Assert.Equal(value, scanner.CurrentToken.ToString());
                 }
             }
         }
         [Fact]
-        public void CheckTokensPositions_FromFile()
-        {
+        public void CheckTokensPositions_FromFile() {
             string path = MakeTestFile();
             TextPosition[] positions = new TextPosition[] {
-                new TextPosition(3, 1, 18), new TextPosition(3, 5, 22), new TextPosition(3, 9, 26), 
+                new TextPosition(3, 1, 18), new TextPosition(3, 5, 22), new TextPosition(3, 9, 26),
                 new TextPosition(3, 10, 27), new TextPosition(4, 1, 29), new TextPosition(5, 5 ,35),
                 new TextPosition(5, 9, 39), new TextPosition(5, 11, 41), new TextPosition(5 ,13, 43),
                 new TextPosition(5, 15, 45), new TextPosition(5, 17, 47), new TextPosition(5, 18, 48),
-                new TextPosition(6, 1, 67), new TextPosition(7, 1, 69), 
+                new TextPosition(6, 1, 67), new TextPosition(7, 1, 69),
             };
-            using (var source = new FileSource(path))
-            {
+            using (var source = new FileSource(path)) {
                 var scanner = new Scanner(source);
-                foreach(var position in positions)
-                {
+                foreach (var position in positions) {
                     scanner.Next();
                     Assert.Equal(position.SourcePosition, scanner.CurrentToken.Position.SourcePosition);
                     Assert.Equal(position.Row, scanner.CurrentToken.Position.Row);
@@ -228,16 +220,14 @@ namespace UnitTests.LexerTests
             }
         }
 
-        private string MakeTestFile()
-        {
+        private string MakeTestFile() {
             string path = "../../../TestFiles/testfile.ml";
-            string[] lines = { 
-                "# test comment 1", "", 
+            string[] lines = {
+                "# test comment 1", "",
                 "int main()", "{",
                 "    int x = 1 + 2; # test comment 2", "}"
             };
-            using (StreamWriter outputFile = new StreamWriter(path))
-            {
+            using (StreamWriter outputFile = new StreamWriter(path)) {
                 foreach (string line in lines)
                     outputFile.WriteLine(line);
             }
