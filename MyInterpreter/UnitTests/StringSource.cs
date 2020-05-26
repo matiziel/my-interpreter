@@ -1,6 +1,6 @@
 using MyInterpreter.DataSource;
 
-namespace UnitTests.LexerTests {
+namespace UnitTests {
     class StringSource : ISource {
         private string sourceString;
         public TextPosition Position { get; private set; }

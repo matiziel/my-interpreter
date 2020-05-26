@@ -7,7 +7,7 @@ using MyInterpreter.Lexer.Tokens;
 using Xunit;
 using MyInterpreter.Exceptions.LexerExceptions;
 
-namespace UnitTests.LexerTests {
+namespace UnitTests {
     public class LexerTests {
         [Theory]
         [InlineData("xyz + abc;", new TokenType[] { TokenType.IDENTIFIER, TokenType.PLUS, TokenType.IDENTIFIER, TokenType.SEMICOLON, TokenType.EOT })]

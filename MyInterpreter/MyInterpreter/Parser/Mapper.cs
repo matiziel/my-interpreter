@@ -17,8 +17,8 @@ namespace MyInterpreter.Parser {
             operators.Add(TokenType.PLUS, () => new AdditiveOperator("+"));
             operators.Add(TokenType.MINUS, () => new AdditiveOperator("-"));
 
-            operators.Add(TokenType.MULTIPLY, () => new MultiplicativeOperator("/"));
-            operators.Add(TokenType.DIVIDE, () => new MultiplicativeOperator("*"));
+            operators.Add(TokenType.MULTIPLY, () => new MultiplicativeOperator("*"));
+            operators.Add(TokenType.DIVIDE, () => new MultiplicativeOperator("/"));
             operators.Add(TokenType.MODULO, () => new MultiplicativeOperator("%"));
 
             operators.Add(TokenType.EQUALS, () => new EqualityOperator("=="));
