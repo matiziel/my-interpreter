@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Execution;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast.Statements {
     public class Definition : Statement {
@@ -14,10 +15,13 @@ namespace MyInterpreter.Parser.Ast.Statements {
             if (!(expression is null))
                 environment.GetVariable(variable.Name).Value = expression.Evaluate(environment);
         }
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitStatement("Definition");
-            variable.Accept(visitor);
-            expression?.Accept(visitor);
+        public override string ToString() {
+            var sb = new StringBuilder("Definition->");
+            sb.Append(variable.ToString());
+            if(!(expression is null))
+                sb.Append(expression.ToString());
+            sb.Append("\n");
+            return sb.ToString();
         }
     }
 }

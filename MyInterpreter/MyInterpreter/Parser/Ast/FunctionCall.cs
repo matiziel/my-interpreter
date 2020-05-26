@@ -3,6 +3,7 @@ using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Statements;
 using MyInterpreter.Parser.Ast.Values;
 using MyInterpreter.Execution;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast {
     public class FunctionCall : PrimaryExpression, Statement {
@@ -18,8 +19,15 @@ namespace MyInterpreter.Parser.Ast {
         public Value Evaluate(ExecEnvironment environment) {
             throw new System.NotImplementedException();
         }
-        public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+        public override string ToString() {
+            var sb = new StringBuilder("FunctionCall->");
+            sb.Append(name);
+            sb.Append("->arguments->\n");
+            foreach (var arg in arguments) {
+                sb.Append(arg.ToString());
+                sb.Append("\n");
+            }
+            return sb.ToString();
         }
     }
 }

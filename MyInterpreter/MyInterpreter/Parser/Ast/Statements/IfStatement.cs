@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Conditionals;
 using MyInterpreter.Execution;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast.Statements {
     public class IfStatement : Statement {
@@ -17,12 +18,14 @@ namespace MyInterpreter.Parser.Ast.Statements {
             else
                 statementElse.Execute(environment);
         }
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitStatement("if");
-            conditional.Accept(visitor);
-            statementIf.Accept(visitor);
-            visitor.VisitStatement("else");
-            statementElse.Accept(visitor);
+        public override string ToString() {
+            var sb = new StringBuilder("if->");
+            sb.Append(conditional.ToString());
+            sb.Append("\n");
+            sb.Append(statementIf.ToString());
+            sb.Append("else->\n");
+            sb.Append(statementElse.ToString());
+            return sb.ToString();
         }
     }
 }

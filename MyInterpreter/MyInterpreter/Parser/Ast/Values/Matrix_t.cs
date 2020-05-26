@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast.Values {
     public class Matrix_t : Value {
@@ -6,8 +7,9 @@ namespace MyInterpreter.Parser.Ast.Values {
         public Matrix_t() {
             Type = TypeValue.Matrix;
         }
-        public void Accept(PrintVisitor visitor) {
-            throw new NotImplementedException();
+        public override string ToString() {
+            var sb = new StringBuilder();
+            return sb.ToString();
         }
     }
 }

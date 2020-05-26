@@ -1,10 +1,11 @@
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Values;
 using MyInterpreter.Execution;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast {
     public class DerefVariable : PrimaryExpression {
-        private string name;
+        public string name;
         private Range left;
         private Range right;
         public DerefVariable(string name, Range left = null, Range right = null) {
@@ -15,8 +16,11 @@ namespace MyInterpreter.Parser.Ast {
         public Value Evaluate(ExecEnvironment environment) {
             return environment.GetVariable(name).Value;
         }
-        public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+        public override string ToString() {
+            var sb = new StringBuilder();
+            sb.Append(name);
+            return sb.ToString();
         }
+
     }
 }

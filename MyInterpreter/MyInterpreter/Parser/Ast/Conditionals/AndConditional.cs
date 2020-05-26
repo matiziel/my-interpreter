@@ -1,3 +1,4 @@
+using System.Text;
 using MyInterpreter.Execution;
 
 namespace MyInterpreter.Parser.Ast.Conditionals {
@@ -12,10 +13,14 @@ namespace MyInterpreter.Parser.Ast.Conditionals {
             => rightConditional is null ?
                 leftConditional.Evaluate(environment) :
                 leftConditional.Evaluate(environment) && rightConditional.Evaluate(environment);
-        public void Accept(PrintVisitor visitor) {
-            leftConditional.Accept(visitor);
-            visitor.VisitLogicOperator(" && ");
-            rightConditional.Accept(visitor);
-        }
+
+        public override string ToString() {
+            var sb = new StringBuilder();
+            sb.Append(leftConditional.ToString());
+            sb.Append(" && ");
+            sb.Append(rightConditional.ToString());
+            return sb.ToString();
+        } 
+
     }
 }

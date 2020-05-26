@@ -1,15 +1,20 @@
+using System.Text;
 using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser.Ast {
-    public class Parameter : Node {
-        public TypeValue Type { get; private set; }
-        public string Name { get; private set; }
+    public class Parameter  {
+        private TypeValue type;
+        private string name;
         public Parameter(TypeValue type, string name) {
-            Type = type;
-            Name = name;
+            this.type = type;
+            this.name = name;
         }
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitParameter(this);
+        public override string ToString() {
+            var sb = new StringBuilder();
+            sb.Append(type);
+            sb.Append("->");
+            sb.Append(name);
+            return sb.ToString();
         }
 
     }

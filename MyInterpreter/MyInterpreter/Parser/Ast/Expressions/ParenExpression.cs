@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Values;
 using MyInterpreter.Execution;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast.Expressions {
     public class ParenExpression : PrimaryExpression {
@@ -8,10 +9,13 @@ namespace MyInterpreter.Parser.Ast.Expressions {
             this.expression = expression;
 
         public Value Evaluate(ExecEnvironment environment) => expression.Evaluate(environment);
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitParenExpression(this, '(');
-            expression.Accept(visitor);
-            visitor.VisitParenExpression(this, ')');
+       
+        public override string ToString() {
+            var sb = new StringBuilder();
+            sb.Append('(');
+            sb.Append(expression.ToString());
+            sb.Append(')');
+            return sb.ToString();
         }
     }
 }

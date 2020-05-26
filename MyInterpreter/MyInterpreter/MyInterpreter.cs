@@ -21,9 +21,8 @@ namespace MyInterpreter {
                 try {
                     var scanner = new Scanner(source);
                     var parser = new Parser.Parser(scanner);
-                    var printVisitor = new PrintVisitor();
-                    parser.Parse().Accept(printVisitor);
-                    System.Console.WriteLine(printVisitor.Value);
+                    var s = parser.Parse().ToString();
+                    System.Console.WriteLine(s);
 
                 }
                 catch (LexerException e) {

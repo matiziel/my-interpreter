@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast.Values {
     public class Int_t : Value {
@@ -8,8 +9,10 @@ namespace MyInterpreter.Parser.Ast.Values {
             Value = value;
             Type = TypeValue.Int;
         }
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitValueInt(this);
-        }
+        public override string ToString() {
+            var sb = new StringBuilder();
+            sb.Append(Value);
+            return sb.ToString();
+        } 
     }
 }

@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Values;
 using MyInterpreter.Execution;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast.Expressions {
     public class UnaryExpression : Expression {
@@ -13,10 +14,13 @@ namespace MyInterpreter.Parser.Ast.Expressions {
             => isNegated ?
                 ExpressionExecutor.GetNegative(expression.Evaluate(environment))
                 : expression.Evaluate(environment);
-        public void Accept(PrintVisitor visitor) {
+       
+        public override string ToString() {
+            var sb = new StringBuilder();
             if(isNegated)
-                visitor.VisitNegatedExpression(this);
-            expression.Accept(visitor);
+                sb.Append("-");
+            sb.Append(expression.ToString());
+            return sb.ToString();
         }
     }
 }

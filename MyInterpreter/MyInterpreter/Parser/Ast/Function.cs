@@ -2,28 +2,35 @@ using System.Collections.Generic;
 using MyInterpreter.Parser.Ast.Statements;
 using MyInterpreter.Parser.Ast.Values;
 using System;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast {
-    public class Function : Node {
-        public TypeValue Type { get; private set; }
-        public string Name { get; private set; }
+    public class Function {
+        private TypeValue type;
+        private string name;
         private IEnumerable<Parameter> parameters;
         private BlockStatement blockStatement;
         public Function(TypeValue type, string name, IEnumerable<Parameter> parameters, BlockStatement blockStatement) {
-            Type = type;
-            Name = name;
+            this.type = type;
+            this.name = name;
             this.parameters = parameters;
             this.blockStatement = blockStatement;
         }
         public Value Execute() {
             throw new NotImplementedException();
         }
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitFunction(this);
+        public override string ToString() {
+            var sb = new StringBuilder("Function->");
+            sb.Append(type.ToString());
+            sb.Append("->");
+            sb.Append(name);
+            sb.Append("\n");
             foreach (var param in parameters) {
-                param.Accept(visitor);
+                sb.Append(param.ToString());
+                sb.Append("\n");
             }
-            blockStatement.Accept(visitor);
+            sb.Append(blockStatement.ToString());
+            return sb.ToString();
         }
     }
 }

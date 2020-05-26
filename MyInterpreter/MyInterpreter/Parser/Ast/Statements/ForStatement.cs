@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Conditionals;
 using MyInterpreter.Execution;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast.Statements {
     public class ForStatement : Statement {
@@ -17,12 +18,16 @@ namespace MyInterpreter.Parser.Ast.Statements {
             for (first.Execute(environment); conditional.Evaluate(environment); second.Execute(environment))
                 statement.Execute(environment);
         }
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitStatement("for");
-            first.Accept(visitor);
-            conditional.Accept(visitor);
-            second.Accept(visitor);
-            statement.Accept(visitor);
+        public override string ToString() {
+            var sb = new StringBuilder("for->\n");
+            sb.Append("first->\n");
+            sb.Append(first.ToString());
+            sb.Append("conditional->");
+            sb.Append(conditional.ToString());
+            sb.Append("second->");
+            sb.Append(second.ToString());
+            sb.Append(statement.ToString());
+            return sb.ToString();
         }
     }
 }

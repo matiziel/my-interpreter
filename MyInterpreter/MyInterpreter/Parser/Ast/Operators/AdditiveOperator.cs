@@ -1,3 +1,4 @@
+using System.Text;
 using MyInterpreter.Exceptions.ParserExceptions;
 
 namespace MyInterpreter.Parser.Ast.Operators {
@@ -7,8 +8,10 @@ namespace MyInterpreter.Parser.Ast.Operators {
             if (value == "+" || value == "-")
                 Operator = value;
         }
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitOperator(this);
+        public override string ToString() {
+            var sb = new StringBuilder();
+            sb.Append(Operator);
+            return sb.ToString();
         }
     }
 }

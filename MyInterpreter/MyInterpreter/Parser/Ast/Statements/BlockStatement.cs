@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using MyInterpreter.Execution;
 
 namespace MyInterpreter.Parser.Ast.Statements {
@@ -12,11 +13,13 @@ namespace MyInterpreter.Parser.Ast.Statements {
                 item.Execute(environment);
             environment.DestroyScope();
         }
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitStatement("BlockStatement");
-            foreach (var item in statements) {
-                item.Accept(visitor);
+        public override string ToString() {
+            var sb = new StringBuilder("BlockStatement->\n");
+            foreach (var stat in statements) {
+                sb.Append(stat.ToString());
             }
+            sb.Append("\n");
+            return sb.ToString();
         }
     }
 }

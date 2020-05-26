@@ -1,6 +1,7 @@
 using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Parser.Ast.Values;
 using MyInterpreter.Execution;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast.Expressions {
     public class AdditiveExpression : Expression {
@@ -24,10 +25,12 @@ namespace MyInterpreter.Parser.Ast.Expressions {
                 additiveOperator
             );
         }
-        public void Accept(PrintVisitor visitor) {
-            leftExpression.Accept(visitor);
-            additiveOperator.Accept(visitor);
-            rightExpression.Accept(visitor);
+        public override string ToString() {
+            var sb = new StringBuilder();
+            sb.Append(leftExpression.ToString());
+            sb.Append(additiveOperator.ToString());
+            sb.Append(rightExpression.ToString());
+            return sb.ToString();
         }
     }
 }

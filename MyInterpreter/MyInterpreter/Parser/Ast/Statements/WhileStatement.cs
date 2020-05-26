@@ -1,5 +1,6 @@
 using MyInterpreter.Parser.Ast.Conditionals;
 using MyInterpreter.Execution;
+using System.Text;
 
 namespace MyInterpreter.Parser.Ast.Statements {
     public class WhileStatement : Statement {
@@ -13,8 +14,12 @@ namespace MyInterpreter.Parser.Ast.Statements {
             while (conditional.Evaluate(environment))
                 statement.Execute(environment);
         }
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitStatement("while");
+        public override string ToString() {
+            var sb = new StringBuilder("while->");
+            sb.Append(conditional.ToString());
+            sb.Append("\n");
+            sb.Append(statement.ToString());
+            return sb.ToString();
         }
     }
 }

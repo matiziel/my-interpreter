@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Text;
 using MyInterpreter.Parser.Ast.Statements;
 
 namespace MyInterpreter.Parser.Ast {
-    public class Program : Node {
+    public class Program {
         private readonly IDictionary<string, Function> functions;
         private readonly IEnumerable<Definition> definitions;
         public Program(IDictionary<string, Function> functions, IEnumerable<Definition> definitions) {
@@ -11,14 +12,16 @@ namespace MyInterpreter.Parser.Ast {
         }
         public Function GetFunctionByName(string name)
             => functions.ContainsKey(name) ? functions[name] : null;
-        public void Accept(PrintVisitor visitor) {
-            visitor.VisitProgram(this);
+
+        public override string ToString() {
+            var sb = new StringBuilder("Program->\n");
             foreach (var def in definitions) {
-                def.Accept(visitor);
+                sb.Append(def.ToString());
             }
             foreach (var fun in functions) {
-                fun.Value.Accept(visitor);
+                sb.Append(fun.Value.ToString());
             }
+            return sb.ToString();
         }
     }
 }

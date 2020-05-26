@@ -244,7 +244,7 @@ namespace MyInterpreter.Parser {
             Assignment assignmentSecond = null;
             name = TryParseIdentifier();
             if (!(name is null)) {
-                assignmentFirst = TryParseAssignment(name) ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
+                assignmentSecond = TryParseAssignment(name) ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
             }
             CheckTokenTypeAndGoNext(TokenType.PAREN_CLOSE);
 
@@ -347,22 +347,14 @@ namespace MyInterpreter.Parser {
             return left;
         }
         private Logical TryParseLogical() {
-            bool isNegated = _scanner.CurrentToken.Type == TokenType.NOT;
-            if (isNegated)
-                _scanner.Next();
             Logical logical;
-            if ((logical = TryParseParenConditional(isNegated)) != null)
+            if ((logical = TryParseParenConditional()) != null)
                 return logical;
-            if ((logical = TryParseSimpleConditional(isNegated)) != null)
+            else if ((logical = TryParseSimpleConditional()) != null)
                 return logical;
-            else {
-                if (isNegated)
-                    throw new UnexpectedToken(_scanner.CurrentToken.Position);
-                else
-                    return null;
-            }
+            else return null;
         }
-        private SimpleConditional TryParseSimpleConditional(bool isNegated) {
+        private SimpleConditional TryParseSimpleConditional() {
             Expression left = TryParseExpression();
             if (left is null)
                 return null;
@@ -370,11 +362,21 @@ namespace MyInterpreter.Parser {
             EqualityOperator equalityOperator = TryParseEqualityOperator() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
             Expression right = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
-            return new SimpleConditional(left, right, equalityOperator, isNegated);
+            return new SimpleConditional(left, right, equalityOperator);
         }
-        private ParenConditional TryParseParenConditional(bool isNegated) {
-            if (_scanner.CurrentToken.Type != TokenType.PAREN_OPEN)
+        private ParenConditional TryParseParenConditional() {
+            bool isNegated = false;
+            if (_scanner.CurrentToken.Type == TokenType.NOT) {
+                isNegated = true;
+                _scanner.Next();
+            }
+
+            if (_scanner.CurrentToken.Type != TokenType.PAREN_OPEN && !isNegated)
                 return null;
+
+            if (_scanner.CurrentToken.Type != TokenType.PAREN_OPEN && isNegated)
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
+
             _scanner.Next();
 
             Conditional conditional = TryParseConditional() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
