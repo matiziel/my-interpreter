@@ -2,25 +2,24 @@ using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Execution;
 using System.Text;
+using System;
 
 namespace MyInterpreter.Parser.Ast.Statements {
     public class Assignment : Statement {
-        private string name;
+        private DerefVariable variable;
         private AssignmentOperator assignmentOperator;
         private Expression expression;
-        public Assignment(string name, AssignmentOperator assignmentOperator, Expression expression) {
-            this.name = name;
+        public Assignment(DerefVariable variable, AssignmentOperator assignmentOperator, Expression expression) {
+            this.variable = variable;
             this.assignmentOperator = assignmentOperator;
             this.expression = expression;
         }
         public void Execute(ExecEnvironment environment) {
-            Variable var = environment.GetVariable(name);
-            //TODO can be different operators
-            var.Value = expression.Evaluate(environment);
+            throw new NotImplementedException();
         }
         public override string ToString() {
-            var sb = new StringBuilder("Assignment->\n");
-            sb.Append(name);
+            var sb = new StringBuilder("Assignment->");
+            sb.Append(variable.ToString());
             sb.Append(assignmentOperator.ToString());
             sb.Append(expression.ToString());
             sb.Append("\n");

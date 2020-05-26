@@ -18,7 +18,6 @@ namespace MyInterpreter.Parser.Ast.Statements {
             foreach (var stat in statements) {
                 sb.Append(stat.ToString());
             }
-            sb.Append("\n");
             return sb.ToString();
         }
     }

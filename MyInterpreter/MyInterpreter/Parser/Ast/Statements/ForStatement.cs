@@ -24,7 +24,7 @@ namespace MyInterpreter.Parser.Ast.Statements {
             sb.Append(first.ToString());
             sb.Append("conditional->");
             sb.Append(conditional.ToString());
-            sb.Append("second->");
+            sb.Append("\nsecond->\n");
             sb.Append(second.ToString());
             sb.Append(statement.ToString());
             return sb.ToString();
