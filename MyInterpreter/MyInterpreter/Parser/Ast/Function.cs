@@ -3,6 +3,7 @@ using MyInterpreter.Parser.Ast.Statements;
 using MyInterpreter.Parser.Ast.Values;
 using System;
 using System.Text;
+using System.Linq;
 
 namespace MyInterpreter.Parser.Ast {
     public class Function {
@@ -25,10 +26,14 @@ namespace MyInterpreter.Parser.Ast {
             sb.Append("->");
             sb.Append(name);
             sb.Append("\n");
+            int i = 0;
+            sb.Append("Parameters->");
             foreach (var param in parameters) {
                 sb.Append(param.ToString());
-                sb.Append("\n");
+                if (++i < parameters.Count())
+                    sb.Append(",");
             }
+            sb.Append("\n");
             sb.Append(blockStatement.ToString());
             return sb.ToString();
         }

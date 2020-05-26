@@ -4,6 +4,7 @@ using MyInterpreter.Parser.Ast.Statements;
 using MyInterpreter.Parser.Ast.Values;
 using MyInterpreter.Execution;
 using System.Text;
+using System.Linq;
 
 namespace MyInterpreter.Parser.Ast {
     public class FunctionCall : PrimaryExpression, Statement {
@@ -22,11 +23,14 @@ namespace MyInterpreter.Parser.Ast {
         public override string ToString() {
             var sb = new StringBuilder("FunctionCall->");
             sb.Append(name);
-            sb.Append("->arguments->\n");
+            sb.Append("\nArguments->");
+            int i = 0;
             foreach (var arg in arguments) {
                 sb.Append(arg.ToString());
-                sb.Append("\n");
+                if (++i < arguments.Count())
+                    sb.Append(",");
             }
+            sb.Append("\n");
             return sb.ToString();
         }
     }
