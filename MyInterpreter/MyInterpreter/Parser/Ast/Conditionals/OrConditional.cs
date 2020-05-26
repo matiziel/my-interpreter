@@ -14,7 +14,7 @@ namespace MyInterpreter.Parser.Ast.Conditionals {
                 leftConditional.Evaluate(environment) || rightConditional.Evaluate(environment);
         public void Accept(PrintVisitor visitor) {
             leftConditional.Accept(visitor);
-            visitor.VisitOrConditional(this);
+            visitor.VisitLogicOperator(" || ");
             rightConditional.Accept(visitor);
         }
     }

@@ -18,7 +18,11 @@ namespace MyInterpreter.Parser.Ast.Statements {
                 statement.Execute(environment);
         }
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitStatement("for");
+            first.Accept(visitor);
+            conditional.Accept(visitor);
+            second.Accept(visitor);
+            statement.Accept(visitor);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace MyInterpreter.Parser.Ast.Statements {
                 environment.GetVariable(variable.Name).Value = expression.Evaluate(environment);
         }
         public void Accept(PrintVisitor visitor) {
-            visitor.VisitDefinition(this);
+            visitor.VisitStatement("Definition");
             variable.Accept(visitor);
             expression?.Accept(visitor);
         }

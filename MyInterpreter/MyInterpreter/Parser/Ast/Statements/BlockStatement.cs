@@ -13,7 +13,7 @@ namespace MyInterpreter.Parser.Ast.Statements {
             environment.DestroyScope();
         }
         public void Accept(PrintVisitor visitor) {
-            visitor.VisitBlockStatement(this);
+            visitor.VisitStatement("BlockStatement");
             foreach (var item in statements) {
                 item.Accept(visitor);
             }

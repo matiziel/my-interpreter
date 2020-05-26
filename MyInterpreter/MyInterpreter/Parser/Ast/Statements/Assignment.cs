@@ -4,20 +4,23 @@ using MyInterpreter.Execution;
 
 namespace MyInterpreter.Parser.Ast.Statements {
     public class Assignment : Statement {
-        private string name;
+        public string Name { get; private set; }
         private AssignmentOperator assignmentOperator;
         private Expression expression;
         public Assignment(string name, AssignmentOperator assignmentOperator, Expression expression) {
-            this.name = name;
+            this.Name = name;
             this.assignmentOperator = assignmentOperator;
             this.expression = expression;
         }
         public void Execute(ExecEnvironment environment) {
-            Variable var = environment.GetVariable(name);
+            Variable var = environment.GetVariable(Name);
+            //TODO can be different operators
             var.Value = expression.Evaluate(environment);
         }
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitAssignment(this);
+            assignmentOperator.Accept(visitor);
+            expression.Accept(visitor);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace MyInterpreter.Parser.Ast.Statements {
                 statement.Execute(environment);
         }
         public void Accept(PrintVisitor visitor) {
-            throw new System.NotImplementedException();
+            visitor.VisitStatement("while");
         }
     }
 }
