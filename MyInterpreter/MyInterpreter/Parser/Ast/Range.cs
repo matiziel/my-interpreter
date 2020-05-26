@@ -11,11 +11,9 @@ namespace MyInterpreter.Parser.Ast {
         }
         public override string ToString() {
             var sb = new StringBuilder();
-            sb.Append('[');
             sb.Append(firstExpr.ToString());
             sb.Append(':');
             sb.Append(secondExpr.ToString());
-            sb.Append(']');
             return sb.ToString();
         }
     }

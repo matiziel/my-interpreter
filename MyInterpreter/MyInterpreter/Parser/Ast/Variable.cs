@@ -18,16 +18,16 @@ namespace MyInterpreter.Parser.Ast {
         public override string ToString() {
             var sb = new StringBuilder();
             sb.Append(Type);
-            sb.Append("\n");
+            sb.Append("->");
             sb.Append(Name);
             if (First != null && Second != null) {
                 sb.Append('[');
                 sb.Append(First.ToString());
-                sb.Append(']');
-                sb.Append('[');
+                sb.Append(',');
                 sb.Append(Second.ToString());
                 sb.Append(']');
             }
+            sb.Append("\nValue->");
             return sb.ToString();
         }
 
