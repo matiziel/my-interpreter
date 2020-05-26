@@ -310,7 +310,7 @@ namespace MyInterpreter.Parser {
 
             Expression expression = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
 
-            return new Assignment(name, assignmentOperator as AssignmentOperator, expression);
+            return new Assignment(derefVar, assignmentOperator as AssignmentOperator, expression);
         }
         private Definition TryParseDefinition() {
             TypeValue? type = TryParseType();
