@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MyInterpreter.Parser.Ast {
     public class DerefVariable : PrimaryExpression {
-        public string name;
+        private string name;
         private Range left;
         private Range right;
         public DerefVariable(string name, Range left = null, Range right = null) {
@@ -19,6 +19,13 @@ namespace MyInterpreter.Parser.Ast {
         public override string ToString() {
             var sb = new StringBuilder();
             sb.Append(name);
+            if (left != null && right != null) {
+                sb.Append('[');
+                sb.Append(left.ToString());
+                sb.Append(',');
+                sb.Append(right.ToString());
+                sb.Append(']');
+            }
             return sb.ToString();
         }
 
