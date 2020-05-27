@@ -131,11 +131,66 @@ BlockStatement->
 Definition->String->x
 Value->abvd
 ")]
+        [InlineData(
+        "int x = 10;",
+        @"Program->
+Definition->Int->x
+Value->10
+")]
         public void CheckAstTree_FromString(string text, string expected) {
             var scanner = new Scanner(new StringSource(text));
             var parser = new Parser(scanner);
             string actual = parser.Parse().ToString();
             Assert.Equal(expected, actual);
+        }
+        [Theory]
+        [InlineData("main()")]
+        [InlineData("int()")]
+        [InlineData("int main {")]
+        [InlineData("int x = {")]
+        [InlineData("int x [ = ")]
+        [InlineData("int x [2 = ")]
+        [InlineData("int x [2, = ")]
+        [InlineData("int x [2, 2 ")]
+        [InlineData("int x ( {")]
+        [InlineData("int x ( int x2,")]
+        [InlineData("int x ( ) int")]
+        [InlineData("int x (int, ) int")]
+        [InlineData("int x ( ) { () })")]
+        [InlineData("int x ( ) { if  )")]
+        [InlineData("int x ( ) { if() { }  ")]
+        [InlineData("int x ( ) { if(x<5) { } else () ")]
+        [InlineData("int x ( ) { while( {} ")]
+        [InlineData("int x ( ) { while(x<5 {} ")]
+        [InlineData("int x ( ) { while(x<5) ()")]
+        [InlineData("int x ( ) { for( ()")]
+        [InlineData("int x ( ) { for(x<5; ()")]
+        [InlineData("int x ( ) { for(x = 5; ()")]
+        [InlineData("int x ( ) { for(x=5; x=6 ()")]
+        [InlineData("int x ( ) { for(x=6;x<7; ()")]
+        [InlineData("int x ( ) { for(x=6;x<7; x+=5 ()")]
+        [InlineData("int x ( ) { for(x=6;x<7; x+=5) ()")]
+        [InlineData("int x ( ) { return x<5;")]
+        [InlineData("int x ( ) { return ;")]
+        [InlineData("int x ( ) { return 0")]
+        [InlineData("int x ( ) { x += x<5")]
+        [InlineData("int x ( ) { x += 1 0")]
+        [InlineData("int x ( ) { x+= x( {")]
+        [InlineData("int x ( ) { x+= x() ")]
+        [InlineData("int x ( ) { x+= x(1,);")]
+        [InlineData("int x ( ) { if(!x<5) { } }")]
+        [InlineData("int x ( ) { if(!(x<5) && (x>6) { } }")]
+        [InlineData("int x ( ) { if(!(x<5) || (x>6) { } }")]
+        [InlineData("int x ( ) { x = 6 + 7 * (7 * 7)); }")]
+        [InlineData("int x ( ) { x = 6 % 7 * (7 * 7)(2+2); }")]
+        [InlineData("int x ( ) { x[2:,(")]
+        [InlineData("int x ( ) { x[2:2,(")]
+        [InlineData("int x ( ) { x[2:2,2:(")]
+        [InlineData("int x ( ) { x[2:2,2:2(")]
+        public void CheckExceptions_FromString(string text) {
+            var scanner = new Scanner(new StringSource(text));
+            var parser = new Parser(scanner);
+            Assert.Throws<UnexpectedToken>(() => parser.Parse());
         }
     }
 }

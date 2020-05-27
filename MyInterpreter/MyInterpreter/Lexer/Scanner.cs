@@ -95,7 +95,7 @@ namespace MyInterpreter.Lexer {
             return new Number(value, _source.Position);
         }
 
-        //TODO need to refractor ex. \n or \t is not supported
+        //TODO need to refractor ex. \n or \t is not supported and check lenght
         private Token TryToGetString() {
             if (_source.CurrentChar != '\"')
                 return null;
