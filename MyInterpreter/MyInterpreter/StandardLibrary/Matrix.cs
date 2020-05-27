@@ -4,16 +4,16 @@ using System.Text;
 namespace MyInterpreter.StandardLibrary {
     public class Matrix {
         private int[,] matrix;
-        int xSize;
-        int ySize;
+        public int SizeX { get; private set; }
+        public int SizeY { get; private set; }
         public Matrix(int x, int y) {
-            xSize = x;
-            ySize = y;
+            SizeX = x;
+            SizeY = y;
             matrix = new int[x, y];
         }
         public Matrix(int x, int y, int[,] matrix) {
-            xSize = x;
-            ySize = y;
+            SizeX = x;
+            SizeY = y;
             this.matrix = matrix;
         }
         public int this[int x, int y] {
@@ -23,7 +23,7 @@ namespace MyInterpreter.StandardLibrary {
         public Matrix GetRange(int x1, int x2, int y1, int y2) {
             if (x2 - x1 < 0 || y2 - y1 < 0)
                 throw new IndexOutOfRangeException("Range cannot be negative");
-            if (x2 >= xSize || y2 >= ySize)
+            if (x2 >= SizeX || y2 >= SizeY)
                 throw new IndexOutOfRangeException("Range cannot be negative");
 
             int[,] newMatrix = new int[x2 - x1 + 1, y2 - y1 + 1];
@@ -35,16 +35,35 @@ namespace MyInterpreter.StandardLibrary {
         }
         public override string ToString() {
             var sb = new StringBuilder();
-            for (int i = 0; i < xSize; ++i) {
+            for (int i = 0; i < SizeX; ++i) {
                 sb.Append('[');
-                for (int k = 0; k < ySize; ++k) {
+                for (int k = 0; k < SizeY; ++k) {
                     sb.Append(matrix[i, k]);
-                    if (k != ySize - 1)
+                    if (k != SizeY - 1)
                         sb.Append(',');
                 }
                 sb.Append("]\n");
             }
             return sb.ToString();
         }
+        public static Matrix operator +(Matrix a, Matrix b) {
+            if (a.SizeX != b.SizeX || a.SizeY != b.SizeY)
+                throw new InvalidOperationException("Sizes of matrix is incorrect");
+            Matrix newMatrix = new Matrix(a.SizeX, a.SizeY);
+            for (int i = 0; i < newMatrix.SizeX; ++i)
+                for (int k = 0; k < newMatrix.SizeY; ++k)
+                    newMatrix[i, k] = a[i, k] + b[i, k];
+            return newMatrix;
+        }
+        public static Matrix operator -(Matrix a, Matrix b) {
+            if (a.SizeX != b.SizeX || a.SizeY != b.SizeY)
+                throw new InvalidOperationException("Sizes of matrix is incorrect");
+            Matrix newMatrix = new Matrix(a.SizeX, a.SizeY);
+            for (int i = 0; i < newMatrix.SizeX; ++i)
+                for (int k = 0; k < newMatrix.SizeY; ++k)
+                    newMatrix[i, k] = a[i, k] - b[i, k];
+            return newMatrix;
+        }
+
     }
 }
