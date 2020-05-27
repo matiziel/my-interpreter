@@ -30,6 +30,7 @@ namespace MyInterpreter.StandardLibrary {
             for (int i = x1; i <= x2; ++i)
                 for (int k = y1; k <= y2; ++k)
                     newMatrix[i - x1, k - y1] = matrix[i, k];
+
             return new Matrix(x2 - x1 + 1, y2 - y1 + 1, newMatrix);
         }
         public override string ToString() {
