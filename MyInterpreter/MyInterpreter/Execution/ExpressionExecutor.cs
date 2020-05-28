@@ -9,7 +9,7 @@ namespace MyInterpreter.Execution {
     public static class ExpressionExecutor {
         public static Value EvaluateExpression(Value left, Value right, IOperator operatorValue) {
             if (left.Type != right.Type)
-                throw new ExecutionException();
+                throw new RuntimeException();
 
             switch (operatorValue.Operator) {
                 case "+":
@@ -20,33 +20,33 @@ namespace MyInterpreter.Execution {
                     else if (left.Type == TypeValue.Matrix)
                         throw new NotImplementedException();
                     else
-                        throw new ExecutionException();
+                        throw new RuntimeException();
                 case "-":
                     if (left.Type == TypeValue.Int)
                         return new Int_t((left as Int_t).Value - (right as Int_t).Value);
                     else if (left.Type == TypeValue.Matrix)
                         throw new NotImplementedException();
                     else
-                        throw new ExecutionException();
+                        throw new RuntimeException();
                 case "*":
                     if (left.Type == TypeValue.Int)
                         return new Int_t((left as Int_t).Value * (right as Int_t).Value);
                     else if (left.Type == TypeValue.Matrix)
                         throw new NotImplementedException();
                     else
-                        throw new ExecutionException();
+                        throw new RuntimeException();
                 case "/":
                     if (left.Type == TypeValue.Int)
                         return new Int_t((left as Int_t).Value / (right as Int_t).Value);
                     else
-                        throw new ExecutionException();
+                        throw new RuntimeException();
                 case "%":
                     if (left.Type == TypeValue.Int)
                         return new Int_t((left as Int_t).Value % (right as Int_t).Value);
                     else
-                        throw new ExecutionException();
+                        throw new RuntimeException();
                 default:
-                    throw new ExecutionException();
+                    throw new RuntimeException();
             }
         }
         public static Value GetNegative(Value value) {
@@ -55,14 +55,14 @@ namespace MyInterpreter.Execution {
             else if (value.Type == TypeValue.Matrix)
                 throw new NotImplementedException();
             else
-                throw new ExecutionException();
+                throw new RuntimeException();
         }
         public static bool EvaluateSimpleConditional(Value left, Value right, EqualityOperator operatorValue) {
             if (left.Type != right.Type)
-                throw new ExecutionException();
+                throw new RuntimeException();
 
             if (left.Type != TypeValue.Int)
-                throw new ExecutionException();
+                throw new RuntimeException();
             Int_t leftValue = left as Int_t;
             Int_t rightValue = right as Int_t;
             switch (operatorValue.Operator) {
@@ -79,7 +79,7 @@ namespace MyInterpreter.Execution {
                 case "<":
                     return leftValue.Value < rightValue.Value;
                 default:
-                    throw new ExecutionException();
+                    throw new RuntimeException();
             }
         }
     }

@@ -6,9 +6,9 @@ using System;
 
 namespace MyInterpreter.Parser.Ast.Expressions {
     public class AdditiveExpression : Expression {
-        private Expression leftExpression;
-        private Expression rightExpression;
-        private AdditiveOperator additiveOperator;
+        public Expression leftExpression { get; private set; }
+        public Expression rightExpression { get; private set; }
+        public AdditiveOperator additiveOperator { get; private set; }
         public AdditiveExpression(Expression left, Expression right, AdditiveOperator operatorValue) {
             leftExpression = left;
             rightExpression = right;
