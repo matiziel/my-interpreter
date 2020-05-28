@@ -80,6 +80,8 @@ namespace MyInterpreter.Parser {
             return name;
         }
         private Definition TryParseDefinition(TypeValue type, string name) {
+            if(type == TypeValue.Void)
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             Variable variable = TryParseVariable(type, name);
             if (_scanner.CurrentToken.Type == TokenType.ASSIGN) {
                 _scanner.Next();
