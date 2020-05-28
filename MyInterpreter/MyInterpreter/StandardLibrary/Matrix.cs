@@ -43,13 +43,7 @@ namespace MyInterpreter.StandardLibrary {
             return newMatrix;
         }
         public static Matrix operator -(Matrix a, Matrix b) {
-            if (a.SizeX != b.SizeX || a.SizeY != b.SizeY)
-                throw new InvalidOperationException("Sizes of matrix is incorrect");
-            Matrix newMatrix = new Matrix(a.SizeX, a.SizeY);
-            for (int i = 0; i < newMatrix.SizeX; ++i)
-                for (int k = 0; k < newMatrix.SizeY; ++k)
-                    newMatrix[i, k] = a[i, k] - b[i, k];
-            return newMatrix;
+            return a + (-b);
         }
         public static Matrix operator *(Matrix a, Matrix b) {
             if (a.SizeY != b.SizeX)
@@ -60,6 +54,16 @@ namespace MyInterpreter.StandardLibrary {
                     for (int k = 0; k < a.SizeY; ++k) {
                         newMatrix[i, j] += a[i, k] * b[k, j];
                     }
+            return newMatrix;
+        }
+        public static Matrix operator /(Matrix a, Matrix b) {
+            throw new InvalidOperationException();
+        }
+        public static Matrix operator -(Matrix matrix) {
+            Matrix newMatrix = new Matrix(matrix.SizeX, matrix.SizeY);
+            for (int i = 0; i < newMatrix.SizeX; ++i)
+                for (int k = 0; k < newMatrix.SizeY; ++k)
+                    newMatrix[i, k] = -matrix[i,k];
             return newMatrix;
         }
         public static bool operator ==(Matrix a, Matrix b) {
