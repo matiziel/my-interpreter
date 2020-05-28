@@ -10,10 +10,36 @@ namespace MyInterpreter.Parser.Ast.Values {
             Type = TypeValue.Matrix;
             Value = new Matrix(x, y);
         }
+        public Matrix_t(Matrix value) {
+            Type = TypeValue.Matrix;
+            Value = value;
+        }
+
         public override string ToString() {
             var sb = new StringBuilder();
+            sb.Append(Value.ToString());
             return sb.ToString();
         }
+
+        public override bool Equals(object obj) {
+            return Value.Equals(obj);
+        }
+
+        public override int GetHashCode() {
+            return Value.GetHashCode();
+        }
+        public static Matrix_t operator +(Matrix_t a, Matrix_t b) => new Matrix_t(a.Value + b.Value);
+        public static Matrix_t operator -(Matrix_t a, Matrix_t b) => new Matrix_t(a.Value - b.Value);
+        public static Matrix_t operator *(Matrix_t a, Matrix_t b) => new Matrix_t(a.Value * b.Value);
+        public static Matrix_t operator -(Matrix_t a) => new Matrix_t(-a.Value);
+        public static bool operator ==(Matrix_t a, Matrix_t b) => a.Value == b.Value;
+        public static bool operator !=(Matrix_t a, Matrix_t b) => a.Value != b.Value;
+        
+
+
+
+
+
 
     }
 }

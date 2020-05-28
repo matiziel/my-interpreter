@@ -15,5 +15,15 @@ namespace MyInterpreter.Parser.Ast.Values {
             return sb.ToString();
         }
 
+        public override bool Equals(object obj) {
+            return Value.Equals(obj);
+        }
+
+        public override int GetHashCode() {
+            return Value.GetHashCode();
+        }
+        public static String_t operator +(String_t a, String_t b) => new String_t(a.Value + b.Value);
+        public static bool operator ==(String_t a, String_t b) => a.Value == b.Value;
+        public static bool operator !=(String_t a, String_t b) => a.Value != b.Value;
     }
 }
