@@ -15,6 +15,7 @@ namespace MyInterpreter.Parser.Ast {
             First = first;
             Second = second;
         }
+        
         public override string ToString() {
             var sb = new StringBuilder();
             sb.Append(Type);

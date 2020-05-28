@@ -1,6 +1,7 @@
 using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Execution;
 using System.Text;
+using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser.Ast.Statements {
     public class Definition : Statement {
@@ -11,14 +12,19 @@ namespace MyInterpreter.Parser.Ast.Statements {
             this.expression = expression;
         }
         public void Execute(ExecEnvironment environment) {
-            environment.AddVariable(variable);
+
             if (!(expression is null))
-                environment.GetVariable(variable.Name).Value = expression.Evaluate(environment);
+                variable.Value = expression.Evaluate(environment);
+            //else if (variable.Type == TypeValue.Matrix)
+            //TODO 
+            //variable.Value = new Matrix_t(variable.First.Evaluate()., variable.Second.Evaluate());
+            environment.AddVariable(variable);
+
         }
         public override string ToString() {
             var sb = new StringBuilder("Definition->");
             sb.Append(variable.ToString());
-            if(!(expression is null))
+            if (!(expression is null))
                 sb.Append(expression.ToString());
             sb.Append("\n");
             return sb.ToString();

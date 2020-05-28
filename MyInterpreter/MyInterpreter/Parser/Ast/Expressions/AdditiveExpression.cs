@@ -2,6 +2,7 @@ using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Parser.Ast.Values;
 using MyInterpreter.Execution;
 using System.Text;
+using System;
 
 namespace MyInterpreter.Parser.Ast.Expressions {
     public class AdditiveExpression : Expression {
@@ -19,11 +20,7 @@ namespace MyInterpreter.Parser.Ast.Expressions {
             additiveOperator = null;
         }
         public Value Evaluate(ExecEnvironment environment) {
-            return ExpressionExecutor.EvaluateExpression(
-                leftExpression.Evaluate(environment),
-                rightExpression.Evaluate(environment),
-                additiveOperator
-            );
+            throw new NotImplementedException();
         }
         public override string ToString() {
             var sb = new StringBuilder();
