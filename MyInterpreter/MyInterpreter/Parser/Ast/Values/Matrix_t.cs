@@ -1,8 +1,10 @@
 using System;
 using System.Text;
+using MyInterpreter.StandardLibrary;
 
 namespace MyInterpreter.Parser.Ast.Values {
     public class Matrix_t : Value {
+        private Matrix matrix;
         public TypeValue Type { get; private set; }
         public Matrix_t() {
             Type = TypeValue.Matrix;
@@ -11,5 +13,6 @@ namespace MyInterpreter.Parser.Ast.Values {
             var sb = new StringBuilder();
             return sb.ToString();
         }
+
     }
 }
