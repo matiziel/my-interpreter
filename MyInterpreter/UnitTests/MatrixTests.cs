@@ -1,60 +1,53 @@
+using System;
 using MyInterpreter.StandardLibrary;
 using Xunit;
 
 namespace UnitTests {
     public class MatrixTests {
-        [Theory]
-        [InlineData()]
-        public void CheckOperatorPlus(int[,] a, int[,] b, int x, int y, int[,] result) {
-            Matrix ma = new Matrix(x, y, a);
-            Matrix mb = new Matrix(x, y, b);
-            Matrix mr = new Matrix(x, y, result);
+        [Fact]
+        public void CheckOperatorPlus() {
+            Matrix ma = new Matrix(2, 3, new int[,] { { 1, 1, 1 }, { 2, 2, 2 } });
+            Matrix mb = new Matrix(2, 3, new int[,] { { 1, 1, 1 }, { 2, 2, 2 } });
+            Matrix mr = new Matrix(2, 3, new int[,] { { 2, 2, 2 }, { 4, 4, 4 } });
             Assert.Equal(mr, ma + mb);
         }
-        [Theory]
-        [InlineData()]
-        public void CheckOperatorMinus(int[,] a, int[,] b, int x, int y, int[,] result) {
-            Matrix ma = new Matrix(x, y, a);
-            Matrix mb = new Matrix(x, y, b);
-            Matrix mr = new Matrix(x, y, result);
+        [Fact]
+        public void CheckOperatorMinus() {
+            Matrix ma = new Matrix(2, 3, new int[,] { { 2, 2, 2 }, { 1, 1, 1 } });
+            Matrix mb = new Matrix(2, 3, new int[,] { { 1, 1, 1 }, { 2, 2, 2 } });
+            Matrix mr = new Matrix(2, 3, new int[,] { { 1, 1, 1 }, { -1, -1, -1 } });
             Assert.Equal(mr, ma - mb);
         }
-        [Theory]
-        [InlineData()]
-        public void CheckOperatorMultiply(int[,] a, int xa, int[,] b, int yb, int x, int[,] result) {
-            Matrix ma = new Matrix(xa, x, a);
-            Matrix mb = new Matrix(x, yb, b);
-            Matrix mr = new Matrix(xa, yb, result);
+        [Fact]
+        public void CheckOperatorMultiply() {
+            Matrix ma = new Matrix(2, 3, new int[,] { { 2, 3, 2 }, { 1, 2, 1 } });
+            Matrix mb = new Matrix(3, 2, new int[,] { { 2, 3 }, { 1, 5 }, { 7, 2 } });
+            Matrix mr = new Matrix(2, 2, new int[,] { { 21, 25 }, { 11, 15 } });
             Assert.Equal(mr, ma * mb);
         }
-        [Theory]
-        [InlineData()]
-        public void CheckOperatorOneArgumentativeMinus(int[,] a, int x, int y, int[,] result) {
-            Matrix ma = new Matrix(x, y, a);
-            Matrix mr = new Matrix(x, y, result);
+        [Fact]
+        public void CheckOperatorOneArgumentativeMinus() {
+            Matrix ma = new Matrix(2, 3, new int[,] { { 2, 3, 2 }, { 1, 2, 1 } });
+            Matrix mr = new Matrix(2, 3, new int[,] { { -2, -3, -2 }, { -1, -2, -1 } });
             Assert.Equal(mr, -ma);
         }
-        public void CheckThrow_OperatorPlus(int[,] a, int[,] b, int x, int y, int[,] result) {
-            Matrix ma = new Matrix(x, y, a);
-            Matrix mb = new Matrix(x, y, b);
-            Matrix mr = new Matrix(x, y, result);
-            Assert.Equal(mr, ma + mb);
+        [Fact]
+        public void CheckThrow_OperatorPlus() {
+            Matrix ma = new Matrix(2, 3);
+            Matrix mb = new Matrix(2, 5);
+            Assert.Throws<InvalidOperationException>(() => ma + mb);
         }
-        [Theory]
-        [InlineData()]
-        public void CheckThrow_OperatorMinus(int[,] a, int[,] b, int x, int y, int[,] result) {
-            Matrix ma = new Matrix(x, y, a);
-            Matrix mb = new Matrix(x, y, b);
-            Matrix mr = new Matrix(x, y, result);
-            Assert.Equal(mr, ma - mb);
+        [Fact]
+        public void CheckThrow_OperatorMinus() {
+            Matrix ma = new Matrix(2, 3);
+            Matrix mb = new Matrix(2, 5);
+            Assert.Throws<InvalidOperationException>(() => ma - mb);
         }
-        [Theory]
-        [InlineData()]
-        public void CheckThrow_Multiply(int[,] a, int xa, int[,] b, int yb, int x, int[,] result) {
-            Matrix ma = new Matrix(xa, x, a);
-            Matrix mb = new Matrix(x, yb, b);
-            Matrix mr = new Matrix(xa, yb, result);
-            Assert.Equal(mr, ma * mb);
+        [Fact]
+        public void CheckThrow_Multiply() {
+            Matrix ma = new Matrix(2, 3);
+            Matrix mb = new Matrix(2, 5);
+            Assert.Throws<InvalidOperationException>(() => ma * mb);
         }
 
     }
