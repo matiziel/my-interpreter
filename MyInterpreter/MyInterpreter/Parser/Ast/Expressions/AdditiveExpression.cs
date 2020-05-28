@@ -20,7 +20,11 @@ namespace MyInterpreter.Parser.Ast.Expressions {
             additiveOperator = null;
         }
         public Value Evaluate(ExecEnvironment environment) {
-            throw new NotImplementedException();
+            return ExpressionEvaluator.Evaluate(
+                leftExpression.Evaluate(environment),
+                rightExpression.Evaluate(environment),
+                additiveOperator
+            );
         }
         public override string ToString() {
             var sb = new StringBuilder();

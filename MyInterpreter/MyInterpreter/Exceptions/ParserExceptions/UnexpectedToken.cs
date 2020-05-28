@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using MyInterpreter.DataSource;
 
 namespace MyInterpreter.Exceptions.ParserExceptions {
-    public class UnexpectedToken : ParserException {
+    public class UnexpectedToken : Exception {
         public TextPosition Position { get; private set; }
         public UnexpectedToken() { }
         public UnexpectedToken(string message, Exception inner)

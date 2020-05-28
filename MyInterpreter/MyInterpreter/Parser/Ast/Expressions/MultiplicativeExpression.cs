@@ -19,7 +19,7 @@ namespace MyInterpreter.Parser.Ast.Expressions {
             multiplicativeOperator = null;
         }
         public Value Evaluate(ExecEnvironment environment) {
-            return ExpressionExecutor.EvaluateExpression(
+            return ExpressionEvaluator.Evaluate(
                 leftExpression.Evaluate(environment),
                 rightExpression.Evaluate(environment),
                 multiplicativeOperator

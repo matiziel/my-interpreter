@@ -15,9 +15,11 @@ namespace MyInterpreter.Parser.Ast.Conditionals {
             equalityOperator = equality;
         }
         public bool Evaluate(ExecEnvironment environment) {
-            Value left = leftExpression.Evaluate(environment);
-            Value right = rightExpression.Evaluate(environment);
-            return ExpressionExecutor.EvaluateSimpleConditional(left, right, equalityOperator);
+            return ExpressionEvaluator.EvaluateSimpleConditional(
+                leftExpression.Evaluate(environment),
+                rightExpression.Evaluate(environment), 
+                equalityOperator
+            );
         }
         public override string ToString() {
             var sb = new StringBuilder();

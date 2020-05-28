@@ -12,7 +12,7 @@ namespace MyInterpreter.Parser.Ast.Expressions {
         }
         public Value Evaluate(ExecEnvironment environment)
             => isNegated ?
-                ExpressionExecutor.GetNegative(expression.Evaluate(environment))
+                ExpressionEvaluator.GetNegative(expression.Evaluate(environment))
                 : expression.Evaluate(environment);
        
         public override string ToString() {
