@@ -33,19 +33,6 @@ namespace MyInterpreter.StandardLibrary {
 
             return new Matrix(x2 - x1 + 1, y2 - y1 + 1, newMatrix);
         }
-        public override string ToString() {
-            var sb = new StringBuilder();
-            for (int i = 0; i < SizeX; ++i) {
-                sb.Append('[');
-                for (int k = 0; k < SizeY; ++k) {
-                    sb.Append(matrix[i, k]);
-                    if (k != SizeY - 1)
-                        sb.Append(',');
-                }
-                sb.Append("]\n");
-            }
-            return sb.ToString();
-        }
         public static Matrix operator +(Matrix a, Matrix b) {
             if (a.SizeX != b.SizeX || a.SizeY != b.SizeY)
                 throw new InvalidOperationException("Sizes of matrix is incorrect");
@@ -64,6 +51,54 @@ namespace MyInterpreter.StandardLibrary {
                     newMatrix[i, k] = a[i, k] - b[i, k];
             return newMatrix;
         }
+        public static Matrix operator *(Matrix a, Matrix b) {
+            if (a.SizeY != b.SizeX)
+                throw new InvalidOperationException("Sizes of matrix is incorrect");
+            Matrix newMatrix = new Matrix(a.SizeX, b.SizeY);
+            for (int i = 0; i < a.SizeX; ++i)
+                for (int j = 0; j < b.SizeY; ++j)
+                    for (int k = 0; k < a.SizeY; ++k) {
+                        newMatrix[i, j] += a[i, k] * b[k, j];
+                    }
+            return newMatrix;
+        }
+        public static bool operator ==(Matrix a, Matrix b) {
+            if (a.SizeX != b.SizeX || a.SizeY != b.SizeY)
+                return false;
+            for (int i = 0; i < a.SizeX; ++i) {
+                for (int k = 0; k < a.SizeY; ++k) {
+                    if (a[i, k] != b[i, k])
+                        return false;
+                }
+            }
+            return true;
+        }
+        public static bool operator !=(Matrix a, Matrix b) =>
+            !(a == b);
 
+        public override string ToString() {
+            var sb = new StringBuilder();
+            for (int i = 0; i < SizeX; ++i) {
+                sb.Append('[');
+                for (int k = 0; k < SizeY; ++k) {
+                    sb.Append(matrix[i, k]);
+                    if (k != SizeY - 1)
+                        sb.Append(',');
+                }
+                sb.Append("]\n");
+            }
+            return sb.ToString();
+        }
+
+        public override bool Equals(object obj) {
+            Matrix objMatrix = obj as Matrix;
+            if (!(obj is Matrix))
+                return false;
+            return this == objMatrix;
+        }
+
+        public override int GetHashCode() {
+            return matrix.GetHashCode();
+        }
     }
 }

@@ -41,12 +41,11 @@ namespace MyInterpreter {
             //         System.Console.WriteLine(sb.ToString());
             //     }
             // }
-            int[,] matrix = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } };
-            Matrix m = new Matrix(4, 4, matrix);
-
-            Matrix range = m.GetRange(0, 3, 3, 3);
-            System.Console.WriteLine(m);
-            System.Console.WriteLine(range);
+            int[,] x = { { 2, 4, 2 }, { 3, 7, 5 }, { 2, 6, 4 }, { 1, 4, 6 } };
+            Matrix a = new Matrix(4, 3, x);
+            int[,] y = { { 2, 3 }, { 4, 5 }, { 3, 2 } };
+            Matrix b = new Matrix(3, 2, y);
+            System.Console.WriteLine(a * b);
 
         }
     }
