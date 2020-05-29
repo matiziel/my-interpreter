@@ -1,0 +1,117 @@
+program =
+    ((definition ';') | fun_def)+
+    ;
+func_def = 
+    type name '(' parameter_list ')' 
+        block_statement
+    ;
+type =
+    'int'
+    | 'void'
+    | 'matrix'
+    ;
+name =
+    [a-zA-Z_][a-zA-Z_1-9]*
+    ;
+parameter_list = 
+    [ ( parameter (',' parameter)* ) ]
+    ;
+parameter =
+    type name
+    ;
+statement =
+    | block_statement 
+    | if_statement 
+    | for_statement
+    | while_statement
+    | return_statement ';'
+    | definition ';'
+    | assignment ';'
+    | fun_exec ';'
+    | ';'
+    ;
+block_statement = 
+    '{' statement+ '}'
+    ;
+if_statement =
+    'if' '(' conditional ')' statement
+    | 'if' '(' conditional ')' statement 'else' statement
+    ;
+for_statement =
+    'for' '(' assignment? ';' conditional? ';' assignment? ) statement
+    ;
+while_statement =
+    'while' '(' conditional ')' statement
+    ;
+return_statement = 
+    'return' expr
+    ;
+definition =
+    type var_name [('=' expr)]
+    ;
+assignment =
+    deref_var [+ - * / %]?'=' expr
+    ;
+conditional =
+    conditional_or
+    ;
+conditional_or = 
+    conditional_and  ( "||" conditional_and)*
+    ;
+conditional_and = 
+    logical ( "&&" logical)*
+    ;                       
+logical = 
+    (expr logical_operator expr) | paren_conditional
+    ;
+paren_conditional = 
+    [negation] "(" conditional ")"
+    ;
+logical_operator =
+    ['<' '>' '<=' '>=' '==' '!=']
+    ;
+negation =
+    '!'
+    ;
+expr = 
+    add_expr
+    ;
+add_expr =      
+    mul_expr (('+' | '-') mul_expr)*
+    ;
+mul_expr =
+    unary (('*' | '/') unary)*
+    ;
+unary = 
+    "-"? primary
+    ;
+primary = 
+    const | deref_var | fun_exec | "(" expr ")"
+    ;
+var_name =
+    name [ ( '[' expr ',' expr ']' ) ]
+    ;
+deref_var =
+    name [ ( '[' range ',' range ']' ) ]
+    ;
+range =
+    expr ':' expr
+    ;
+fun_exec =
+    name '(' exec_parameter_list ')'
+    ;
+exec_parameter_list = 
+    [ ( expr (',' expr)* ) ]
+    ;
+const =
+    STRING
+    | INT
+    ;
+STRING =
+    '"' .* '"'
+    ;
+INT =
+    [0-9] 
+    | [1-9][0-9]*
+    ;
+
