@@ -9,21 +9,19 @@ namespace MyInterpreter.Parser.Ast.Values {
             Value = value;
             Type = TypeValue.String;
         }
-        public override string ToString() {
-            var sb = new StringBuilder();
-            sb.Append(Value);
-            return sb.ToString();
-        }
+        public override string ToString() => Value;
 
-        public override bool Equals(object obj) {
-            return Value.Equals(obj);
-        }
+        public override bool Equals(object obj) =>
+            Value.Equals(obj);
 
-        public override int GetHashCode() {
-            return Value.GetHashCode();
-        }
-        public static String_t operator +(String_t a, String_t b) => new String_t(a.Value + b.Value);
-        public static bool operator ==(String_t a, String_t b) => a.Value == b.Value;
-        public static bool operator !=(String_t a, String_t b) => a.Value != b.Value;
+        public override int GetHashCode() =>
+            Value.GetHashCode();
+        
+        public static String_t operator +(String_t a, String_t b) =>
+            new String_t(a.Value + b.Value);
+        public static bool operator ==(String_t a, String_t b) =>   
+            a.Value == b.Value;
+        public static bool operator !=(String_t a, String_t b) => 
+            a.Value != b.Value;
     }
 }
