@@ -1,31 +1,27 @@
+using System;
 using System.Collections.Generic;
 using MyInterpreter.Parser.Ast;
 
 namespace MyInterpreter.Execution {
     public class ExecEnvironment {
         private readonly IDictionary<string, Function> _functions;
-        private Scope currentScope;
 
         public ExecEnvironment(IDictionary<string, Function> functions) {
-            _functions = functions;
-            currentScope = null;
-            MakeFunctionScope();
+            throw new NotImplementedException();
         }
         public void MakeLocalScope() {
-            Scope localScope = Scope.CreateLocalScope(currentScope);
-            currentScope = localScope;
+            throw new NotImplementedException();
         }
         public void MakeFunctionScope() {
-            Scope localScope = Scope.CreateFunctionScope(currentScope);
-            currentScope = localScope;
+            throw new NotImplementedException();
         }
         public void DestroyScope()
-            => currentScope = Scope.DestroyScope(currentScope);
+            => throw new NotImplementedException();
 
         public Variable GetVariable(string name)
-            => currentScope.GetVariable(name);
+            => throw new NotImplementedException();
 
         public void AddVariable(Variable var)
-            => currentScope.AddVariable(var);
+            => throw new NotImplementedException();
     }
 }

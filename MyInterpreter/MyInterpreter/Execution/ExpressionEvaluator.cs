@@ -85,8 +85,5 @@ namespace MyInterpreter.Execution {
             else
                 throw new RuntimeException();
         }
-
     }
-
-
 }
