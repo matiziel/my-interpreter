@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using MyInterpreter.Exceptions;
-using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Parser.Ast.Values;
 
@@ -79,9 +78,9 @@ namespace MyInterpreter.Execution {
 
             if (left.Type == TypeValue.Int)
                 return intComparator[o.Operator](left as Int_t, right as Int_t);
-            else if (left.Type == TypeValue.Matrix && (o.Operator == "==" || o.Operator == "!="))
+            else if (left.Type == TypeValue.Matrix && matrixComparator.ContainsKey(o.Operator))
                 return matrixComparator[o.Operator](left as Matrix_t, right as Matrix_t);
-            else if (left.Type == TypeValue.String && (o.Operator == "==" || o.Operator == "!="))
+            else if (left.Type == TypeValue.String && stringComparator.ContainsKey(o.Operator))
                 return stringComparator[o.Operator](left as String_t, right as String_t);
             else
                 throw new RuntimeException();

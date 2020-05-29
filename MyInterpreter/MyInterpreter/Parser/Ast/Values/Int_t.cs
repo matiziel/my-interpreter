@@ -42,7 +42,5 @@ namespace MyInterpreter.Parser.Ast.Values {
             a.Value > b.Value;
         public static bool operator <(Int_t a, Int_t b) => 
             a.Value < b.Value;
-
-
     }
 }

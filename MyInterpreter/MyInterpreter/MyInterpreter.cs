@@ -1,14 +1,9 @@
 ﻿using System;
 using MyInterpreter.Lexer;
-using MyInterpreter.Parser;
-using MyInterpreter.Lexer.Tokens;
 using MyInterpreter.DataSource;
-using MyInterpreter.Exceptions;
 using MyInterpreter.Exceptions.LexerExceptions;
 using MyInterpreter.Exceptions.ParserExceptions;
 using System.Text;
-using MyInterpreter.Parser.Ast.Values;
-using MyInterpreter.StandardLibrary;
 
 namespace MyInterpreter {
     class MyInterpreter {

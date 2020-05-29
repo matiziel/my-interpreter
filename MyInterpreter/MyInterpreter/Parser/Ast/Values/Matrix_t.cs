@@ -36,12 +36,5 @@ namespace MyInterpreter.Parser.Ast.Values {
             a.Value == b.Value;
         public static bool operator !=(Matrix_t a, Matrix_t b) => 
             a.Value != b.Value;
-        
-
-
-
-
-
-
     }
 }
