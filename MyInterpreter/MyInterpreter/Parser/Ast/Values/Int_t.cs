@@ -30,5 +30,11 @@ namespace MyInterpreter.Parser.Ast.Values {
         public static Int_t operator -(Int_t a) => new Int_t(-a.Value);
         public static bool operator ==(Int_t a, Int_t b) => a.Value == b.Value;
         public static bool operator !=(Int_t a, Int_t b) => a.Value != b.Value;
+        public static bool operator >=(Int_t a, Int_t b) => a.Value >= b.Value;
+        public static bool operator <=(Int_t a, Int_t b) => a.Value <= b.Value;
+        public static bool operator >(Int_t a, Int_t b) => a.Value > b.Value;
+        public static bool operator <(Int_t a, Int_t b) => a.Value < b.Value;
+
+
     }
 }
