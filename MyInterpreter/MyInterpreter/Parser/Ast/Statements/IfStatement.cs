@@ -16,7 +16,7 @@ namespace MyInterpreter.Parser.Ast.Statements {
             if (conditional.Evaluate(environment))
                 statementIf.Execute(environment);
             else
-                statementElse.Execute(environment);
+                statementElse?.Execute(environment);
         }
         public override string ToString() {
             var sb = new StringBuilder("if->");

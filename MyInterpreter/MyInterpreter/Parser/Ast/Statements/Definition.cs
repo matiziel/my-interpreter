@@ -15,11 +15,8 @@ namespace MyInterpreter.Parser.Ast.Statements {
 
             if (!(expression is null))
                 variable.Value = expression.Evaluate(environment);
-            //else if (variable.Type == TypeValue.Matrix)
-            //TODO 
-            //variable.Value = new Matrix_t(variable.First.Evaluate()., variable.Second.Evaluate());
+            //TODO add matrix handling
             environment.AddVariable(variable);
-
         }
         public override string ToString() {
             var sb = new StringBuilder("Definition->");
