@@ -80,7 +80,7 @@ namespace MyInterpreter.Parser {
             return name;
         }
         private Definition TryParseDefinition(TypeValue type, string name) {
-            if(type == TypeValue.Void)
+            if (type == TypeValue.Void)
                 throw new UnexpectedToken(_scanner.CurrentToken.Position);
             Variable variable = TryParseVariable(type, name);
             if (_scanner.CurrentToken.Type == TokenType.ASSIGN) {
@@ -308,6 +308,8 @@ namespace MyInterpreter.Parser {
                 return null;
 
             IOperator assignmentOperator = TryParseOperator() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
+            if ((assignmentOperator is AssignmentOperator))
+                throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 
             Expression expression = TryParseExpression() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);

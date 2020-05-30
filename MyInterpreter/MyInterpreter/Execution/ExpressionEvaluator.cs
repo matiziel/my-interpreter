@@ -51,15 +51,25 @@ namespace MyInterpreter.Execution {
             stringComparator.Add("==", (String_t a, String_t b) => a == b);
             stringComparator.Add("!=", (String_t a, String_t b) => a != b);
         }
-        public static Value Evaluate(Value left, Value right, IOperator o) {
+        public static Value Evaluate(Value left, Value right, IOperator o)
+            => EvaluateByString(left, right, o.Operator);
+
+        public static Value EvaluateArthmeticAssignment(Value varValue, Value exprValue, AssignmentOperator assignment) {
+            string operation;
+            if ((operation = assignment.GetOperation()) is null)
+                return null;
+            else
+                return EvaluateByString(varValue, exprValue, operation);
+        }
+        private static Value EvaluateByString(Value left, Value right, string operation) {
             if (left.Type != right.Type)
                 throw new RuntimeException();
 
             if (left.Type == TypeValue.Int)
-                return intEvaluator[o.Operator](left as Int_t, right as Int_t);
+                return intEvaluator[operation](left as Int_t, right as Int_t);
             if (left.Type == TypeValue.Matrix)
-                return intEvaluator[o.Operator](left as Int_t, right as Int_t);
-            if (left.Type == TypeValue.String && o.Operator == "+")
+                return intEvaluator[operation](left as Int_t, right as Int_t);
+            if (left.Type == TypeValue.String && operation == "+")
                 return (left as String_t) + (right as String_t);
             else
                 throw new RuntimeException();
@@ -85,5 +95,6 @@ namespace MyInterpreter.Execution {
             else
                 throw new RuntimeException();
         }
+
     }
 }

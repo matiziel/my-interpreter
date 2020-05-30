@@ -10,9 +10,7 @@ namespace MyInterpreter.Parser.Ast.Conditionals {
             rightConditional = right;
         }
         public bool Evaluate(ExecEnvironment environment)
-            => rightConditional is null ?
-                leftConditional.Evaluate(environment) :
-                leftConditional.Evaluate(environment) || rightConditional.Evaluate(environment);
+            => leftConditional.Evaluate(environment) || rightConditional.Evaluate(environment);
 
         public override string ToString() {
             var sb = new StringBuilder();

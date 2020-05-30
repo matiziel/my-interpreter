@@ -14,8 +14,11 @@ namespace MyInterpreter.Parser.Ast {
             this.right = right;
         }
         public Value Evaluate(ExecEnvironment environment) {
-            return environment.GetVariable(name).Value;
+            return GetVariable(environment).Value;
         }
+        public Variable GetVariable(ExecEnvironment environment) =>
+            environment.GetVariable(name);
+        
         public override string ToString() {
             var sb = new StringBuilder();
             sb.Append(name);
