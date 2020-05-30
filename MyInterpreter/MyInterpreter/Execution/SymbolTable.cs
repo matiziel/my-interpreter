@@ -26,6 +26,12 @@ namespace MyInterpreter.Execution {
             functionCallScopes.Pop();
             this.returnedValue = returned;
         }
+        public void MakeNewLocalScope() =>
+            functionCallScopes.Peek().MakeNewLocalScope();
+
+        public void DestroyLocalScope() =>
+            functionCallScopes.Peek().DestroyLocalScope();
+            
         public void RegisterVariable(Variable variable) {
             if (functionCallScopes.Count > 0)
                 functionCallScopes.Peek().RegisterVariable(variable);
