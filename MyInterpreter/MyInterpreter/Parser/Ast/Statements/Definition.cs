@@ -2,6 +2,7 @@ using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Execution;
 using System.Text;
 using MyInterpreter.Parser.Ast.Values;
+using MyInterpreter.Exceptions;
 
 namespace MyInterpreter.Parser.Ast.Statements {
     public class Definition : Statement {
@@ -15,7 +16,13 @@ namespace MyInterpreter.Parser.Ast.Statements {
 
             if (!(expression is null))
                 variable.Value = expression.Evaluate(environment);
-            //TODO add matrix handling
+            else if (variable.Type == TypeValue.Matrix) {
+                Int_t first = variable.First.Evaluate(environment) as Int_t;
+                Int_t second = variable.Second.Evaluate(environment) as Int_t;
+                if (first is null || second is null)
+                    throw new RuntimeException();
+                variable.Value = new Matrix_t(first.Value, second.Value);
+            }
             environment.AddVariable(variable);
         }
         public override string ToString() {
