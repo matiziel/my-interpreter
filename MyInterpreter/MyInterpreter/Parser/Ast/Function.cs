@@ -23,6 +23,8 @@ namespace MyInterpreter.Parser.Ast {
         public void Execute(ExecEnvironment environment, IEnumerable<Expression> arguments = null) {
             try {
                 environment.OnFunctionCall();
+                RegisterParameters(environment, arguments);
+
                 blockStatement.Execute(environment);
 
                 environment.OnReturnFromFunction();
@@ -34,8 +36,29 @@ namespace MyInterpreter.Parser.Ast {
                     throw new RuntimeException();
                 environment.OnReturnFromFunction(e.Value);
             }
-
         }
+        private void RegisterParameters(ExecEnvironment environment, IEnumerable<Expression> arguments) {
+            if (arguments == null || parameters == null)
+                return;
+            if (arguments.Count() != parameters.Count())
+                throw new RuntimeException();
+
+            var variables = new List<Variable>();
+            var parametersList = parameters.ToList();
+            var argumentsList = arguments.ToList();
+            for (int i = 0; i < argumentsList.Count; ++i) {
+                var value = argumentsList[i].Evaluate(environment);
+                if (value.Type != parametersList[i].Type)
+                    throw new RuntimeException();
+                var variable = new Variable(value.Type, parametersList[i].Name);
+                variable.Value = value;
+                variables.Add(variable);
+            }
+            foreach (var variable in variables) {
+                environment.AddVariable(variable);
+            }
+        }
+
         public override string ToString() {
             var sb = new StringBuilder("Function->");
             sb.Append(type.ToString());

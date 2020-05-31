@@ -19,7 +19,7 @@ namespace MyInterpreter.Parser.Ast {
         }
         public Value Evaluate(ExecEnvironment environment) {
             Function fun = environment.GetFunctionByName(name);
-            fun.Execute(environment);
+            fun.Execute(environment, arguments);
             return environment.GetReturnedValue();
         }
         public override string ToString() {

@@ -2,18 +2,18 @@ using System.Text;
 using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Parser.Ast {
-    public class Parameter  {
-        private TypeValue type;
-        private string name;
+    public class Parameter {
+        public TypeValue Type { get; private set; }
+        public string Name { get; private set; }
         public Parameter(TypeValue type, string name) {
-            this.type = type;
-            this.name = name;
+            Type = type;
+            Name = name;
         }
         public override string ToString() {
             var sb = new StringBuilder();
-            sb.Append(type);
+            sb.Append(Type);
             sb.Append("->");
-            sb.Append(name);
+            sb.Append(Name);
             return sb.ToString();
         }
 
