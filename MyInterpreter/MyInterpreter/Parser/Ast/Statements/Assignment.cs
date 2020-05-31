@@ -21,6 +21,8 @@ namespace MyInterpreter.Parser.Ast.Statements {
             Value right = expression.Evaluate(environment);
             if(variable.Type != right.Type)
                 throw new RuntimeException();
+            
+            
 
             variable.Value = (assignmentOperator.Operator != "=") ?
                 ExpressionEvaluator.EvaluateArthmeticAssignment(variable.Value, right, assignmentOperator) :

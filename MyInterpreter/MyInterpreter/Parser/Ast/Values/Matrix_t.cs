@@ -20,21 +20,25 @@ namespace MyInterpreter.Parser.Ast.Values {
 
         public override bool Equals(object obj) =>
             Value.Equals(obj);
-        
+
         public override int GetHashCode() =>
             Value.GetHashCode();
+        public int this[int x, int y] {
+            get => Value[x, y];
+            set => Value[x, y] = value;
+        }
 
-        public static Matrix_t operator +(Matrix_t a, Matrix_t b) => 
+        public static Matrix_t operator +(Matrix_t a, Matrix_t b) =>
             new Matrix_t(a.Value + b.Value);
-        public static Matrix_t operator -(Matrix_t a, Matrix_t b) => 
+        public static Matrix_t operator -(Matrix_t a, Matrix_t b) =>
             new Matrix_t(a.Value - b.Value);
-        public static Matrix_t operator *(Matrix_t a, Matrix_t b) => 
+        public static Matrix_t operator *(Matrix_t a, Matrix_t b) =>
             new Matrix_t(a.Value * b.Value);
-        public static Matrix_t operator -(Matrix_t a) => 
+        public static Matrix_t operator -(Matrix_t a) =>
             new Matrix_t(-a.Value);
-        public static bool operator ==(Matrix_t a, Matrix_t b) => 
+        public static bool operator ==(Matrix_t a, Matrix_t b) =>
             a.Value == b.Value;
-        public static bool operator !=(Matrix_t a, Matrix_t b) => 
+        public static bool operator !=(Matrix_t a, Matrix_t b) =>
             a.Value != b.Value;
     }
 }

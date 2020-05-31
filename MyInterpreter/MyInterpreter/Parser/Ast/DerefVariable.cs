@@ -2,6 +2,7 @@ using MyInterpreter.Parser.Ast.Expressions;
 using MyInterpreter.Parser.Ast.Values;
 using MyInterpreter.Execution;
 using System.Text;
+using MyInterpreter.Exceptions;
 
 namespace MyInterpreter.Parser.Ast {
     public class DerefVariable : PrimaryExpression {
@@ -14,7 +15,20 @@ namespace MyInterpreter.Parser.Ast {
             this.right = right;
         }
         public Value Evaluate(ExecEnvironment environment) {
-            return GetVariable(environment).Value;
+            var variable = GetVariable(environment);
+            if(left is null || right is null)
+                return variable.Value;
+            else if(left != null && right != null){
+                return ExpressionEvaluator.EvaluateMatrixDerefVar(
+                    left.FirstExpr.Evaluate(environment),
+                    left.SecondExpr.Evaluate(environment),
+                    right.FirstExpr.Evaluate(environment),
+                    right.SecondExpr.Evaluate(environment),
+                    variable
+                );
+            }
+            else
+                throw new RuntimeException("Wrong deref of variable");
         }
         public Variable GetVariable(ExecEnvironment environment) =>
             environment.GetVariable(name);

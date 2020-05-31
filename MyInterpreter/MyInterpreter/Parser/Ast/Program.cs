@@ -19,14 +19,14 @@ namespace MyInterpreter.Parser.Ast {
             Function main = environment.GetFunctionByName("main");
             if (main is null)
                 throw new RuntimeException();
-            main.Execute(environment);
+            main.Execute(environment, null);
         }
 
         public override string ToString() {
             var sb = new StringBuilder("Program->\n");
-            foreach (var def in definitions) 
+            foreach (var def in definitions)
                 sb.Append(def.ToString());
-            foreach (var fun in functions) 
+            foreach (var fun in functions)
                 sb.Append(fun.Value.ToString());
             return sb.ToString();
         }

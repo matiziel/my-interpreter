@@ -5,6 +5,7 @@ using MyInterpreter.Exceptions.LexerExceptions;
 using MyInterpreter.Exceptions.ParserExceptions;
 using System.Text;
 using MyInterpreter.Execution;
+using MyInterpreter.Exceptions;
 
 namespace MyInterpreter {
     class MyInterpreter {
@@ -13,7 +14,7 @@ namespace MyInterpreter {
             //     System.Console.WriteLine("fatal error: no input files");
             //     return;
             // }
-            var path = "../UnitTests/TestFiles/testfile.ml";
+            var path = "../UnitTests/TestFiles/correctfile1.ml";
             using (var source = new FileSource(path)) {
                 try {
                     var scanner = new Scanner(source);
@@ -34,6 +35,9 @@ namespace MyInterpreter {
                         sb.Append(" ");
                     sb.Append("^");
                     System.Console.WriteLine(sb.ToString());
+                }
+                catch (RuntimeException e) {
+                    System.Console.WriteLine(e.Message);
                 }
             }
 

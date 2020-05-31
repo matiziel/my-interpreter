@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MyInterpreter.Exceptions;
+using MyInterpreter.Parser.Ast;
 using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Parser.Ast.Values;
 
@@ -73,6 +74,29 @@ namespace MyInterpreter.Execution {
                 return (left as String_t) + (right as String_t);
             else
                 throw new RuntimeException();
+        }
+        public static Value EvaluateMatrixDerefVar(Value l1, Value l2, Value r1, Value r2, Variable variable) {
+            if (variable.Type != TypeValue.Matrix)
+                throw new RuntimeException("Cannot use [] indexers to non matrix type");
+
+            Int_t left1 = l1 as Int_t; Int_t left2 = l2 as Int_t;
+            Int_t right1 = r1 as Int_t; Int_t right2 = r2 as Int_t;
+
+            if (left1 is null || left2 is null || right1 is null || right2 is null)
+                throw new RuntimeException("Index has to be integer");
+            try {
+                if (left1.Value == left2.Value && right1.Value == right2.Value)
+                    return new Int_t((variable.Value as Matrix_t)[left1.Value, right1.Value]);
+                else
+                    return new Matrix_t(
+                        (variable.Value as Matrix_t).Value
+                        .GetRange(left1.Value, left2.Value, right1.Value, right2.Value));
+            }
+            catch (Exception) {
+                throw new RuntimeException("Index out of range");
+            }
+
+
         }
         public static Value GetNegative(Value value) {
             if (value.Type == TypeValue.Int)

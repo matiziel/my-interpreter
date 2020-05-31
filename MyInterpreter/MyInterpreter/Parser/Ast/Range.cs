@@ -3,17 +3,17 @@ using MyInterpreter.Parser.Ast.Expressions;
 
 namespace MyInterpreter.Parser.Ast {
     public class Range {
-        private Expression firstExpr;
-        private Expression secondExpr;
+        public Expression FirstExpr { get; private set; }
+        public Expression SecondExpr { get; private set; }
         public Range(Expression first, Expression second) {
-            firstExpr = first;
-            secondExpr = second;
+            FirstExpr = first;
+            SecondExpr = second;
         }
         public override string ToString() {
             var sb = new StringBuilder();
-            sb.Append(firstExpr.ToString());
+            sb.Append(FirstExpr.ToString());
             sb.Append(':');
-            sb.Append(secondExpr.ToString());
+            sb.Append(SecondExpr.ToString());
             return sb.ToString();
         }
     }

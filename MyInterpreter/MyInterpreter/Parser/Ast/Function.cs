@@ -10,17 +10,17 @@ using MyInterpreter.Exceptions;
 
 namespace MyInterpreter.Parser.Ast {
     public class Function {
-        private TypeValue type;
-        private string name;
-        private IEnumerable<Parameter> parameters;
-        private BlockStatement blockStatement;
+        protected TypeValue type;
+        protected string name;
+        protected IEnumerable<Parameter> parameters;
+        protected BlockStatement blockStatement;
         public Function(TypeValue type, string name, IEnumerable<Parameter> parameters, BlockStatement blockStatement) {
             this.type = type;
             this.name = name;
             this.parameters = parameters;
             this.blockStatement = blockStatement;
         }
-        public void Execute(ExecEnvironment environment, IEnumerable<Expression> arguments = null) {
+        public virtual void Execute(ExecEnvironment environment, IEnumerable<Expression> arguments) {
             try {
                 environment.OnFunctionCall();
                 RegisterParameters(environment, arguments);
@@ -37,7 +37,7 @@ namespace MyInterpreter.Parser.Ast {
                 environment.OnReturnFromFunction(e.Value);
             }
         }
-        private void RegisterParameters(ExecEnvironment environment, IEnumerable<Expression> arguments) {
+        protected void RegisterParameters(ExecEnvironment environment, IEnumerable<Expression> arguments) {
             if (arguments == null || parameters == null)
                 return;
             if (arguments.Count() != parameters.Count())

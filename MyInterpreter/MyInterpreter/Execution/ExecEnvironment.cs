@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MyInterpreter.Parser.Ast;
 using MyInterpreter.Parser.Ast.Values;
+using MyInterpreter.StandardLibrary;
 
 namespace MyInterpreter.Execution {
     public class ExecEnvironment {
@@ -9,6 +10,7 @@ namespace MyInterpreter.Execution {
         private readonly SymbolTable symbolTable;
         public ExecEnvironment(IDictionary<string, Function> functions) {
             this.functions = functions;
+            functions.Add("print", new Printer());
             symbolTable = new SymbolTable();
         }
         public Function GetFunctionByName(string name)

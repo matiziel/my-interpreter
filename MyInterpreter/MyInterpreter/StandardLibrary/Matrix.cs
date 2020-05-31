@@ -63,7 +63,7 @@ namespace MyInterpreter.StandardLibrary {
             Matrix newMatrix = new Matrix(matrix.SizeX, matrix.SizeY);
             for (int i = 0; i < newMatrix.SizeX; ++i)
                 for (int k = 0; k < newMatrix.SizeY; ++k)
-                    newMatrix[i, k] = -matrix[i,k];
+                    newMatrix[i, k] = -matrix[i, k];
             return newMatrix;
         }
         public static bool operator ==(Matrix a, Matrix b) {
@@ -89,7 +89,9 @@ namespace MyInterpreter.StandardLibrary {
                     if (k != SizeY - 1)
                         sb.Append(',');
                 }
-                sb.Append("]\n");
+                sb.Append("]");
+                if (i != SizeX - 1)
+                    sb.Append("\n");
             }
             return sb.ToString();
         }
