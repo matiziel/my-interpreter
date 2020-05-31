@@ -16,6 +16,7 @@ namespace MyInterpreter.Execution {
                 return false;
             variables.Add(var.Name, var);
             return true;
+            
         }
 
     }

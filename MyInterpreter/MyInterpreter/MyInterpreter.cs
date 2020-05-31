@@ -4,6 +4,7 @@ using MyInterpreter.DataSource;
 using MyInterpreter.Exceptions.LexerExceptions;
 using MyInterpreter.Exceptions.ParserExceptions;
 using System.Text;
+using MyInterpreter.Execution;
 
 namespace MyInterpreter {
     class MyInterpreter {
@@ -17,9 +18,8 @@ namespace MyInterpreter {
                 try {
                     var scanner = new Scanner(source);
                     var parser = new Parser.Parser(scanner);
-                    var s = parser.Parse().ToString();
-                    System.Console.WriteLine(s);
-
+                    var program = parser.Parse();
+                    program.Execute();
                 }
                 catch (LexerException e) {
                     System.Console.WriteLine(e.Message);

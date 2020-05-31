@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
+using MyInterpreter.Exceptions;
+using MyInterpreter.Execution;
 using MyInterpreter.Parser.Ast.Statements;
 
 namespace MyInterpreter.Parser.Ast {
@@ -10,17 +12,22 @@ namespace MyInterpreter.Parser.Ast {
             this.functions = functions;
             this.definitions = definitions;
         }
-        public Function GetFunctionByName(string name)
-            => functions.ContainsKey(name) ? functions[name] : null;
+        public void Execute() {
+            var environment = new ExecEnvironment(functions);
+            foreach (var def in definitions)
+                def.Execute(environment);
+            Function main = environment.GetFunctionByName("main");
+            if (main is null)
+                throw new RuntimeException();
+            main.Execute(environment);
+        }
 
         public override string ToString() {
             var sb = new StringBuilder("Program->\n");
-            foreach (var def in definitions) {
+            foreach (var def in definitions) 
                 sb.Append(def.ToString());
-            }
-            foreach (var fun in functions) {
+            foreach (var fun in functions) 
                 sb.Append(fun.Value.ToString());
-            }
             return sb.ToString();
         }
     }

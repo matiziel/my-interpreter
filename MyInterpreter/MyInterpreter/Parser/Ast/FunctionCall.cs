@@ -15,10 +15,12 @@ namespace MyInterpreter.Parser.Ast {
             this.arguments = arguments;
         }
         public void Execute(ExecEnvironment environment) {
-            throw new System.NotImplementedException();
+            this.Evaluate(environment);
         }
         public Value Evaluate(ExecEnvironment environment) {
-            throw new System.NotImplementedException();
+            Function fun = environment.GetFunctionByName(name);
+            fun.Execute(environment);
+            return environment.GetReturnedValue();
         }
         public override string ToString() {
             var sb = new StringBuilder("FunctionCall->");

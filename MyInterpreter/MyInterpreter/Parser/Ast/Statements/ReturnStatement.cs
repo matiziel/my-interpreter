@@ -8,7 +8,7 @@ namespace MyInterpreter.Parser.Ast.Statements {
         public ReturnStatement(Expression value) => this.value = value;
 
         public void Execute(ExecEnvironment environment) {
-            throw new System.NotImplementedException();
+            throw new ReturnedValue(value.Evaluate(environment));
         }
         public override string ToString() {
             var sb = new StringBuilder("return->");

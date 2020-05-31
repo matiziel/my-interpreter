@@ -4,6 +4,9 @@ using MyInterpreter.Parser.Ast.Values;
 using System;
 using System.Text;
 using System.Linq;
+using MyInterpreter.Execution;
+using MyInterpreter.Parser.Ast.Expressions;
+using MyInterpreter.Exceptions;
 
 namespace MyInterpreter.Parser.Ast {
     public class Function {
@@ -17,8 +20,21 @@ namespace MyInterpreter.Parser.Ast {
             this.parameters = parameters;
             this.blockStatement = blockStatement;
         }
-        public Value Execute() {
-            throw new NotImplementedException();
+        public void Execute(ExecEnvironment environment, IEnumerable<Expression> arguments = null) {
+            try {
+                environment.OnFunctionCall();
+                blockStatement.Execute(environment);
+
+                environment.OnReturnFromFunction();
+                if (type != TypeValue.Void)
+                    throw new RuntimeException();
+            }
+            catch (ReturnedValue e) {
+                if (type != e.Value.Type)
+                    throw new RuntimeException();
+                environment.OnReturnFromFunction(e.Value);
+            }
+
         }
         public override string ToString() {
             var sb = new StringBuilder("Function->");

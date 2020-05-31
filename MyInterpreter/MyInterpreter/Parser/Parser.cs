@@ -308,7 +308,7 @@ namespace MyInterpreter.Parser {
                 return null;
 
             IOperator assignmentOperator = TryParseOperator() ?? throw new UnexpectedToken(_scanner.CurrentToken.Position);
-            if ((assignmentOperator is AssignmentOperator))
+            if (!(assignmentOperator is AssignmentOperator))
                 throw new UnexpectedToken(_scanner.CurrentToken.Position);
             _scanner.Next();
 

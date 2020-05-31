@@ -18,13 +18,13 @@ namespace MyInterpreter.Execution {
                 return ret;
             }
         }
-        public void OnFunctionCall(Variable returnedVariable) {
-            functionCallScopes.Peek().RegisterVariable(returnedVariable);
+        public void OnFunctionCall() {
             functionCallScopes.Push(new FunctionCallScope());
         }
         public void OnReturnFromFunction(Value returned) {
             functionCallScopes.Pop();
-            this.returnedValue = returned;
+            if(returned != null)
+                this.returnedValue = returned;
         }
         public void MakeNewLocalScope() =>
             functionCallScopes.Peek().MakeNewLocalScope();

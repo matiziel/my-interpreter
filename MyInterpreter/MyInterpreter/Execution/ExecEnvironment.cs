@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MyInterpreter.Parser.Ast;
+using MyInterpreter.Parser.Ast.Values;
 
 namespace MyInterpreter.Execution {
     public class ExecEnvironment {
@@ -10,11 +11,22 @@ namespace MyInterpreter.Execution {
             this.functions = functions;
             symbolTable = new SymbolTable();
         }
+        public Function GetFunctionByName(string name)
+            => functions.ContainsKey(name) ? functions[name] : null;
+
         public void MakeLocalScope() =>
             symbolTable.MakeNewLocalScope();
-
         public void DestroyScope() =>
             symbolTable.DestroyLocalScope();
+
+        public void OnFunctionCall() =>
+            symbolTable.OnFunctionCall();
+
+        public void OnReturnFromFunction(Value returned = null) =>
+            symbolTable.OnReturnFromFunction(returned);
+
+        public Value GetReturnedValue()
+            => symbolTable.ReturnedValue;
 
         public Variable GetVariable(string name) =>
             symbolTable.GetVariable(name);
