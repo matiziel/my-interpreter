@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MyInterpreter.Exceptions;
 using MyInterpreter.Parser.Ast;
 using MyInterpreter.Parser.Ast.Values;
 
@@ -42,8 +43,10 @@ namespace MyInterpreter.Execution {
             Variable variable;
             if ((variable = functionCallScopes.Peek().GetVariable(name)) != null)
                 return variable;
+            else if((variable = globalScope.GetVariable(name)) != null)
+                return variable;
             else
-                return globalScope.GetVariable(name);
+                throw new RuntimeException();
         }
 
     }

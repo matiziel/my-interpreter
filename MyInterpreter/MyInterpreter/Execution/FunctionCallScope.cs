@@ -8,7 +8,6 @@ namespace MyInterpreter.Execution {
         public FunctionCallScope() {
             localScopes = new LinkedList<Scope>();
             localScopes.AddFirst(new Scope());
-            //TODO add function call parameters
         }
         public void MakeNewLocalScope() =>
             localScopes.AddFirst(new Scope());
