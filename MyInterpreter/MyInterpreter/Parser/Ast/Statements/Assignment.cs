@@ -20,11 +20,14 @@ namespace MyInterpreter.Parser.Ast.Statements {
             Variable variable = derefVariable.GetVariable(environment);
             Value right = expression.Evaluate(environment);
 
-            if (variable.Type == TypeValue.Matrix
-                && derefVariable.Left != null
-                && derefVariable.Right != null) {
+            if (variable.Type == TypeValue.Matrix) {
                 var matrix = variable.Value as Matrix_t;
-                AssignToMatrix(environment, matrix, right);
+                if (derefVariable.Left != null && derefVariable.Right != null) {
+                    AssignToMatrixByRange(environment, matrix, right);
+                }
+                else {
+                    AssignToMatrix(environment, variable, right);
+                }
                 return;
             }
             if (variable.Type != right.Type)
@@ -34,7 +37,18 @@ namespace MyInterpreter.Parser.Ast.Statements {
                 ExpressionEvaluator.EvaluateArthmeticAssignment(variable.Value, right, assignmentOperator) :
                 right;
         }
-        private void AssignToMatrix(ExecEnvironment environment, Matrix_t matrix, Value value) {
+
+        private void AssignToMatrix(ExecEnvironment environment, Variable variable, Value right) {
+            if (right.Type != TypeValue.Matrix)
+                throw new RuntimeException("Cannot cast " + right.Type + " to " + TypeValue.Matrix);
+            var value = right as Matrix_t;
+            var matrix = variable.Value as Matrix_t;
+            if (matrix.Value.SizeX != value.Value.SizeX || matrix.Value.SizeY != value.Value.SizeY)
+                throw new RuntimeException("Sizes of matrices is various");
+            variable.Value = value;
+        }
+
+        private void AssignToMatrixByRange(ExecEnvironment environment, Matrix_t matrix, Value value) {
             Int_t left1 = derefVariable.Left.FirstExpr.Evaluate(environment) as Int_t;
             Int_t left2 = derefVariable.Left.SecondExpr.Evaluate(environment) as Int_t;
             Int_t right1 = derefVariable.Right.FirstExpr.Evaluate(environment) as Int_t;
@@ -50,7 +64,8 @@ namespace MyInterpreter.Parser.Ast.Statements {
                         throw new RuntimeException("Cannot assign to int variable");
                     matrix[left1.Value, right1.Value] = intValue.Value;
                 }
-                //TODO
+                else
+                    throw new ArthmeticOperationException("Matrix with range can be only r-value");
             }
             catch (Exception) {
                 throw new RuntimeException("Index out of range");

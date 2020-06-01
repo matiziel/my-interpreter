@@ -21,5 +21,8 @@ int main()
     print (x,"eloelo");
     matrix f[4,5] = x + m;
     print(f);
+    f = x[0:3,0:4];
+    print(f);
+    print(x);
     return 0;
 }
