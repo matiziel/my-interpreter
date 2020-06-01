@@ -6,7 +6,7 @@ using System.Text;
 using System.Linq;
 using MyInterpreter.Execution;
 using MyInterpreter.Parser.Ast.Expressions;
-using MyInterpreter.Exceptions;
+using MyInterpreter.Exceptions.ExecutionException;
 
 namespace MyInterpreter.Parser.Ast {
     public class Function {
@@ -29,11 +29,11 @@ namespace MyInterpreter.Parser.Ast {
 
                 environment.OnReturnFromFunction();
                 if (type != TypeValue.Void)
-                    throw new RuntimeException();
+                    throw new RuntimeException("Function must return result");
             }
             catch (ReturnedValue e) {
                 if (type != e.Value.Type)
-                    throw new RuntimeException();
+                    throw new RuntimeException("Wrong return type");
                 environment.OnReturnFromFunction(e.Value);
             }
         }
@@ -41,7 +41,7 @@ namespace MyInterpreter.Parser.Ast {
             if (arguments == null || parameters == null)
                 return;
             if (arguments.Count() != parameters.Count())
-                throw new RuntimeException();
+                throw new RuntimeException("Wrong number of parameters");
 
             var variables = new List<Variable>();
             var parametersList = parameters.ToList();
@@ -49,7 +49,7 @@ namespace MyInterpreter.Parser.Ast {
             for (int i = 0; i < argumentsList.Count; ++i) {
                 var value = argumentsList[i].Evaluate(environment);
                 if (value.Type != parametersList[i].Type)
-                    throw new RuntimeException();
+                    throw new RuntimeException("Cannot cast " + value.Type + " to " + parametersList[i].Type);
                 var variable = new Variable(value.Type, parametersList[i].Name);
                 variable.Value = value;
                 variables.Add(variable);

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MyInterpreter.Exceptions;
+using MyInterpreter.Exceptions.ExecutionException;
 using MyInterpreter.Parser.Ast;
 using MyInterpreter.Parser.Ast.Operators;
 using MyInterpreter.Parser.Ast.Values;
@@ -41,7 +41,7 @@ namespace MyInterpreter.Execution {
             matrixEvaluator.Add("+", (Matrix_t a, Matrix_t b) => a + b);
             matrixEvaluator.Add("-", (Matrix_t a, Matrix_t b) => a - b);
             matrixEvaluator.Add("*", (Matrix_t a, Matrix_t b) => a * b);
-            matrixEvaluator.Add("/", (Matrix_t a, Matrix_t b) => throw new RuntimeException());
+            matrixEvaluator.Add("/", (Matrix_t a, Matrix_t b) => throw new ArthmeticOperationException("Cannot divide matrix"));
 
             matrixComparator.Add("==", (Matrix_t a, Matrix_t b) => a == b);
             matrixComparator.Add("!=", (Matrix_t a, Matrix_t b) => a != b);
@@ -64,26 +64,26 @@ namespace MyInterpreter.Execution {
         }
         private static Value EvaluateByString(Value left, Value right, string operation) {
             if (left.Type != right.Type)
-                throw new RuntimeException();
+                throw new ArthmeticOperationException("Cannot do operation on various types");
 
             if (left.Type == TypeValue.Int)
                 return intEvaluator[operation](left as Int_t, right as Int_t);
             if (left.Type == TypeValue.Matrix)
-                return intEvaluator[operation](left as Int_t, right as Int_t);
+                return matrixEvaluator[operation](left as Matrix_t, right as Matrix_t);
             if (left.Type == TypeValue.String && operation == "+")
                 return (left as String_t) + (right as String_t);
             else
-                throw new RuntimeException();
+                throw new ArthmeticOperationException("Cannot do operation: " + operation + " on " + left.Type);
         }
         public static Value EvaluateMatrixDerefVar(Value l1, Value l2, Value r1, Value r2, Variable variable) {
             if (variable.Type != TypeValue.Matrix)
-                throw new RuntimeException("Cannot use [] indexers to non matrix type");
+                throw new ArthmeticOperationException("Cannot use [] indexers to non matrix type");
 
             Int_t left1 = l1 as Int_t; Int_t left2 = l2 as Int_t;
             Int_t right1 = r1 as Int_t; Int_t right2 = r2 as Int_t;
 
             if (left1 is null || left2 is null || right1 is null || right2 is null)
-                throw new RuntimeException("Index has to be integer");
+                throw new ArthmeticOperationException("Index has to be integer");
             try {
                 if (left1.Value == left2.Value && right1.Value == right2.Value)
                     return new Int_t((variable.Value as Matrix_t)[left1.Value, right1.Value]);
@@ -93,10 +93,8 @@ namespace MyInterpreter.Execution {
                         .GetRange(left1.Value, left2.Value, right1.Value, right2.Value));
             }
             catch (Exception) {
-                throw new RuntimeException("Index out of range");
+                throw new ArthmeticOperationException("Index out of range");
             }
-
-
         }
         public static Value GetNegative(Value value) {
             if (value.Type == TypeValue.Int)
@@ -104,11 +102,11 @@ namespace MyInterpreter.Execution {
             else if (value.Type == TypeValue.Matrix)
                 return -(value as Matrix_t);
             else
-                throw new RuntimeException();
+                throw new ArthmeticOperationException("One argumentative operator - does not match to type: " + value.Type);
         }
         public static bool EvaluateSimpleConditional(Value left, Value right, EqualityOperator o) {
             if (left.Type != right.Type)
-                throw new RuntimeException();
+                throw new ArthmeticOperationException("Cannot compare various types: " + left.Type + " and " + right.Type);
 
             if (left.Type == TypeValue.Int)
                 return intComparator[o.Operator](left as Int_t, right as Int_t);
@@ -117,7 +115,7 @@ namespace MyInterpreter.Execution {
             else if (left.Type == TypeValue.String && stringComparator.ContainsKey(o.Operator))
                 return stringComparator[o.Operator](left as String_t, right as String_t);
             else
-                throw new RuntimeException();
+                throw new ArthmeticOperationException("Operator: " + o.Operator + " does not match to type: " + left.Type);
         }
 
     }

@@ -5,7 +5,7 @@ using MyInterpreter.Exceptions.LexerExceptions;
 using MyInterpreter.Exceptions.ParserExceptions;
 using System.Text;
 using MyInterpreter.Execution;
-using MyInterpreter.Exceptions;
+using MyInterpreter.Exceptions.ExecutionException;
 
 namespace MyInterpreter {
     class MyInterpreter {
@@ -36,7 +36,7 @@ namespace MyInterpreter {
                     sb.Append("^");
                     System.Console.WriteLine(sb.ToString());
                 }
-                catch (RuntimeException e) {
+                catch (ExecutionException e) {
                     System.Console.WriteLine(e.Message);
                 }
             }

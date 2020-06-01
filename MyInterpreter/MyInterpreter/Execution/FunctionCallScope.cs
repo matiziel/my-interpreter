@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MyInterpreter.Exceptions;
+using MyInterpreter.Exceptions.ExecutionException;
 using MyInterpreter.Parser.Ast;
 
 namespace MyInterpreter.Execution {
@@ -26,7 +27,7 @@ namespace MyInterpreter.Execution {
         public void RegisterVariable(Variable variable) {
             var scope = localScopes.First.Value;
             if(!scope.RegisterVariable(variable))
-                throw new RuntimeException();
+                throw new EnvironmentException("Variable: " + variable.Name + "already exists in this scope");
         }
     }
 }

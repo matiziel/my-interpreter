@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MyInterpreter.Exceptions;
+using MyInterpreter.Exceptions.ExecutionException;
 using MyInterpreter.Parser.Ast;
 using MyInterpreter.Parser.Ast.Values;
 
@@ -46,7 +46,7 @@ namespace MyInterpreter.Execution {
             else if((variable = globalScope.GetVariable(name)) != null)
                 return variable;
             else
-                throw new RuntimeException();
+                throw new EnvironmentException("Variable: " + name + "does not exists");
         }
 
     }

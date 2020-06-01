@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using MyInterpreter.Exceptions;
+using MyInterpreter.Exceptions.ExecutionException;
 using MyInterpreter.Execution;
 using MyInterpreter.Parser.Ast;
 using MyInterpreter.Parser.Ast.Expressions;
@@ -14,7 +14,7 @@ namespace MyInterpreter.StandardLibrary {
         }
         public override void Execute(ExecEnvironment environment, IEnumerable<Expression> arguments) {
             if (arguments == null || arguments.Count() <= 0)
-                throw new RuntimeException("Function requires one argument");
+                throw new RuntimeException("Function: print requires one argument");
             foreach (var expr in arguments)
                 System.Console.WriteLine(expr.Evaluate(environment));
         }

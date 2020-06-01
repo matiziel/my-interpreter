@@ -3,9 +3,9 @@ int main()
     matrix m[4,5];
     int k;
     int i;
-    for (i =0; i<4; i+=1) {
+    for (i = 0; i<4; i+=1) {
         for (k =0; k<5; k+=1){
-            m[i:i, k:k] = k * i + k - i;
+            m[i:i, k:k] = m * i + k - i;
         }
     }
     print(m, "eloelo");
