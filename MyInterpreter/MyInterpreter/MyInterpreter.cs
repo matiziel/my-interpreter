@@ -14,7 +14,8 @@ namespace MyInterpreter {
                 System.Console.WriteLine("fatal error: no input files");
                 return;
             }
-            using (var source = new FileSource(args[0])) {
+            string name = args[0];
+            using (var source = new FileSource(name)) {
                 try {
                     var scanner = new Scanner(source);
                     var parser = new Parser.Parser(scanner);

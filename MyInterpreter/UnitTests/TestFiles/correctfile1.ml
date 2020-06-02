@@ -1,28 +1,34 @@
-int main()
-{
-    matrix m[4,5];
-    int k;
+matrix fillMatrix(matrix m, int x, int y) {
     int i;
-    for (i =0; i<4; i+=1) {
-        for (k =0; k<5; k+=1){
+    int k;
+    for (i =0; i<x; i+=1) {
+        for (k =0; k<y; k+=1){
             m[i:i, k:k] = k * i + k - i;
         }
     }
-    print(m, "eloelo");
+    return m;
+}
 
-    matrix t[5,5];
-    for (i = 0; i<4; i+=1) {
-        for (k = 0; k<5; k+=1){
-            t[i:i, k:k] = i * i + 2 * k - i;
-        }
-    }
-    print(t,"eloelo");
-    matrix x[4,5] = m * t;
-    print (x,"eloelo");
-    matrix f[4,5] = x + m;
+int main()
+{
+    matrix m[4,5];
+    matrix f[3,3];
+    f = m[1:3, 0:2];
+    int k;
+    int i;
+    
+
+    matrix z[4,5] = fillMatrix(m, 4, 5);
+    print(z); 
     print(f);
-    f = x[0:3,0:4];
+    matrix y[4,5] = m[0:3, 0:4];
+    z[0:0,0:0] = 2137;
+    f = m[1:3, 0:2];
+    
     print(f);
-    print(x);
+    print(z);
+    print(m);
+    print(y);
+
     return 0;
 }

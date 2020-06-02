@@ -27,7 +27,7 @@ namespace MyInterpreter.Execution {
         public void RegisterVariable(Variable variable) {
             var scope = localScopes.First.Value;
             if(!scope.RegisterVariable(variable))
-                throw new EnvironmentException("Variable: " + variable.Name + "already exists in this scope");
+                throw new EnvironmentException("Variable: " + variable.Name + " already exists in this scope");
         }
     }
 }

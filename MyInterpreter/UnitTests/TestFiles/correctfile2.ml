@@ -6,7 +6,9 @@ int SumOfThree(int a, int b, int c)
 
 int main()
 {
-    int x = ((SumOfThree(1, 2, 4) + 25) * 2) / 4;
+    int x = (SumOfThree(1, 2, 4)) ;
+    print(x);
+
     matrix m[4,5];
     x += 5;
     m[2:2, 4:4] = 5;

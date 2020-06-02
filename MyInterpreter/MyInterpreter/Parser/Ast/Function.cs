@@ -20,7 +20,7 @@ namespace MyInterpreter.Parser.Ast {
             this.parameters = parameters;
             this.blockStatement = blockStatement;
         }
-        public virtual void Execute(ExecEnvironment environment, IEnumerable<Expression> arguments) {
+        public virtual void Execute(ExecEnvironment environment, IEnumerable<Value> arguments) {
             try {
                 environment.OnFunctionCall();
                 RegisterParameters(environment, arguments);
@@ -37,26 +37,23 @@ namespace MyInterpreter.Parser.Ast {
                 environment.OnReturnFromFunction(e.Value);
             }
         }
-        protected void RegisterParameters(ExecEnvironment environment, IEnumerable<Expression> arguments) {
+        protected void RegisterParameters(ExecEnvironment environment, IEnumerable<Value> arguments) {
             if (arguments == null || parameters == null)
                 return;
             if (arguments.Count() != parameters.Count())
                 throw new RuntimeException("Wrong number of parameters");
 
+            var parametersList = parameters.Zip(arguments);
             var variables = new List<Variable>();
-            var parametersList = parameters.ToList();
-            var argumentsList = arguments.ToList();
-            for (int i = 0; i < argumentsList.Count; ++i) {
-                var value = argumentsList[i].Evaluate(environment);
-                if (value.Type != parametersList[i].Type)
-                    throw new RuntimeException("Cannot cast " + value.Type + " to " + parametersList[i].Type);
-                var variable = new Variable(value.Type, parametersList[i].Name);
-                variable.Value = value;
+            foreach (var param in parametersList) {
+                if (param.First.Type != param.Second.Type)
+                    throw new RuntimeException("Cannot cast " + param.Second.Type + " to " + param.First.Type);
+                var variable = new Variable(param.First.Type, param.First.Name);
+                variable.Value = param.Second;
                 variables.Add(variable);
             }
-            foreach (var variable in variables) {
-                environment.AddVariable(variable);
-            }
+            foreach(var value in variables)
+                environment.AddVariable(value);
         }
 
         public override string ToString() {

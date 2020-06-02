@@ -12,11 +12,11 @@ namespace MyInterpreter.StandardLibrary {
         public Printer()
             : base(TypeValue.Void, "print", null, null) {
         }
-        public override void Execute(ExecEnvironment environment, IEnumerable<Expression> arguments) {
+        public override void Execute(ExecEnvironment environment, IEnumerable<Value> arguments) {
             if (arguments == null || arguments.Count() <= 0)
                 throw new RuntimeException("Function: print requires one argument");
             foreach (var expr in arguments)
-                System.Console.WriteLine(expr.Evaluate(environment));
+                System.Console.WriteLine(expr);
         }
     }
 }

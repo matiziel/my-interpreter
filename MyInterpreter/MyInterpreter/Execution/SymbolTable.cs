@@ -24,7 +24,7 @@ namespace MyInterpreter.Execution {
         }
         public void OnReturnFromFunction(Value returned) {
             functionCallScopes.Pop();
-            if(returned != null)
+            if (returned != null)
                 this.returnedValue = returned;
         }
         public void MakeNewLocalScope() =>
@@ -32,7 +32,7 @@ namespace MyInterpreter.Execution {
 
         public void DestroyLocalScope() =>
             functionCallScopes.Peek().DestroyLocalScope();
-            
+
         public void RegisterVariable(Variable variable) {
             if (functionCallScopes.Count > 0)
                 functionCallScopes.Peek().RegisterVariable(variable);
@@ -43,10 +43,10 @@ namespace MyInterpreter.Execution {
             Variable variable;
             if ((variable = functionCallScopes.Peek().GetVariable(name)) != null)
                 return variable;
-            else if((variable = globalScope.GetVariable(name)) != null)
+            else if ((variable = globalScope.GetVariable(name)) != null)
                 return variable;
             else
-                throw new EnvironmentException("Variable: " + name + "does not exists");
+                throw new EnvironmentException("Variable: " + name + " does not exists");
         }
 
     }
