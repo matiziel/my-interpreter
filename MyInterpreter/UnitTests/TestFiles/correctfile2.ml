@@ -1,13 +1,20 @@
 
 int SumOfThree(int a, int b, int c)
 {
+    a = 8;
     return a + b + c; #test comment 1
+    a = 18;
+    if(a == 18)
+    print("eloelo");
+
 }
 
 int main()
 {
-    int x = (SumOfThree(1, 2, 4)) ;
+    int a = 1;
+    int x = (SumOfThree(a, 2, 4)) ;
     print(x);
+    print("a =", a);
 
     matrix m[4,5];
     x += 5;

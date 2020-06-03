@@ -4,10 +4,12 @@ int silnia(int n)
         return 1;
     else
         return n * silnia(n - 1); 
+
 }
 
 int main()
 {
-    print(silnia(6));
+    int x = silnia(6);
+    print(x);
     return 0;
 }
