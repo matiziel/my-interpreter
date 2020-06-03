@@ -9,8 +9,11 @@ namespace MyInterpreter.Parser.Ast.Statements {
             => this.statements = statements;
         public void Execute(ExecEnvironment environment) {
             environment.MakeLocalScope();
-            foreach (var item in statements)
+            foreach (var item in statements) {
+                if(environment.ReturnFlag)
+                    break;
                 item.Execute(environment);
+            }
             environment.DestroyScope();
         }
         public override string ToString() {

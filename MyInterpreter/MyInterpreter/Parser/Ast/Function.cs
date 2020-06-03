@@ -10,32 +10,26 @@ using MyInterpreter.Exceptions.ExecutionException;
 
 namespace MyInterpreter.Parser.Ast {
     public class Function {
-        protected TypeValue type;
+        public TypeValue Type { get; protected set; }
         protected string name;
         protected IEnumerable<Parameter> parameters;
         protected BlockStatement blockStatement;
         public Function(TypeValue type, string name, IEnumerable<Parameter> parameters, BlockStatement blockStatement) {
-            this.type = type;
+            this.Type = type;
             this.name = name;
             this.parameters = parameters;
             this.blockStatement = blockStatement;
         }
         public virtual void Execute(ExecEnvironment environment, IEnumerable<Value> arguments) {
-            try {
-                environment.OnFunctionCall();
-                RegisterParameters(environment, arguments);
+            environment.OnFunctionCall();
+            RegisterParameters(environment, arguments);
 
-                blockStatement.Execute(environment);
+            blockStatement.Execute(environment);
 
-                environment.OnReturnFromFunction();
-                if (type != TypeValue.Void)
-                    throw new RuntimeException("Function must return result");
+            if (environment.ReturnFlag && Type == TypeValue.Void) {
+                throw new RuntimeException("Function must return result");
             }
-            catch (ReturnedValue e) {
-                if (type != e.Value.Type)
-                    throw new RuntimeException("Wrong return type");
-                environment.OnReturnFromFunction(e.Value);
-            }
+            environment.OnReturnFromFunction();
         }
         protected void RegisterParameters(ExecEnvironment environment, IEnumerable<Value> arguments) {
             if (arguments == null || parameters == null)
@@ -52,13 +46,13 @@ namespace MyInterpreter.Parser.Ast {
                 variable.Value = param.Second;
                 variables.Add(variable);
             }
-            foreach(var value in variables)
+            foreach (var value in variables)
                 environment.AddVariable(value);
         }
 
         public override string ToString() {
             var sb = new StringBuilder("Function->");
-            sb.Append(type.ToString());
+            sb.Append(Type.ToString());
             sb.Append("->");
             sb.Append(name);
             sb.Append("\n");

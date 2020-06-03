@@ -11,8 +11,11 @@ namespace MyInterpreter.Parser.Ast.Statements {
             this.statement = statement;
         }
         public void Execute(ExecEnvironment environment) {
-            while (conditional.Evaluate(environment))
+            while (conditional.Evaluate(environment)) {
+                if (environment.ReturnFlag)
+                    break;
                 statement.Execute(environment);
+            }
         }
         public override string ToString() {
             var sb = new StringBuilder("while->");

@@ -5,6 +5,7 @@ using MyInterpreter.Parser.Ast.Values;
 using MyInterpreter.Execution;
 using System.Text;
 using System.Linq;
+using MyInterpreter.Exceptions.ExecutionException;
 
 namespace MyInterpreter.Parser.Ast {
     public class FunctionCall : PrimaryExpression, Statement {
@@ -23,7 +24,12 @@ namespace MyInterpreter.Parser.Ast {
             foreach(var arg in arguments)
                 values.Add(arg.Evaluate(environment));
             fun.Execute(environment, values);
-            return environment.GetReturnedValue();
+            if(fun.Type == TypeValue.Void)
+                return null;
+            var value = environment.GetReturnedValue();
+            if(value.Type != fun.Type)
+                throw new RuntimeException("Wrong return type");
+            return value;
         }
         public override string ToString() {
             var sb = new StringBuilder("FunctionCall->");

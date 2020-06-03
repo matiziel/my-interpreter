@@ -22,10 +22,11 @@ namespace MyInterpreter.Execution {
         public void OnFunctionCall() {
             functionCallScopes.Push(new FunctionCallScope());
         }
-        public void OnReturnFromFunction(Value returned) {
+        public void RegisterReturnValue(Value returned) {
+            this.returnedValue = returned;
+        }
+        public void OnReturnFromFunction() {
             functionCallScopes.Pop();
-            if (returned != null)
-                this.returnedValue = returned;
         }
         public void MakeNewLocalScope() =>
             functionCallScopes.Peek().MakeNewLocalScope();

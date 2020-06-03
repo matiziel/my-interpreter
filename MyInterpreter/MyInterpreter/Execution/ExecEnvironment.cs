@@ -24,11 +24,20 @@ namespace MyInterpreter.Execution {
         public void OnFunctionCall() =>
             symbolTable.OnFunctionCall();
 
-        public void OnReturnFromFunction(Value returned = null) =>
-            symbolTable.OnReturnFromFunction(returned);
+        public void OnReturnFromFunction() {
+            ReturnFlag = false;
+            symbolTable.OnReturnFromFunction();
+        }
+
+        public void RegisterReturnValue(Value value) {
+            ReturnFlag = true;
+            symbolTable.RegisterReturnValue(value);
+        }
 
         public Value GetReturnedValue()
             => symbolTable.ReturnedValue;
+
+        public bool ReturnFlag { get; private set; }
 
         public Variable GetVariable(string name) =>
             symbolTable.GetVariable(name);

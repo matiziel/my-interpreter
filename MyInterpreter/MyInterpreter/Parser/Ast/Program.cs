@@ -21,8 +21,10 @@ namespace MyInterpreter.Parser.Ast {
             if (main is null)
                 throw new RuntimeException("Cannot find main function");
             main.Execute(environment, null);
-            return (environment.GetReturnedValue() as Int_t).Value;
-
+            var returnedValue = (environment.GetReturnedValue() as Int_t);
+            return returnedValue is null ?
+                throw new RuntimeException("Wrong return type") :
+                returnedValue.Value;
         }
 
         public override string ToString() {

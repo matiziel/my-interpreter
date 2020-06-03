@@ -15,8 +15,11 @@ namespace MyInterpreter.Parser.Ast.Statements {
             this.second = second;
         }
         public void Execute(ExecEnvironment environment) {
-            for (first.Execute(environment); conditional.Evaluate(environment); second.Execute(environment))
+            for (first.Execute(environment); conditional.Evaluate(environment); second.Execute(environment)){
+                if(environment.ReturnFlag)
+                    break;
                 statement.Execute(environment);
+            }
         }
         public override string ToString() {
             var sb = new StringBuilder("for->\n");

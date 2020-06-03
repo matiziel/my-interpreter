@@ -15,8 +15,11 @@ namespace MyInterpreter.Parser.Ast.Statements {
         public void Execute(ExecEnvironment environment) {
             if (conditional.Evaluate(environment))
                 statementIf.Execute(environment);
-            else
+            else {
+                if(environment.ReturnFlag)
+                    return;
                 statementElse?.Execute(environment);
+            }
         }
         public override string ToString() {
             var sb = new StringBuilder("if->");
