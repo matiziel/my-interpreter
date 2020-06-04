@@ -10,11 +10,11 @@ using MyInterpreter.Exceptions.ExecutionException;
 namespace MyInterpreter {
     class MyInterpreter {
         static void Main(string[] args) {
-            if (args.Length <= 0) {
-                System.Console.WriteLine("fatal error: no input files");
-                return;
-            }
-            string name = args[0];//"../UnitTests/TestFiles/correctfile3.ml";
+            // if (args.Length <= 0) {
+            //     System.Console.WriteLine("fatal error: no input files");
+            //     return;
+            // }
+            string name = "../UnitTests/TestFiles/correctfile3.ml"; //args[0];
             using (var source = new FileSource(name)) {
                 try {
                     var scanner = new Scanner(source);
