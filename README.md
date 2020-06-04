@@ -1,5 +1,5 @@
 # my-interpreter
-Implementation of simple c++-like language interpreter
+Implementation of simple c++-like language interpreter with built-in matrix type
 
 ## requirements
 1. .net core 3.1
