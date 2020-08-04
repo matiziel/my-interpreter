@@ -21,13 +21,13 @@ namespace MyInterpreter.Parser.Ast {
         public Value Evaluate(ExecEnvironment environment) {
             Function fun = environment.GetFunctionByName(name);
             var values = new List<Value>();
-            foreach(var arg in arguments)
+            foreach (var arg in arguments)
                 values.Add(arg.Evaluate(environment));
             fun.Execute(environment, values);
-            if(fun.Type == TypeValue.Void)
+            if (fun.Type == TypeValue.Void)
                 return null;
             var value = environment.GetReturnedValue();
-            if(value.Type != fun.Type)
+            if (value.Type != fun.Type)
                 throw new RuntimeException("Wrong return type");
             return value;
         }
